@@ -1,6 +1,8 @@
-import { type User } from '../../models/user'
-import { type HTTPResponse } from '../protocols'
+import { type User } from '../../../models/user'
+import { type HTTPResponse } from '../../protocols'
 import { type IGetUsersData, type IGetUsersController } from './protocols'
+
+// Controller for handling the fetching of the users data from the database and insert it into the HTTPResponse type
 
 export class GetUsersController implements IGetUsersController {
   constructor (private readonly getUsersData: IGetUsersData) {}
@@ -15,7 +17,7 @@ export class GetUsersController implements IGetUsersController {
     } catch (error) {
       return {
         statusCode: 500,
-        body: 'Something went wrong.'
+        body: 'Something went wrong'
       }
     }
   }
