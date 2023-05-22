@@ -11,16 +11,3 @@ services:
       - '5432:5432'
     volumes:
       - ./data:/var/lib/postgresql/data
-
-  api:
-    build: .
-    ports:
-      - '3000:3000'
-    depends_on:
-      - db
-    environment:
-      - DB_HOST=your_host
-      - DB_PORT=your_port
-      - DB_NAME=your_name_database
-      - DB_USER=your_user
-      - DB_PASSWORD=your_password
