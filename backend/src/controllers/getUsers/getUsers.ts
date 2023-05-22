@@ -1,12 +1,12 @@
-import { type IGetUsersRepository, type IGetUsersController } from './protocols'
+import { type IGetUsersData, type IGetUsersController } from './protocols'
 
 export class GetUsersController implements IGetUsersController {
-  constructor (private readonly getUsersRepository: IGetUsersRepository) {}
+  constructor (private readonly getUsersData: IGetUsersData) {}
 
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   async handle () {
     try {
-      const users = await this.getUsersRepository.getUsers()
+      const users = await this.getUsersData.getUsers()
       return {
         statusCode: 200,
         body: users
