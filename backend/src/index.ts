@@ -31,7 +31,7 @@ const main = async (): Promise<void> => {
     const { body, statusCode } = await getUsersController.handle()
 
     // Sending to the API endpoint
-    res.send(body).status(statusCode)
+    res.status(statusCode).send(body)
   })
 
   // POST Method
@@ -46,7 +46,7 @@ const main = async (): Promise<void> => {
     const { body, statusCode } = await createUserController.handle({
       body: req.body
     })
-    res.send(body).status(statusCode)
+    res.status(statusCode).send(body)
   })
 
   // Defining the port URL

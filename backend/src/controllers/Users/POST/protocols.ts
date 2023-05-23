@@ -6,13 +6,7 @@ export interface ICreateUserController {
 }
 
 // Params to the user when he is gonna register
-export interface CreateUserParams {
-  firstName: string
-  lastName: string
-  email: string
-  password: string
-  phone: string
-}
+export interface CreateUserParams extends User {}
 
 // Interface to create the return of the function to create user
 export interface ICreateUserRepository {
