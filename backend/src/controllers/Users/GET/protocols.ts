@@ -7,6 +7,6 @@ export interface IGetUsersController {
   handle: () => Promise<HTTPResponse<User[]>>
 }
 
-export interface IGetUsersData {
+export interface IGetUsersRepository {
   getUsers: () => Promise<User[]>
 }

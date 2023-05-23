@@ -2,7 +2,7 @@
 import express from 'express'
 import { config } from 'dotenv'
 import { GetUsersController } from './controllers/Users/GET/getUsers'
-import { PostgreSQLGetUsersData } from './repositories/getUsers'
+import { PostgreSQLGetUsersRepository } from './repositories/Users/get'
 import { PostgreClient } from './database/postgre'
 
 const main = async (): Promise<void> => {
@@ -17,10 +17,10 @@ const main = async (): Promise<void> => {
   // GET Method
   app.get('/users', async (req, res) => {
     // Get users data from Database
-    const databaseGetUsersData = new PostgreSQLGetUsersData()
+    const databaseGetUsersRepository = new PostgreSQLGetUsersRepository()
 
     // Taking the users returned from the database and inserting them into the default type defined using the controller
-    const getUsersController = new GetUsersController(databaseGetUsersData)
+    const getUsersController = new GetUsersController(databaseGetUsersRepository)
 
     // Returning the body and status code to insert on the API
     const { body, statusCode } = await getUsersController.handle()
