@@ -2,7 +2,7 @@ import { type HTTPRequest, type HTTPResponse } from '../protocols'
 
 export interface ICreateController<Model> {
   // Generic type on the HTTPRequest, because the body will inherit the properties of a model instance
-  handle: (httpRequest: HTTPRequest<Model>) => Promise<HTTPResponse<any | string>>
+  handle: (httpRequest: HTTPRequest<Model>) => Promise<HTTPResponse<string>>
 }
 
 export interface ICreateRepository<Param> {

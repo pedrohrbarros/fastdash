@@ -8,7 +8,7 @@ export class GetUsersController implements IGetController<User> {
 
   async handle (httpRequest?: HTTPRequest<void>): Promise<HTTPResponse<User[]>> {
     try {
-      const data: User[] = await this.getUsersRepository.getModels(httpRequest?.params !== null && httpRequest?.params !== undefined ? httpRequest.params : undefined)
+      const data: User[] = await this.getUsersRepository.getModels(httpRequest?.params?.id !== null && httpRequest?.params?.id !== undefined ? httpRequest?.params?.id : undefined)
       if (data.length === 0 && (httpRequest?.params !== null || httpRequest?.params !== undefined)) {
         return {
           statusCode: 404,

@@ -7,5 +7,5 @@ export interface User {
   email: string
   password: string
   phone: string
-  role: string
+  role: 'admin' | 'operational' | 'manager'
 }
