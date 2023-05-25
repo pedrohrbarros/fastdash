@@ -1,13 +1,12 @@
-// Global protocol to ensure that the Response and Request returns always the same pattern
+// Global protocols
 
 export interface HTTPResponse<T> {
   statusCode: number
-  body: T | any
+  body: T | string | any
 }
 
 export interface HTTPRequest<B> {
-  // Params to the URL to find any user maybe
-  params?: any
-  headers?: any
+  params?: string
+  headers?: string
   body?: B
 }

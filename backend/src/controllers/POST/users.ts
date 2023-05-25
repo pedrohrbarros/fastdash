@@ -1,25 +1,25 @@
 import validator from 'validator'
-import { type User } from '../../../models/user'
-import { type HTTPRequest, type HTTPResponse } from '../../protocols'
-import { type ICreateUserRepository, type ICreateUserController, type CreateUserParams } from './protocols'
+import { type ICreateController, type ICreateRepository } from './protocols'
+import { type User } from '../../models/user'
+import { type HTTPRequest, type HTTPResponse } from '../protocols'
 
-export class CreateUserControler implements ICreateUserController {
-  constructor (private readonly createUserRepository: ICreateUserRepository) {}
-  async handle (httpRequest: HTTPRequest<CreateUserParams>): Promise<HTTPResponse<User>> {
+export class CreateUserController implements ICreateController<User> {
+  // Constructor to access the createModel function
+  constructor (private readonly createUsersRepository: ICreateRepository<User>) {}
+  async handle (httpRequest: HTTPRequest<User>): Promise<HTTPResponse<any | string>> {
     try {
       // Validate if body exists
-      if (httpRequest.body === null || httpRequest.body === undefined) {
+      if (httpRequest?.body === null || httpRequest?.body === undefined) {
         return {
           statusCode: 400,
-          body: 'Please specify a valid body'
+          body: 'Please specify a body'
         }
       }
 
       // Validate obrigatory parameters
       const requiredFields = ['firstName', 'lastName', 'email', 'password', 'role']
-
       for (const field of requiredFields) {
-        if ((httpRequest?.body?.[field as keyof CreateUserParams]?.length) == null) {
+        if (!(field in httpRequest.body)) {
           return {
             statusCode: 400,
             body: `Field ${field} is required`
@@ -29,10 +29,21 @@ export class CreateUserControler implements ICreateUserController {
 
       // Verify if e-mail is valid
       const emailIsValid = validator.isEmail(httpRequest.body.email)
-      if (emailIsValid === false) {
+      if (!emailIsValid) {
         return {
           statusCode: 400,
           body: 'Invalid email adress'
+        }
+      }
+
+      // Validate if phone number is valid if exits
+      if (httpRequest.body.phone !== null && httpRequest.body.phone !== undefined) {
+        const isPhoneNumber = validator.isMobilePhone(httpRequest.body.phone)
+        if (!isPhoneNumber) {
+          return {
+            statusCode: 400,
+            body: 'Invalid phone number'
+          }
         }
       }
 
@@ -57,22 +68,23 @@ export class CreateUserControler implements ICreateUserController {
         pointsForContainingNumber: 1.5,
         pointsForContainingSymbol: 4
       })
-      if (passwordScore <= 15) {
+      if (passwordScore <= 13) {
         return {
           statusCode: 400,
           body: 'Password too weak'
         }
       }
 
-      await this.createUserRepository.createUser(httpRequest.body)
+      await this.createUsersRepository.createModel(httpRequest.body)
+
       return {
         statusCode: 201,
-        body: 'User created'
+        body: 'User created successfully'
       }
     } catch (error) {
       return {
         statusCode: 500,
-        body: 'Something went wrong'
+        body: 'POST METHOD FAILED: INTERNAL ERROR'
       }
     }
   }

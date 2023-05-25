@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import express from 'express'
 import { config } from 'dotenv'
-import { GetUsersController } from './controllers/Users/GET/getUsers'
-import { PostgreSQLGetUsersRepository } from './repositories/Users/get'
 import { PostgreClient } from './database/postgre'
-import { PostgreSQLCreateUserRepository } from './repositories/Users/create'
-import { CreateUserControler } from './controllers/Users/POST/createUser'
+import { GetUsersRepository } from './repositories/GET/users'
+import { GetUsersController } from './controllers/GET/users'
+import { CreateUserRepository } from './repositories/POST/users'
+import { CreateUserController } from './controllers/POST/users'
 
 const main = async (): Promise<void> => {
   config()
@@ -22,13 +22,30 @@ const main = async (): Promise<void> => {
   // GET Method
   app.get('/users', async (req, res) => {
     // Get users data from Database
-    const databaseGetUsersRepository = new PostgreSQLGetUsersRepository()
+    const databaseData = new GetUsersRepository()
 
-    // Taking the users returned from the database and inserting them into the default type defined using the controller
-    const getUsersController = new GetUsersController(databaseGetUsersRepository)
+    // Taking the users returned from the database and inserting them into the controller
+    const controllerData = new GetUsersController(databaseData)
 
     // Returning the body and status code to insert on the API
-    const { body, statusCode } = await getUsersController.handle()
+    const { body, statusCode } = await controllerData.handle()
+
+    // Sending to the API endpoint
+    res.status(statusCode).send(body)
+  })
+
+  // GET Method with params
+  app.get('/users/:id', async (req, res) => {
+    // Get users data from Database
+    const databaseData = new GetUsersRepository()
+
+    // Taking the users returned from the database and inserting them into the controller
+    const controllerData = new GetUsersController(databaseData)
+
+    // Returning the body and status code to insert on the API
+    const { body, statusCode } = await controllerData.handle({
+      params: req.params.id
+    })
 
     // Sending to the API endpoint
     res.status(statusCode).send(body)
@@ -36,16 +53,17 @@ const main = async (): Promise<void> => {
 
   // POST Method
   app.post('/users', async (req, res) => {
-    // Create repository to access the controller
-    const databaseCreateUserRepository = new PostgreSQLCreateUserRepository()
+    // Create repository to create on database
+    const createOnDatabase = new CreateUserRepository()
 
-    // Access the controller
-    const createUserController = new CreateUserControler(databaseCreateUserRepository)
+    // Access the controller to validate the data
+    const createDataController = new CreateUserController(createOnDatabase)
 
-    // Returning the body and status code to insert on the API
-    const { body, statusCode } = await createUserController.handle({
+    // Returning the body and status code
+    const { body, statusCode } = await createDataController.handle({
       body: req.body
     })
+
     res.status(statusCode).send(body)
   })
 
