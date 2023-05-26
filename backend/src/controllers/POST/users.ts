@@ -2,6 +2,7 @@ import validator from 'validator'
 import { type ICreateController, type ICreateRepository } from './protocols'
 import { type User } from '../../models/user'
 import { type HTTPRequest, type HTTPResponse } from '../protocols'
+import { badRequest, internalError, successfull, voidRequest } from '../helpers'
 
 export class CreateUserController implements ICreateController<User> {
   // Constructor to access the createModel function
@@ -10,40 +11,28 @@ export class CreateUserController implements ICreateController<User> {
     try {
       // Validate if body exists
       if (httpRequest?.body === null || httpRequest?.body === undefined) {
-        return {
-          statusCode: 400,
-          body: 'Please specify a body'
-        }
+        return voidRequest('Please specify a body')
       }
 
       // Validate obrigatory parameters
       const requiredFields = ['firstName', 'lastName', 'email', 'password', 'role']
       for (const field of requiredFields) {
         if (!(field in httpRequest.body)) {
-          return {
-            statusCode: 400,
-            body: `Field ${field} is required`
-          }
+          return badRequest(`Field ${field} is required`)
         }
       }
 
       // Verify if e-mail is valid
       const emailIsValid = validator.isEmail(httpRequest.body.email)
       if (!emailIsValid) {
-        return {
-          statusCode: 400,
-          body: 'Invalid email adress'
-        }
+        return badRequest('Invalid email adress')
       }
 
       // Validate if phone number is valid if exits
       if (httpRequest.body.phone !== null && httpRequest.body.phone !== undefined) {
         const isPhoneNumber = validator.isMobilePhone(httpRequest.body.phone)
         if (!isPhoneNumber) {
-          return {
-            statusCode: 400,
-            body: 'Invalid phone number'
-          }
+          return badRequest('Invalid phone number')
         }
       }
 
@@ -51,10 +40,7 @@ export class CreateUserController implements ICreateController<User> {
       const roles = ['admin', 'operational', 'manager']
       const isRoleInRoles = roles.includes(httpRequest.body.role)
       if (!isRoleInRoles) {
-        return {
-          statusCode: 400,
-          body: 'Invalid role'
-        }
+        return badRequest('Invalid role')
       }
 
       // Validate password strongness
@@ -69,23 +55,14 @@ export class CreateUserController implements ICreateController<User> {
         pointsForContainingSymbol: 4
       })
       if (passwordScore <= 13) {
-        return {
-          statusCode: 400,
-          body: 'Password too weak'
-        }
+        return badRequest('Password too weak')
       }
 
       await this.createUsersRepository.createModel(httpRequest.body)
 
-      return {
-        statusCode: 201,
-        body: 'User created successfully'
-      }
+      return successfull('User created successfully')
     } catch (error) {
-      return {
-        statusCode: 500,
-        body: 'POST METHOD FAILED: INTERNAL ERROR'
-      }
+      return internalError('POST METHOD FAILED: INTERNAL ERROR')
     }
   }
 }

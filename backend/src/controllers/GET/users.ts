@@ -1,4 +1,5 @@
 import { type User } from '../../models/user'
+import { internalError, noContent, successfull } from '../helpers'
 import { type HTTPRequest, type HTTPResponse } from '../protocols'
 import { type IGetRepository, type IGetController } from './protocols'
 
@@ -10,21 +11,12 @@ export class GetUsersController implements IGetController<User> {
     try {
       const data: User[] = await this.getUsersRepository.getModels(httpRequest?.params?.id !== null && httpRequest?.params?.id !== undefined ? httpRequest?.params?.id : undefined)
       if (data.length === 0 && (httpRequest?.params !== null || httpRequest?.params !== undefined)) {
-        return {
-          statusCode: 404,
-          body: 'User not found'
-        }
+        return noContent('User not found')
       } else {
-        return {
-          statusCode: 200,
-          body: data
-        }
+        return successfull(data)
       }
     } catch (error) {
-      return {
-        statusCode: 500,
-        body: 'GET METHOD FAILED: INTERNAL ERROR'
-      }
+      return internalError('GET METHOD FAILED: INTERNAL ERROR')
     }
   }
 }

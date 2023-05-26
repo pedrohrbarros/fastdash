@@ -2,6 +2,7 @@ import { type User } from '../../models/user'
 import validator from 'validator'
 import { type HTTPResponse, type HTTPRequest } from '../protocols'
 import { type IUpdateController, type IUpdateRepository } from './protocols'
+import { badPermission, badRequest, internalError, successfull, voidRequest } from '../helpers'
 
 export class UpdateUserController implements IUpdateController<User> {
   constructor (private readonly updateUserRepository: IUpdateRepository<Partial<User>>) {}
@@ -9,24 +10,14 @@ export class UpdateUserController implements IUpdateController<User> {
     try {
       // Check if the id was given in the parameters
       if (httpRequest?.params?.id === null || httpRequest?.params?.id === undefined) {
-        return {
-          statusCode: 400,
-          body: 'Please specify a user ID to update'
-        }
+        return badRequest('Please specify a user ID to update')
       }
       // Verify if body is empty
       if (httpRequest?.body === null || httpRequest.body === undefined) {
-        return {
-          statusCode: 404,
-          body: 'Please specify some property to change'
-        }
+        return voidRequest('Please specify some property to change')
       }
-
       if (httpRequest?.permission === null || httpRequest?.permission === undefined) {
-        return {
-          statusCode: 400,
-          body: 'Please specify a permission to update user'
-        }
+        return badRequest('Please specify a permission to update user')
       }
 
       // Admin: Can change all informations
@@ -34,10 +25,7 @@ export class UpdateUserController implements IUpdateController<User> {
       // Operational: Can change only first name and last name
       // Verify if manager is trying to change role to administratos
       if (httpRequest?.permission === 'manager' && httpRequest?.body?.role === 'admin') {
-        return {
-          statusCode: 403,
-          body: 'Not authorized, manager does not have all the permissions required'
-        }
+        return badPermission('Not authorized, manager does not have all the permissions required')
       }
       // Check if operational level is trying to not required properties
       if (httpRequest?.permission === 'operational' && (
@@ -46,20 +34,14 @@ export class UpdateUserController implements IUpdateController<User> {
         httpRequest?.body?.password !== undefined ||
         httpRequest?.body?.email !== undefined
       )) {
-        return {
-          statusCode: 403,
-          body: 'Not authorized, this user has to update only his first name and/or last name'
-        }
+        return badPermission('Not authorized, this user has to update only his first name and/or last name')
       }
 
       // Verify if e-mail is valid
       if (httpRequest.body.email !== undefined && httpRequest.body.email !== null) {
         const emailIsValid = validator.isEmail(httpRequest?.body?.email)
         if (!emailIsValid) {
-          return {
-            statusCode: 400,
-            body: 'Invalid email adress'
-          }
+          return badRequest('Invalid email adress')
         }
       }
 
@@ -67,10 +49,7 @@ export class UpdateUserController implements IUpdateController<User> {
       if (httpRequest.body.phone !== null && httpRequest.body.phone !== undefined) {
         const isPhoneNumber = validator.isMobilePhone(httpRequest.body.phone)
         if (!isPhoneNumber) {
-          return {
-            statusCode: 400,
-            body: 'Invalid phone number'
-          }
+          return badRequest('Invalid phone number')
         }
       }
 
@@ -79,10 +58,7 @@ export class UpdateUserController implements IUpdateController<User> {
         const roles = ['admin', 'operational', 'manager']
         const isRoleInRoles = roles.includes(httpRequest.body.role)
         if (!isRoleInRoles) {
-          return {
-            statusCode: 400,
-            body: 'Invalid role'
-          }
+          return badRequest('Invalid role')
         }
       }
 
@@ -99,23 +75,14 @@ export class UpdateUserController implements IUpdateController<User> {
           pointsForContainingSymbol: 4
         })
         if (passwordScore <= 13) {
-          return {
-            statusCode: 400,
-            body: 'Password too weak'
-          }
+          return badRequest('Password too weak')
         }
       }
 
       await this.updateUserRepository.updateModel(httpRequest.params.id, httpRequest.body)
-      return {
-        statusCode: 200,
-        body: 'Successfully updated'
-      }
+      return successfull('Successfully updated')
     } catch (error) {
-      return {
-        statusCode: 500,
-        body: error
-      }
+      return internalError('PATCH METHOD FAILED: INTERNAL ERROR')
     }
   }
 }
