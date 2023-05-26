@@ -8,6 +8,8 @@ import { CreateUserRepository } from './repositories/POST/users'
 import { CreateUserController } from './controllers/POST/users'
 import { UpdateUserRepository } from './repositories/PATCH/users'
 import { UpdateUserController } from './controllers/PATCH/users'
+import { DeleteUserRepository } from './repositories/DELETE/users'
+import { DeleteUserController } from './controllers/DELETE/user'
 
 const main = async (): Promise<void> => {
   config()
@@ -78,6 +80,23 @@ const main = async (): Promise<void> => {
 
     // Returning the body and status code
     const { body, statusCode } = await updateDataController.handle({
+      params: { id: req?.params?.id },
+      body: req?.body,
+      permission: req?.body?.permission
+    })
+
+    res.status(statusCode).send(body)
+  })
+
+  app.delete('/users/:id', async (req: Request, res: Response) => {
+    // Create a repository to do the function of delete the user on the database
+    const deleteOnDatabase = new DeleteUserRepository()
+
+    // Access the controller to do the validations and return to the repository the id
+    const deleteDataController = new DeleteUserController(deleteOnDatabase)
+
+    // Returning the body and satus code and passing the parameters
+    const { body, statusCode } = await deleteDataController.handle({
       params: { id: req?.params?.id },
       body: req?.body,
       permission: req?.body?.permission

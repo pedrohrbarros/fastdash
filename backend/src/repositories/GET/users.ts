@@ -7,7 +7,7 @@ export class GetUsersRepository implements IGetRepository<User> {
     if (id !== null && id !== undefined) {
       // If id exists, return the specified user
       const result = await PostgreClient.db.query(`
-        SELECT * FROM users WHERE id = ${id}
+        SELECT id, firstName, lastName, email, phone FROM users WHERE id = ${id}
       `)
       // Converting rows to users array type
       const data: User[] = result.rows
@@ -15,7 +15,7 @@ export class GetUsersRepository implements IGetRepository<User> {
     } else {
       // If ID does not exist, return all the users
       const result = await PostgreClient.db.query(`
-        SELECT * FROM users
+        SELECT id, firstName, lastName, email, phone FROM users
       `)
       // Converting rows to users array type
       const data: User[] = result.rows
