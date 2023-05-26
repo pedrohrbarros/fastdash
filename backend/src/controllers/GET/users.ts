@@ -7,7 +7,7 @@ export class GetUsersController implements IGetController<User> {
   // Constructor to access the getModels function
   constructor (private readonly getUsersRepository: IGetRepository<User>) {}
 
-  async handle (httpRequest?: HTTPRequest<void>): Promise<HTTPResponse<User[]>> {
+  async handle (httpRequest?: HTTPRequest<void>): Promise<HTTPResponse<User[] | string>> {
     try {
       const data: User[] = await this.getUsersRepository.getModels(httpRequest?.params?.id !== null && httpRequest?.params?.id !== undefined ? httpRequest?.params?.id : undefined)
       if (data.length === 0 && (httpRequest?.params !== null || httpRequest?.params !== undefined)) {

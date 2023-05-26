@@ -20,8 +20,8 @@ export const badPermission = (message: string): HTTPResponse<string> => ({
   body: message
 })
 
-export const headersError = (message: string): HTTPResponse<string> => ({
-  statusCode: HTTPStatusCode.HEADERS_ERROR,
+export const headersAuthError = (message: string): HTTPResponse<string> => ({
+  statusCode: HTTPStatusCode.HEADERS_AUTH_ERROR,
   body: message
 })
 

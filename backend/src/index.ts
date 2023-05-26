@@ -10,6 +10,7 @@ import { UpdateUserRepository } from './repositories/PATCH/users'
 import { UpdateUserController } from './controllers/PATCH/users'
 import { DeleteUserRepository } from './repositories/DELETE/users'
 import { DeleteUserController } from './controllers/DELETE/user'
+import { headersAuthError } from './controllers/helpers'
 
 const main = async (): Promise<void> => {
   config()
@@ -25,84 +26,144 @@ const main = async (): Promise<void> => {
 
   // GET Method
   app.get('/users', async (req: Request, res: Response) => {
-    // Get users data from Database
-    const databaseData = new GetUsersRepository()
+    const authHeader = req.headers.authorization
+    if ((authHeader?.startsWith('Bearer ')) === true) {
+      const token = authHeader.substring(7) // Remove 'Bearer ' prefix
+      if (token === process.env.AUTH_TOKEN) {
+        // Get users data from Database
+        const databaseData = new GetUsersRepository()
 
-    // Taking the users returned from the database and inserting them into the controller
-    const controllerData = new GetUsersController(databaseData)
+        // Taking the users returned from the database and inserting them into the controller
+        const controllerData = new GetUsersController(databaseData)
 
-    // Returning the body and status code to insert on the API
-    const { body, statusCode } = await controllerData.handle()
+        // Returning the body and status code to insert on the API
+        const { body, statusCode } = await controllerData.handle()
 
-    // Sending to the API endpoint
-    res.status(statusCode).send(body)
+        // Sending to the API endpoint
+        res.status(statusCode).send(body)
+      } else {
+        const { statusCode, body } = headersAuthError('Unauthorized to access this API')
+        res.status(statusCode).send(body)
+      }
+    } else {
+      const { statusCode, body } = headersAuthError('Unauthorized to access this API')
+      res.status(statusCode).send(body)
+    }
   })
 
   // GET Method with params
   app.get('/users/:id', async (req: Request, res: Response) => {
-    // Get users data from Database
-    const databaseData = new GetUsersRepository()
+    const authHeader = req.headers.authorization
+    if ((authHeader?.startsWith('Bearer ')) === true) {
+      const token = authHeader.substring(7) // Remove 'Bearer ' prefix
+      if (token === process.env.AUTH_TOKEN) {
+        // Get users data from Database
+        const databaseData = new GetUsersRepository()
 
-    // Taking the users returned from the database and inserting them into the controller
-    const controllerData = new GetUsersController(databaseData)
+        // Taking the users returned from the database and inserting them into the controller
+        const controllerData = new GetUsersController(databaseData)
 
-    // Returning the body and status code to insert on the API
-    const { body, statusCode } = await controllerData.handle({
-      params: { id: req?.params?.id }
-    })
+        // Returning the body and status code to insert on the API
+        const { body, statusCode } = await controllerData.handle({
+          params: { id: req?.params?.id }
+        })
 
-    // Sending to the API endpoint
-    res.status(statusCode).send(body)
+        // Sending to the API endpoint
+        res.status(statusCode).send(body)
+      } else {
+        const { statusCode, body } = headersAuthError('Unauthorized to access this API')
+        res.status(statusCode).send(body)
+      }
+    } else {
+      const { statusCode, body } = headersAuthError('Unauthorized to access this API')
+      res.status(statusCode).send(body)
+    }
   })
 
   // POST Method
   app.post('/users', async (req: Request, res: Response) => {
-    // Create repository to create on database
-    const createOnDatabase = new CreateUserRepository()
+    const authHeader = req.headers.authorization
+    if ((authHeader?.startsWith('Bearer ')) === true) {
+      const token = authHeader.substring(7) // Remove 'Bearer ' prefix
+      if (token === process.env.AUTH_TOKEN) {
+        // Create repository to create on database
+        const createOnDatabase = new CreateUserRepository()
 
-    // Access the controller to validate the data
-    const createDataController = new CreateUserController(createOnDatabase)
+        // Access the controller to validate the data
+        const createDataController = new CreateUserController(createOnDatabase)
 
-    // Returning the body and status code
-    const { body, statusCode } = await createDataController.handle({
-      body: req?.body
-    })
+        // Returning the body and status code
+        const { body, statusCode } = await createDataController.handle({
+          body: req?.body
+        })
 
-    res.status(statusCode).send(body)
+        res.status(statusCode).send(body)
+      } else {
+        const { statusCode, body } = headersAuthError('Unauthorized to access this API')
+        res.status(statusCode).send(body)
+      }
+    } else {
+      const { statusCode, body } = headersAuthError('Unauthorized to access this API')
+      res.status(statusCode).send(body)
+    }
   })
 
   app.patch('/users/:id', async (req: Request, res: Response) => {
-    // Create a repository to do the function of update on the database
-    const updateOnDatabase = new UpdateUserRepository()
+    const authHeader = req.headers.authorization
+    if ((authHeader?.startsWith('Bearer ')) === true) {
+      const token = authHeader.substring(7) // Remove 'Bearer ' prefix
+      if (token === process.env.AUTH_TOKEN) {
+        // Create a repository to do the function of update on the database
+        const updateOnDatabase = new UpdateUserRepository()
 
-    // Access the conroller to validate data and fields to update
-    const updateDataController = new UpdateUserController(updateOnDatabase)
+        // Access the conroller to validate data and fields to update
+        const updateDataController = new UpdateUserController(updateOnDatabase)
 
-    // Returning the body and status code
-    const { body, statusCode } = await updateDataController.handle({
-      params: { id: req?.params?.id },
-      body: req?.body,
-      permission: req?.body?.permission
-    })
+        // Returning the body and status code
+        const { body, statusCode } = await updateDataController.handle({
+          params: { id: req?.params?.id },
+          body: req?.body,
+          permission: req?.body?.permission
+        })
 
-    res.status(statusCode).send(body)
+        res.status(statusCode).send(body)
+      } else {
+        const { statusCode, body } = headersAuthError('Unauthorized to access this API')
+        res.status(statusCode).send(body)
+      }
+    } else {
+      const { statusCode, body } = headersAuthError('Unauthorized to access this API')
+      res.status(statusCode).send(body)
+    }
   })
 
   app.delete('/users/:id', async (req: Request, res: Response) => {
-    // Create a repository to do the function of delete the user on the database
-    const deleteOnDatabase = new DeleteUserRepository()
+    const authHeader = req.headers.authorization
+    if ((authHeader?.startsWith('Bearer ')) === true) {
+      const token = authHeader.substring(7) // Remove 'Bearer ' prefix
+      if (token === process.env.AUTH_TOKEN) {
+        // Create a repository to do the function of delete the user on the database
+        const deleteOnDatabase = new DeleteUserRepository()
 
-    // Access the controller to do the validations and return to the repository the id
-    const deleteDataController = new DeleteUserController(deleteOnDatabase)
+        // Access the controller to do the validations and return to the repository the id
+        const deleteDataController = new DeleteUserController(deleteOnDatabase)
 
-    // Returning the body and satus code and passing the parameters
-    const { body, statusCode } = await deleteDataController.handle({
-      params: { id: req?.params?.id },
-      body: req?.body,
-      permission: req?.body?.permission
-    })
+        // Returning the body and satus code and passing the parameters
+        const { body, statusCode } = await deleteDataController.handle({
+          params: { id: req?.params?.id },
+          body: req?.body,
+          permission: req?.body?.permission
+        })
 
-    res.status(statusCode).send(body)
+        res.status(statusCode).send(body)
+      } else {
+        const { statusCode, body } = headersAuthError('Unauthorized to access this API')
+        res.status(statusCode).send(body)
+      }
+    } else {
+      const { statusCode, body } = headersAuthError('Unauthorized to access this API')
+      res.status(statusCode).send(body)
+    }
   })
 
   // Defining the port URL

@@ -23,8 +23,5 @@ export const PostgreClient = {
     const db = await client.connect()
     this.client = client
     this.db = db
-    // WARNING: FOR THE FIRST RUN OF THE DATABASE, YOU HAVE TO CREATE THE TABLES BELOW
-
-    console.log('Connected to Postgres database')
   }
 }
