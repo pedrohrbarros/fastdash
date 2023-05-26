@@ -168,10 +168,6 @@ const main = async (): Promise<void> => {
 
   // Defining the port URL
   const port = process.env.PORT !== undefined ? process.env.PORT : 8000
-
-  app.listen(port, () => {
-    console.log(`Listening on port ${port}!`)
-  })
 }
 
 void main()
