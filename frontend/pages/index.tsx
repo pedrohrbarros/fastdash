@@ -55,7 +55,7 @@ export default function Auth() {
         duration: 0.6
       }}
       >{formState === 'login' ? t('Sign in') : t('Sign up')}</motion.h1>
-      <motion.h2 className="font-h2 text-2xl text-white"
+      <motion.h2 className="font-h2 text-2xl text-white mb-6"
       initial = {{ 
         translateX: -20,
         opacity: 0,
