@@ -7,14 +7,19 @@ import { AiOutlineGoogle, AiFillTwitterCircle } from 'react-icons/ai'
 import { useState, ChangeEvent, useEffect } from 'react'
 import { easeInOut, motion } from 'framer-motion'
 import validator from 'validator'
+import { createUser } from '../hooks/createUser'
 
 export default function Auth() {
   const { t } = useTranslation("auth")
 
   const [formState, setFormState] = useState('login')
+  const [firstName ,setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
+  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [isPasswordValid, setIsPasswordValid] = useState(false)
-
+  const [phone, setPhone] = useState('')
+  const role = 'operational'
+  
   const passwordScore = validator.isStrongPassword(password, {
     minLength: 8,
     returnScore: true,
@@ -25,13 +30,6 @@ export default function Auth() {
     pointsForContainingNumber: 1.5,
     pointsForContainingSymbol: 4
   })
-
-  useEffect(() => {
-    if(passwordScore <= 13) {
-      setIsPasswordValid(false)
-    }
-    setIsPasswordValid(true)
-  }, [passwordScore])
 
   return (
     <main className="w-full h-full min-h-screen flex flex-nowrap flex-col justify-center items-center bg-jet py-9 px-6 gap-4">
@@ -70,7 +68,8 @@ export default function Auth() {
         duration: 0.6
       }}
       >{t('Insert your credentials below')}</motion.h2>
-      {formState === 'login' ? <motion.form id="login" name="login" autoComplete='on' className=" w-[35%] min-w-[300px] h-full flex flex-col justify-center items-start gap-10"
+      {formState === 'login' ? 
+      <motion.form id="login" name="login" autoComplete='on' className=" w-[45%] min-w-[300px] h-full flex flex-col justify-center items-start gap-10"
       onSubmit={() => location.replace('/home')}
       initial = {{ 
         translateX: -20,
@@ -113,7 +112,15 @@ export default function Auth() {
       </motion.form>
       : 
       <motion.form
-      id="register" name="register" autoComplete='on' className=" w-[35%] min-w-[250px] h-full flex flex-col justify-center items-start gap-10 max-[405px]:py-5"
+      id="register" name="register" autoComplete='on' className=" w-[45%] min-w-[250px] h-full flex flex-col justify-center items-start gap-10 max-[405px]:py-5"
+      onSubmit={() => createUser({
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        password: password,
+        phone: phone,
+        role: role
+      })}
       initial = {{ 
         translateX: -20,
         opacity: 0,
@@ -153,13 +160,29 @@ export default function Auth() {
         required={false}
         text={t('Phone number')}
         />
-        <TextInput
-        type="password"
-        id="password"
-        required={isPasswordValid}
-        text={t('Password')}
-        onChange={(e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
-        />
+        <div className="w-full h-auto flex flex-col justify-center items-start gap-2 relative">
+          <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder={t('Password') || 'Password'}
+          required
+          className="peer w-full p-4 rounded bg-[#1a1d1f] text-xl outline-none text-white placeholder-transparent"
+          onChange={(e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
+          />
+          <label htmlFor="password" className="absolute -top-8 left-0 font-label text-[1.20rem] text-white peer-placeholder-shown:text-xl peer-placeholder-shown:top-4 peer-placeholder-shown:left-4 peer-placeholder-shown:text-gray-400 peer-focus:-top-8  peer-focus:left-0 peer-focus:text-[1.20rem] peer-focus:text-white transition-all duration-[250ms]">{t('Password')}</label>
+          <div className="w-full h-2 flex flex-row justify-center gap-2 items-center flex-nowrap">
+            {passwordScore >= 4 ? <div className="w-1/4 h-full bg-red-600 rounded transition-all duration-[350ms]"/> :
+            <div className="w-1/4 h-full bg-black rounded transition-all duration-[350ms]"/>}
+            {passwordScore >= 7 ? <div className="w-1/4 h-full bg-amber-400 rounded transition-all duration-[350ms]"/> :
+            <div className="w-1/4 h-full bg-black rounded transition-all duration-[350ms]"/>}
+            {passwordScore > 13 ? <div className="w-1/4 h-full bg-green-400 rounded transition-all duration-[350ms]"/> :
+            <div className="w-1/4 h-full bg-black rounded transition-all duration-[350ms]"/>}
+            {passwordScore > 14 ? <div className="w-1/4 h-full bg-green-400 rounded transition-all duration-[350ms]"/> :
+            <div className="w-1/4 h-full bg-black rounded transition-all duration-[350ms]"/>}
+          </div>
+          <p className="font-p text-white text-xl">{passwordScore < 13 ? t('Too weak, please add more symbols, numbers or uppercase letters') : t('Strong')}</p>
+        </div>
         <div className="w-full h-auto flex flex-row justify-start items-center gap-3 flex-nowrap">
           <input
           id="termsAndConditions"

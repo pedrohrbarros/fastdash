@@ -1,8 +1,8 @@
 import { User } from '../entities/user'
 import { authAPI } from '../api/axios'
-import axios, { AxiosError } from 'axios'
+import axios from 'axios'
 
-const createUser = async (params: User): Promise<string> => {
+export const createUser = async (params: Omit<User, "id">): Promise<boolean | string> => {
   try {
     await authAPI.post('/users/', {
       firstName: params.firstName,
@@ -12,7 +12,7 @@ const createUser = async (params: User): Promise<string> => {
       phone: params.phone,
       role: 'operational'
     })
-    return 'Successfully created'
+    return true
   } catch(error){
     if(axios.isAxiosError(error)){
       if(error.response) {
