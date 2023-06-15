@@ -2,12 +2,24 @@ import validator from 'validator'
 import { type ICreateController, type ICreateRepository } from './protocols'
 import { type User } from '../../models/user'
 import { type HTTPRequest, type HTTPResponse } from '../protocols'
-import { badRequest, internalError, successfull, voidRequest } from '../helpers'
+import {
+  badRequest,
+  internalError,
+  successfull,
+  voidRequest
+} from '../helpers'
+import { getModelsSingleProperty } from '../../tools/users_property'
+import bcrypt from 'bcrypt'
 
 export class CreateUserController implements ICreateController<User> {
   // Constructor to access the createModel function
-  constructor (private readonly createUsersRepository: ICreateRepository<User>) {}
-  async handle (httpRequest: HTTPRequest<User>): Promise<HTTPResponse<any | string>> {
+  constructor (
+    private readonly createUsersRepository: ICreateRepository<User>
+  ) {}
+
+  async handle (
+    httpRequest: HTTPRequest<User>
+  ): Promise<HTTPResponse<any | string>> {
     try {
       // Validate if body exists
       if (httpRequest?.body === null || httpRequest?.body === undefined) {
@@ -15,7 +27,13 @@ export class CreateUserController implements ICreateController<User> {
       }
 
       // Validate obrigatory parameters
-      const requiredFields = ['firstName', 'lastName', 'email', 'password', 'role']
+      const requiredFields = [
+        'firstName',
+        'lastName',
+        'email',
+        'password',
+        'role'
+      ]
       for (const field of requiredFields) {
         if (!(field in httpRequest.body)) {
           return badRequest(`Field ${field} is required`)
@@ -29,10 +47,19 @@ export class CreateUserController implements ICreateController<User> {
       }
 
       // Validate if e-mail already exists
+      const existentEmails = await getModelsSingleProperty('email')
       const email = httpRequest.body.email
+      for (const existentEmail of existentEmails) {
+        if (existentEmail?.email === email) {
+          return badRequest('Email already exists')
+        }
+      }
 
       // Validate if phone number is valid if exits
-      if (httpRequest.body.phone !== null && httpRequest.body.phone !== undefined) {
+      if (
+        httpRequest.body.phone !== null &&
+        httpRequest.body.phone !== undefined
+      ) {
         const isPhoneNumber = validator.isMobilePhone(httpRequest.body.phone)
         if (!isPhoneNumber) {
           return badRequest('Invalid phone number')
@@ -47,19 +74,25 @@ export class CreateUserController implements ICreateController<User> {
       }
 
       // Validate password strongness
-      const passwordScore = validator.isStrongPassword(httpRequest.body.password, {
-        minLength: 8,
-        returnScore: true,
-        pointsPerUnique: 0.5,
-        pointsPerRepeat: 0,
-        pointsForContainingLower: 1,
-        pointsForContainingUpper: 3,
-        pointsForContainingNumber: 1.5,
-        pointsForContainingSymbol: 4
-      })
+      const passwordScore = validator.isStrongPassword(
+        httpRequest.body.password,
+        {
+          minLength: 8,
+          returnScore: true,
+          pointsPerUnique: 0.5,
+          pointsPerRepeat: 0,
+          pointsForContainingLower: 1,
+          pointsForContainingUpper: 3,
+          pointsForContainingNumber: 1.5,
+          pointsForContainingSymbol: 4
+        }
+      )
       if (passwordScore <= 13) {
         return badRequest('Password too weak')
       }
+
+      // Crypy password
+      httpRequest.body.password = await bcrypt.hash(httpRequest.body.password, 10)
 
       await this.createUsersRepository.createModel(httpRequest.body)
 
