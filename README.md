@@ -9,7 +9,7 @@
 
 ## About <a name = "about"></a>
 
-Interative full stack dashboard with automatic reporting.
+Interactive responsive full-stack dashboard with advanced capabilities for automatic reporting.This comprehensive solution incorporates cutting-edge technologies such as Next.js with Typescript, Node.js with Express and Typescript, and leverages the power of a reliable PostgreSQL database. The dashboard seamlessly integrates front-end and back-end.
 
 ## Getting Started <a name = "getting_started"></a>
 
