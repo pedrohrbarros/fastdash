@@ -25,7 +25,6 @@ function LoginForm() {
   const setFormState = formStore((state) => state.setRole);
 
   const onSubmit: SubmitHandler<Partial<User>> = (data: Partial<User>) => {
-    console.log(data);
   };
 
   return (

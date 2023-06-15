@@ -9,18 +9,32 @@ import { easeInOut, motion } from "framer-motion";
 import { ChangeEvent } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { userInfoSchema } from "../../validators/createUserValidator";
+import { BiError } from 'react-icons/bi'
+import ReCAPTCHA from "react-google-recaptcha"
+import { createUser } from '../../services/createUser'
+import Loader from '../Loader'
+import { useRouter } from 'next/navigation';
 
 function RegisterForm() {
+
+  const { push } = useRouter()
   const { t } = useTranslation("auth");
 
-  const firstName = userStore((state) => state.firstName);
-  const lastName = userStore((state) => state.lastName);
-  const email = userStore((state) => state.email);
-  const password = userStore((state) => state.password);
-  const setPassword = userStore((state) => state.setPassword);
-  const phone = userStore((state) => state.phone);
+  const [acceptedTerms, setAcceptedTerms] = React.useState(false)
+  const firstName = userStore((state) => state.firstName)
+  const setFirstName = userStore((state) => state.setFirstName)
+  const lastName = userStore((state) => state.lastName)
+  const setLastName = userStore((state) => state.setLastName)
+  const email = userStore((state) => state.email)
+  const setEmail = userStore((state) => state.setEmail)
+  const password = userStore((state) => state.password)
+  const setPassword = userStore((state) => state.setPassword)
+  const phone = userStore((state) => state.phone)
+  const setPhone = userStore((state) => state.setPhone)
 
-  const passwordScore = passwordValidator(password);
+  const [loader, setLoader] = React.useState(false)
+  const passwordScore = passwordValidator(password)
+  const recaptcha = React.useRef<any>()
 
   const {
     register,
@@ -38,12 +52,35 @@ function RegisterForm() {
   });
   const setFormState = formStore((state) => state.setRole);
 
-  const onSubmit: SubmitHandler<Omit<User, "id">> = (
+  const onSubmit: SubmitHandler<Omit<User, "id">> = async (
     data: Omit<User, "id">
   ) => {
-    console.log(data);
-    setPassword("");
-  };
+    setFirstName('')
+    setLastName('')
+    setEmail('')
+    setPhone('')
+    setPassword('')
+    setAcceptedTerms(false)
+    if(recaptcha?.current !== undefined && recaptcha?.current !== null) {
+      const captchaValue = recaptcha.current.getValue()
+      if(!captchaValue) {
+        alert(t('Please fill the captcha'))
+      }
+      else{
+        recaptcha.current.reset()
+        setLoader(true)
+        const response: boolean | string = await createUser(data)
+        setLoader(false)
+        if (response === true) {
+          alert(t('Successfully registered'))
+          push('/')
+        }
+        else {
+          alert(t('Failed to register'))
+        }
+      }
+    }
+  }
 
   return (
     <form
@@ -74,8 +111,13 @@ function RegisterForm() {
           id="firstName"
           placeholder={t("First name") || "First name"}
           required
+          disabled={isSubmitting}
+          value={firstName}
           className="peer w-full p-4 rounded bg-[#1a1d1f] text-xl outline-none text-white placeholder-transparent"
-          {...register("firstName")}
+          {...register("firstName", {
+            onChange: (event: ChangeEvent<HTMLInputElement>) => 
+            setFirstName(event.target.value),
+          })}
         />
         <label
           htmlFor="firstName"
@@ -83,6 +125,7 @@ function RegisterForm() {
         >
           {t("First name")}
         </label>
+        {errors.firstName?.message && <p className="font-p text-xl text-red-500 font-bold flex flex-row justify-start items-center flex-nowrap gap-2"><BiError size='25px'/>{t(errors.firstName?.message)}</p>}
       </motion.div>
       <motion.div
         className="w-full h-auto flex flex-col justify-center items-start gap-2 relative"
@@ -105,8 +148,13 @@ function RegisterForm() {
           id="lastName"
           placeholder={t("Last name") || "Last name"}
           required
+          value={lastName}
+          disabled={isSubmitting}
           className="peer w-full p-4 rounded bg-[#1a1d1f] text-xl outline-none text-white placeholder-transparent"
-          {...register("lastName")}
+          {...register("lastName", {
+            onChange: (event: ChangeEvent<HTMLInputElement>) => 
+            setLastName(event.target.value),
+          })}
         />
         <label
           htmlFor="lastName"
@@ -114,6 +162,7 @@ function RegisterForm() {
         >
           {t("Last name")}
         </label>
+        {errors.lastName?.message && <p className="font-p text-xl text-red-500 font-bold flex flex-row justify-start items-center flex-nowrap gap-2"><BiError size='25px'/>{t(errors.lastName?.message)}</p>}
       </motion.div>
       <motion.div
         className="w-full h-auto flex flex-col justify-center items-start gap-2 relative"
@@ -135,10 +184,15 @@ function RegisterForm() {
           type="number"
           id="phone"
           inputMode="tel"
+          disabled={isSubmitting}
           placeholder={t("Phone number") || "Phone number"}
           required
+          value={phone}
           className="peer w-full p-4 rounded bg-[#1a1d1f] text-xl outline-none text-white placeholder-transparent"
-          {...register("phone")}
+          {...register("phone", {
+            onChange: (event: ChangeEvent<HTMLInputElement>) => 
+            setPhone(event.target.value),
+          })}
         />
         <label
           htmlFor="phone"
@@ -146,6 +200,7 @@ function RegisterForm() {
         >
           {t("Phone number")}
         </label>
+        {errors.phone?.message && <p className="font-p text-xl text-red-500 font-bold flex flex-row justify-start items-center flex-wrap gap-2"><BiError size='25px'/>{t(errors.phone?.message)}</p>}
       </motion.div>
       <motion.div
         className="w-full h-auto flex flex-col justify-center items-start gap-2 relative"
@@ -168,8 +223,13 @@ function RegisterForm() {
           id="email"
           placeholder={t("Email") || "Email"}
           required
+          value={email}
+          disabled={isSubmitting}
           className="peer w-full p-4 rounded bg-[#1a1d1f] text-xl outline-none text-white placeholder-transparent"
-          {...register("email")}
+          {...register("email", {
+            onChange: (event: ChangeEvent<HTMLInputElement>) => 
+            setEmail(event.target.value),
+          })}
         />
         <label
           htmlFor="email"
@@ -177,6 +237,7 @@ function RegisterForm() {
         >
           {t("Email")}
         </label>
+        {errors.email?.message && <p className="font-p text-xl text-red-500 font-bold flex flex-row justify-start items-center flex-wrap gap-2"><BiError size='25px'/>{t(errors.email?.message)}</p>}
       </motion.div>
       <motion.div
         className="w-full h-auto flex flex-col justify-center items-start gap-2 relative"
@@ -199,7 +260,9 @@ function RegisterForm() {
           id="password"
           placeholder={t("Password") || "Password"}
           required
+          value={password}
           className="peer w-full p-4 rounded bg-[#1a1d1f] text-xl outline-none text-white placeholder-transparent"
+          disabled={isSubmitting}
           {...register("password", {
             onChange: (event: ChangeEvent<HTMLInputElement>) =>
               setPassword(event.target.value),
@@ -234,12 +297,15 @@ function RegisterForm() {
           )}
         </div>
         <p className="font-p text-white text-xl">
-          {passwordScore < 13
+          {passwordScore < 13 && password !== ''
             ? t(
                 "Too weak, please add more symbols, numbers or uppercase letters"
               )
-            : t("Strong")}
+            : passwordScore >= 13 ? t("Strong")
+            : null
+          }
         </p>
+        {errors.password?.message && <p className="font-p text-xl text-red-500 font-bold flex flex-row justify-start items-center flex-wrap gap-2"><BiError size='25px'/>{t(errors.password?.message)}</p>}
       </motion.div>
       <div className="w-full h-auto flex flex-row justify-start items-center gap-3 flex-nowrap">
         <input
@@ -248,12 +314,15 @@ function RegisterForm() {
           type="checkbox"
           className="w-5 h-5"
           required
+          checked={acceptedTerms}
+          onChange={() => setAcceptedTerms(!acceptedTerms)}
+          disabled={isSubmitting}
         />
         <label className="text-white font-label text-xl">
           {t("I agree with")}{" "}
           <a
             className="cursor-pointer hover:underline"
-            href="https://www.termsandconditionsgenerator.com/live.php?token=nkJq162uH4ZtLkD05GnQr7k9WEE7lScX"
+            href={`https://www.termsandconditionsgenerator.com/live.php?token=${process.env.NEXT_PUBLIC_TERMS_TOKEN || ''}`}
             target="_blank"
             rel="noopener"
           >
@@ -261,11 +330,15 @@ function RegisterForm() {
           </a>
         </label>
       </div>
+      <ReCAPTCHA size='compact' ref={recaptcha} sitekey = {process.env.NEXT_PUBLIC_SITE_KEY || ''}/>
+      {loader ? <div className="w-full h-auto flex flex-col justify-center items-center"><Loader/></div> : 
       <input
         type="submit"
         value={t("Sign up") || "Sign up"}
         className="w-full outline-none border-0 text-white bg-gradient-to-r from-cyan-500 to-blue-500 rounded text-xl px-5 py-2.5 text-center shadow-[5px_5px_1px_5px_rgba(0,0,0,0.6)] active:shadow-[4px_4px_1px_2px_rgba(0,0,0,0.6)] active:translate-y-[2px] active:translate-x-[2px] transition-all font-p cursor-pointer"
-      />
+        disabled={isSubmitting}
+      />}
+      
       <p
         className="font-p text-white text-xl cursor-pointer"
         onClick={() => setFormState("login")}

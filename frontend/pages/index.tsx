@@ -1,17 +1,17 @@
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useTranslation } from "next-i18next";
-import { easeInOut, motion } from "framer-motion";
-import { formStore } from "../hooks/formState";
-import LoginForm from "../components/Forms/Login";
-import RegisterForm from "../components/Forms/Register";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import { useTranslation } from "next-i18next"
+import { easeInOut, motion } from "framer-motion"
+import { formStore } from "../hooks/formState"
+import LoginForm from "../components/Forms/Login"
+import RegisterForm from "../components/Forms/Register"
 
 export default function Auth() {
   const { t } = useTranslation("auth");
 
-  const formState = formStore((state) => state.role);
+  const formState = formStore((state) => state.role)
 
   return (
-    <main className="w-full h-full min-h-screen flex flex-nowrap flex-col justify-center items-center bg-jet py-9 px-6 gap-4">
+    <main className="w-full h-full min-h-screen flex flex-nowrap flex-col justify-center items-center bg-jet py-9 px-6 gap-4 text-center max-[400px]:px-4">
       <motion.h1
         className="font-h1 text-5xl text-white"
         initial={{

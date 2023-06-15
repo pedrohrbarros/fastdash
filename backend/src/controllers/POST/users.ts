@@ -28,6 +28,9 @@ export class CreateUserController implements ICreateController<User> {
         return badRequest('Invalid email adress')
       }
 
+      // Validate if e-mail already exists
+      const email = httpRequest.body.email
+
       // Validate if phone number is valid if exits
       if (httpRequest.body.phone !== null && httpRequest.body.phone !== undefined) {
         const isPhoneNumber = validator.isMobilePhone(httpRequest.body.phone)

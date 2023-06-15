@@ -19,7 +19,7 @@ export const userStore = create<UserState>()((set) => ({
 
   setFirstName: (firstName: string) => set(() => ({ firstName: firstName })),
   setLastName: (lastName: string) => set(() => ({ lastName: lastName })),
-  setEmail: (email: string) => set(() => ({ lastName: email })),
+  setEmail: (email: string) => set(() => ({ email: email })),
   setPassword: (password: string) => set(() => ({ password: password })),
   setPhone: (phone: string) => set(() => ({ phone: phone }))
 }))

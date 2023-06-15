@@ -9,3 +9,8 @@ export interface IGetController<Model> {
 export interface IGetRepository<Model> {
   getModels: (id?: string) => Promise<Model[]>
 }
+
+
+export interface IGetPropertyRepository {
+  getModelsSingleProperty: (property: string) => Promise<string[]>
+}

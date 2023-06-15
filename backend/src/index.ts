@@ -12,6 +12,8 @@ import { DeleteUserRepository } from './repositories/DELETE/users'
 import { DeleteUserController } from './controllers/DELETE/user'
 import { headersAuthError } from './controllers/helpers'
 
+import cors from 'cors'
+
 const main = async (): Promise<void> => {
   config()
 
@@ -20,6 +22,8 @@ const main = async (): Promise<void> => {
 
   // Convert the body to JSON
   app.use(express.json())
+
+  app.use(cors())
 
   // Connecting to database
   await PostgreClient.connect()
@@ -71,7 +75,7 @@ const main = async (): Promise<void> => {
         // Sending to the API endpoint
         res.status(statusCode).send(body)
       } else {
-        const { statusCode, body } = headersAuthError('Unauthorized to access this API')
+        const { statusCode, body } = headersAuthError(token)
         res.status(statusCode).send(body)
       }
     } else {
@@ -99,7 +103,7 @@ const main = async (): Promise<void> => {
 
         res.status(statusCode).send(body)
       } else {
-        const { statusCode, body } = headersAuthError('Unauthorized to access this API')
+        const { statusCode, body } = headersAuthError('Unauthorized to access this API1')
         res.status(statusCode).send(body)
       }
     } else {

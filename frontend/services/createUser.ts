@@ -4,7 +4,7 @@ import axios from 'axios'
 
 export const createUser = async (params: Omit<User, "id">): Promise<boolean | string> => {
   try {
-    await authAPI.post('/users/', {
+    await authAPI.post('users/', {
       firstName: params.firstName,
       lastName: params.lastName,
       email: params.email,
