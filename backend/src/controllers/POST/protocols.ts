@@ -1,11 +1,11 @@
 import { type HTTPRequest, type HTTPResponse } from '../protocols'
 
-export interface ICreateController<Model> {
+export interface ICreateController<T> {
   // Generic type on the HTTPRequest, because the body will inherit the properties of a model instance
-  handle: (httpRequest: HTTPRequest<Model>) => Promise<HTTPResponse<string>>
+  handle: (httpRequest: HTTPRequest<T>) => Promise<HTTPResponse<string>>
 }
 
-export interface ICreateRepository<Param> {
+export interface ICreateRepository<P> {
   // The repository won't return any data from the database, as it's just a POST method
-  createModel: (params: Param) => Promise<void>
+  createModel: (params: P) => Promise<void>
 }

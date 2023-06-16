@@ -15,6 +15,11 @@ export const internalError = (message: string): HTTPResponse<string> => ({
   body: message
 })
 
+export const badResponse = (message: string): HTTPResponse<string> => ({
+  statusCode: HTTPStatusCode.BAD_RESPONSE,
+  body: message
+})
+
 export const badPermission = (message: string): HTTPResponse<string> => ({
   statusCode: HTTPStatusCode.BAD_PERMISSION,
   body: message

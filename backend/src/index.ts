@@ -13,6 +13,8 @@ import { DeleteUserController } from './controllers/DELETE/user'
 import { headersAuthError } from './controllers/helpers'
 
 import cors from 'cors'
+import { LoginUserRepository } from './repositories/LOGIN/user'
+import { LoginUserController } from './controllers/LOGIN/user'
 
 const main = async (): Promise<void> => {
   config()
@@ -167,6 +169,27 @@ const main = async (): Promise<void> => {
     } else {
       const { statusCode, body } = headersAuthError('Unauthorized to access this API')
       res.status(statusCode).send(body)
+    }
+  })
+
+  app.post('/login/', async (req: Request, res: Response) => {
+    const authHeader = req.headers.authorization
+    if ((authHeader?.startsWith('Bearer')) === true) {
+      const token = authHeader.substring(7) // Remove 'Bearer ' prefix
+      if (token === process.env.AUTH_TOKEN) {
+        const databaseData = new LoginUserRepository()
+
+        const loginDataController = new LoginUserController(databaseData)
+
+        const { body, statusCode } = await loginDataController.handle({
+          body: req?.body
+        })
+
+        res.status(statusCode).send(body)
+      } else {
+        const { statusCode, body } = headersAuthError('Unauthorized to access this API')
+        res.status(statusCode).send(body)
+      }
     }
   })
   const port = process.env.PORT !== undefined ? process.env.PORT : 8000

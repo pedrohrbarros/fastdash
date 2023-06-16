@@ -1,9 +1,9 @@
 import { type HTTPRequest, type HTTPResponse } from '../protocols'
 
-export interface IUpdateController<Model> {
-  handle: (httpRequest: HTTPRequest<Partial<Model>>) => Promise<HTTPResponse<string>>
+export interface IUpdateController<T> {
+  handle: (httpRequest: HTTPRequest<Partial<T>>) => Promise<HTTPResponse<string>>
 }
 
-export interface IUpdateRepository<Parameter> {
-  updateModel: (id: string, params: Parameter) => Promise<void>
+export interface IUpdateRepository<P> {
+  updateModel: (id: string, params: P) => Promise<void>
 }

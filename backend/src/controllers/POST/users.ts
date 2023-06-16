@@ -8,7 +8,7 @@ import {
   successfull,
   voidRequest
 } from '../helpers'
-import { getModelsSingleProperty } from '../../tools/users_property'
+import { getUsersSingleProperty } from '../../tools/getUsersProperty'
 import bcrypt from 'bcrypt'
 
 export class CreateUserController implements ICreateController<User> {
@@ -47,7 +47,7 @@ export class CreateUserController implements ICreateController<User> {
       }
 
       // Validate if e-mail already exists
-      const existentEmails = await getModelsSingleProperty('email')
+      const existentEmails = await getUsersSingleProperty('email')
       const email = httpRequest.body.email
       for (const existentEmail of existentEmails) {
         if (existentEmail?.email === email) {

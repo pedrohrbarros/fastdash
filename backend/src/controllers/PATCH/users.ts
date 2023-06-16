@@ -3,6 +3,7 @@ import validator from 'validator'
 import { type HTTPResponse, type HTTPRequest } from '../protocols'
 import { type IUpdateController, type IUpdateRepository } from './protocols'
 import { badPermission, badRequest, internalError, successfull, voidRequest } from '../helpers'
+import bcrypt from 'bcrypt'
 
 export class UpdateUserController implements IUpdateController<User> {
   constructor (private readonly updateUserRepository: IUpdateRepository<Partial<User>>) {}
@@ -77,6 +78,7 @@ export class UpdateUserController implements IUpdateController<User> {
         if (passwordScore <= 13) {
           return badRequest('Password too weak')
         }
+        httpRequest.body.password = await bcrypt.hash(httpRequest.body.password, 10)
       }
 
       await this.updateUserRepository.updateModel(httpRequest.params.id, httpRequest.body)

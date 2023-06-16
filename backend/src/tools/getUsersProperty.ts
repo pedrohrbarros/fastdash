@@ -1,7 +1,7 @@
 import { PostgreClient } from '../database/postgre'
 import { type User } from '../models/user'
 
-export const getModelsSingleProperty = async (property: string): Promise<Partial<User[]>> => {
+export const getUsersSingleProperty = async (property: string): Promise<Partial<User[]>> => {
   const result = await PostgreClient.db.query(
     `SELECT ${property} FROM users`
   )
