@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start:dev": "nodemon --exec npx ts-node src/index.ts"
+    "start:dev": "nodemon --exec npx ts-node src/index.ts",
+    "start": "node build/index.js",
+    "build": "tsc --project tsconfig.json"
   },
   "keywords": [],
   "author": "",
