@@ -30,9 +30,19 @@ export const headersAuthError = (message: string): HTTPResponse<string> => ({
   body: message
 })
 
-export const successfull = <D>(message: string | D): HTTPResponse<string | D> => ({
-  statusCode: HTTPStatusCode.SUCCESSFULL,
+export const successfull = <D>(
+  message: string | D
+): HTTPResponse<string | D> => ({
+    statusCode: HTTPStatusCode.SUCCESSFULL,
+    body: message
+  })
+
+export const noContent = (message: string): HTTPResponse<string> => ({
+  statusCode: HTTPStatusCode.NOCONTENT,
   body: message
 })
 
-export const noContent = (message: string): HTTPResponse<string> => ({ statusCode: 204, body: message })
+export const unauthorizedError = (message: string): HTTPResponse<string> => ({
+  statusCode: HTTPStatusCode.UNAUTHORIZED,
+  body: message
+})

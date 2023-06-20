@@ -4,6 +4,6 @@ export interface IDeleteRepository {
   deleteModel: (id: string) => Promise<void>
 }
 
-export interface IDeleteController {
-  handle: (httpRequest: HTTPRequest<{ permission: string }>) => Promise<HTTPResponse<string>>
+export interface IDeleteController<T> {
+  handle: (httpRequest: HTTPRequest<T>) => Promise<HTTPResponse<string>>
 }

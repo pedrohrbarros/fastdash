@@ -1,5 +1,3 @@
-// Creating the interface for the User future objects
-
 export interface User {
   id: string
   firstName: string
@@ -7,5 +5,4 @@ export interface User {
   email: string
   password: string
   phone: string
-  role: 'admin' | 'operational' | 'manager'
 }
