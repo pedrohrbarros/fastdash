@@ -6,7 +6,7 @@
   "type":"module",
   "scripts": {
     "start:dev": "nodemon --exec npx ts-node src/index.ts",
-    "start": "node ./src/index.cjs",
+    "start": "node ./src/index.js",
     "build": "tsc --project tsconfig.json"
   },
   "keywords": [],
