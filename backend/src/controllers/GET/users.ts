@@ -4,7 +4,8 @@ import { GetUsersRepository } from '../../repositories/GET/users'
 import { badRequest, badResponse, internalError, noContent, successfull } from '../helpers'
 import { type HTTPRequest, type HTTPResponse } from '../protocols'
 import bcrypt from 'bcrypt'
-import jwt, { type JwtPayload } from 'jsonwebtoken'
+import jwt from 'jsonwebtoken'
+import { getIDFromToken } from '../../tools/getUserFromToken'
 
 export class GetUserController {
   async get (): Promise<HTTPResponse<User[] | string>> {
@@ -50,9 +51,8 @@ export class GetUserController {
       if (httpRequest?.headers?.authorization === undefined) {
         return badRequest('User not authenticated')
       } else {
-        const token: string = httpRequest?.headers?.authorization.split(' ')[1]
-        const { id } = jwt.verify(token, process.env.JWT_PASSWORD ?? '') as JwtPayload
-        const user: Pick<User, 'firstName' | 'lastName' | 'email' | 'phone'> = await new GetUsersRepository().getUserByID(id as string)
+        const id = await getIDFromToken(httpRequest.headers.authorization)
+        const user: Pick<User, 'firstName' | 'lastName' | 'email' | 'phone'> = await new GetUsersRepository().getUserByID(id)
         if (user === undefined || user === null) {
           return badRequest('User does not exist')
         } else {

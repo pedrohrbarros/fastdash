@@ -4,6 +4,8 @@ import { config } from 'dotenv'
 import { PostgreClient } from './database/postgre'
 import cors from 'cors'
 import { GetUserController } from './controllers/GET/users'
+import { PostUserController } from './controllers/POST/users'
+import { DeleteUserController } from './controllers/DELETE/user'
 
 const main = async (): Promise<void> => {
   config()
@@ -32,23 +34,19 @@ const main = async (): Promise<void> => {
     res.status(statusCode).send(body)
   })
 
-  // app.get('/users/:id', async (req: Request, res: Response) => {
-  //   const getData = new GetUsersRepository()
-  //   const validateData = new GetUsersController(getData)
-  //   const { body, statusCode } = await validateData.handle({
-  //     params: req?.params
-  //   })
-  //   res.status(statusCode).send(body)
-  // })
+  app.post('/user', async (req: Request, res: Response) => {
+    const { statusCode, body } = await new PostUserController().register({
+      body: req.body
+    })
+    res.status(statusCode).send(body)
+  })
 
-  // app.post('/users', async (req: Request, res: Response) => {
-  //   const getData = new CreateUserRepository()
-  //   const validateData = new CreateUserController(getData)
-  //   const { body, statusCode } = await validateData.handle({
-  //     body: req?.body
-  //   })
-  //   res.status(statusCode).send(body)
-  // })
+  app.delete('/user', async (req: Request, res: Response) => {
+    const { statusCode, body } = await new DeleteUserController().remove({
+      headers: req.headers
+    })
+    res.status(statusCode).send(body)
+  })
 
   // app.patch('/users/:id', async (req: Request, res: Response) => {
   //   const updateOnDatabase = new UpdateUserRepository()
@@ -57,17 +55,6 @@ const main = async (): Promise<void> => {
   //     headers: req?.headers,
   //     body: req?.body
   //   })
-  //   res.status(statusCode).send(body)
-  // })
-
-  // app.delete('/users/:id', async (req: Request, res: Response) => {
-  //   const deleteOnDatabase = new DeleteUserRepository()
-  //   const deleteDataController = new DeleteUserController(deleteOnDatabase)
-  //   const { body, statusCode } = await deleteDataController.handle({
-  //     headers: req?.headers,
-  //     body: req?.body
-  //   })
-
   //   res.status(statusCode).send(body)
   // })
 

@@ -1,27 +1,21 @@
-import { type DeleteUserRepository } from '../../repositories/DELETE/users'
-import {
-  internalError,
-  successfull,
-  voidRequest
-} from '../helpers'
-import { type HTTPResponse, type HTTPRequest } from '../protocols'
-import { type IDeleteController } from './protocols'
+import { type IncomingHttpHeaders } from 'http'
+import { type HTTPRequest, type HTTPResponse } from '../protocols'
+import { badRequest, internalError, successfull } from '../helpers'
+import { getIDFromToken } from '../../tools/getUserFromToken'
+import { DeleteUserRepository } from '../../repositories/DELETE/users'
 
-export class DeleteUserController implements IDeleteController<{ jwt_token: string }> {
-  constructor (private readonly deleteUserRepository: DeleteUserRepository) {}
-  async handle (
-    httpRequest: HTTPRequest<{ jwt_token: string }>
-  ): Promise<HTTPResponse<string>> {
+export class DeleteUserController {
+  async remove (httpRequest: HTTPRequest<IncomingHttpHeaders>): Promise<HTTPResponse<string>> {
     try {
-      if (httpRequest?.headers?.jwt_token === undefined) {
-        return voidRequest('Please define an id and a permission to delete')
+      if (httpRequest?.headers?.authorization === undefined) {
+        return badRequest('User not authenticated')
+      } else {
+        const id = await getIDFromToken(httpRequest.headers.authorization)
+        await new DeleteUserRepository().delete(id)
+        return successfull('User deleted successfully')
       }
-
-      await this.deleteUserRepository.deleteModel(httpRequest.params.id)
-
-      return successfull('User deleted successfully')
     } catch (error) {
-      return internalError('DELETE METHOD FAILED: INTERNAL ERROR')
+      return internalError('DELETE USER FAILED INTERNAL ERROR')
     }
   }
 }
