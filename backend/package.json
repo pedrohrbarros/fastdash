@@ -2,11 +2,11 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.ts",
+  "main": "index.js",
   "type":"module",
   "scripts": {
     "start:dev": "nodemon --exec npx ts-node src/index.ts",
-    "start": "node ./src/index.ts",
+    "start": "node ./src/index.js",
     "build": "tsc --project tsconfig.json"
   },
   "keywords": [],
