@@ -21,7 +21,7 @@ export class GetUserController {
     }
   }
 
-  async login (httpRequest: HTTPRequest<Pick<User, 'email' | 'password'>>): Promise<HTTPResponse<string>> {
+  async login (httpRequest?: HTTPRequest<Pick<User, 'email' | 'password'>>): Promise<HTTPResponse<string>> {
     try {
       if (httpRequest?.body?.email === undefined && httpRequest?.body?.password === undefined) {
         return badRequest('Please provida a valid e-mail adress and password')
@@ -46,7 +46,7 @@ export class GetUserController {
     }
   }
 
-  async getProfile (httpRequest: HTTPRequest<IncomingHttpHeaders>): Promise<HTTPResponse<Pick<User, 'firstName' | 'lastName' | 'email' | 'phone'> | string>> {
+  async getProfile (httpRequest?: HTTPRequest<IncomingHttpHeaders>): Promise<HTTPResponse<Pick<User, 'firstName' | 'lastName' | 'email' | 'phone'> | string>> {
     try {
       if (httpRequest?.headers?.authorization === undefined) {
         return badRequest('User not authenticated')

@@ -7,7 +7,7 @@ import { GetUsersRepository } from '../../repositories/GET/users'
 import bcrypt from 'bcrypt'
 
 export class PostUserController {
-  async register (httpRequest: HTTPRequest<User>): Promise<HTTPResponse<string>> {
+  async register (httpRequest?: HTTPRequest<User>): Promise<HTTPResponse<string>> {
     try {
       if (httpRequest?.body === undefined) {
         return voidRequest('Please specify a body')
@@ -53,7 +53,6 @@ export class PostUserController {
         return successfull('User created successfully')
       }
     } catch (error) {
-      console.log(error)
       return internalError('REGISTER USER FAILED INTERNAL ERROR')
     }
   }

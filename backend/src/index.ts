@@ -4,8 +4,9 @@ import { config } from 'dotenv'
 import { PostgreClient } from './database/postgre'
 import cors from 'cors'
 import { GetUserController } from './controllers/GET/users'
-import { PostUserController } from './controllers/POST/users'
+import { PostUserController } from './controllers/POST/user'
 import { DeleteUserController } from './controllers/DELETE/user'
+import { UpdateUserController } from './controllers/PATCH/user'
 
 const main = async (): Promise<void> => {
   config()
@@ -48,15 +49,13 @@ const main = async (): Promise<void> => {
     res.status(statusCode).send(body)
   })
 
-  // app.patch('/users/:id', async (req: Request, res: Response) => {
-  //   const updateOnDatabase = new UpdateUserRepository()
-  //   const updateDataController = new UpdateUserController(updateOnDatabase)
-  //   const { body, statusCode } = await updateDataController.handle({
-  //     headers: req?.headers,
-  //     body: req?.body
-  //   })
-  //   res.status(statusCode).send(body)
-  // })
+  app.patch('/user', async (req: Request, res: Response) => {
+    const { statusCode, body } = await new UpdateUserController().patch({
+      headers: req.headers,
+      body: req.body
+    })
+    res.status(statusCode).send(body)
+  })
 
   const port = process.env.PORT !== undefined ? process.env.PORT : 8000
   app.listen(port)
