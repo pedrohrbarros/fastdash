@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-misused-promises */
 import express, { type Request, type Response } from 'express'
 import { config } from 'dotenv'
 import { PostgreClient } from './database/postgre'
