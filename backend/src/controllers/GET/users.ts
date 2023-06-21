@@ -1,4 +1,3 @@
-import { type IncomingHttpHeaders } from 'http'
 import { type User } from '../../models/user'
 import { GetUsersRepository } from '../../repositories/GET/users'
 import { badRequest, badResponse, internalError, noContent, successfull } from '../helpers'
@@ -8,7 +7,7 @@ import jwt from 'jsonwebtoken'
 import { getIDFromToken } from '../../tools/getUserFromToken'
 
 export class GetUserController {
-  async get (httpRequest?: HTTPRequest<IncomingHttpHeaders>): Promise<HTTPResponse<User[] | string>> {
+  async get (httpRequest?: HTTPRequest<void>): Promise<HTTPResponse<User[] | string>> {
     try {
       if (httpRequest?.headers?.access !== process.env.ACCESS_TOKEN) {
         return badRequest('Not authorized')
@@ -24,7 +23,7 @@ export class GetUserController {
     }
   }
 
-  async login (httpRequest?: HTTPRequest<Pick<User, 'email' | 'password'> & IncomingHttpHeaders>): Promise<HTTPResponse<string>> {
+  async login (httpRequest?: HTTPRequest<Pick<User, 'email' | 'password'>>): Promise<HTTPResponse<string>> {
     try {
       if (httpRequest?.headers?.access !== process.env.ACCESS_TOKEN) {
         return badRequest('Not authorized')
@@ -52,7 +51,7 @@ export class GetUserController {
     }
   }
 
-  async getProfile (httpRequest?: HTTPRequest<IncomingHttpHeaders>): Promise<HTTPResponse<Pick<User, 'firstName' | 'lastName' | 'email' | 'phone'> | string>> {
+  async getProfile (httpRequest?: HTTPRequest<void>): Promise<HTTPResponse<Pick<User, 'firstName' | 'lastName' | 'email' | 'phone'> | string>> {
     try {
       if (httpRequest?.headers?.authorization === undefined) {
         return badRequest('User not authenticated')

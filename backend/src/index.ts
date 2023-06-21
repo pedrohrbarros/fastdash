@@ -18,7 +18,9 @@ const main = async (): Promise<void> => {
   await PostgreClient.connect()
 
   app.get('/users', async (req: Request, res: Response) => {
-    const { statusCode, body } = await new GetUserController().get()
+    const { statusCode, body } = await new GetUserController().get({
+      headers: req.headers
+    })
     res.status(statusCode).send(body)
   })
 
@@ -38,6 +40,7 @@ const main = async (): Promise<void> => {
 
   app.post('/user', async (req: Request, res: Response) => {
     const { statusCode, body } = await new PostUserController().register({
+      headers: req.headers,
       body: req.body
     })
     res.status(statusCode).send(body)

@@ -4,7 +4,7 @@ import axios from 'axios'
 
 export const createUser = async (params: Omit<User, "id">): Promise<boolean | string> => {
   try {
-    await authAPI.post('users/', {
+    await authAPI.post('user/', {
       firstName: params.firstName,
       lastName: params.lastName,
       email: params.email,
@@ -14,6 +14,7 @@ export const createUser = async (params: Omit<User, "id">): Promise<boolean | st
     })
     return true
   } catch(error){
+    console.error(error)
     if(axios.isAxiosError(error)){
       if(error.response) {
         return error.response.data

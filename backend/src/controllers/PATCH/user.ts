@@ -1,4 +1,3 @@
-import { type IncomingHttpHeaders } from 'http'
 import { type User } from '../../models/user'
 import { UpdateUserRepository } from '../../repositories/PATCH/users'
 import { getIDFromToken } from '../../tools/getUserFromToken'
@@ -6,7 +5,7 @@ import { badRequest, internalError, successfull, voidRequest } from '../helpers'
 import { type HTTPRequest, type HTTPResponse } from '../protocols'
 
 export class UpdateUserController {
-  async patch (httpRequest?: HTTPRequest<IncomingHttpHeaders & Partial<User>>): Promise<HTTPResponse<string>> {
+  async patch (httpRequest?: HTTPRequest<Partial<User>>): Promise<HTTPResponse<string>> {
     try {
       if (httpRequest?.body === undefined || httpRequest?.body === null) {
         return voidRequest('Please provide an property to update')

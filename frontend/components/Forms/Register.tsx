@@ -330,7 +330,7 @@ function RegisterForm() {
           </a>
         </label>
       </div>
-      <ReCAPTCHA size='compact' ref={recaptcha} sitekey = {process.env.NEXT_PUBLIC_SITE_KEY || ''}/>
+      <ReCAPTCHA size='compact' ref={recaptcha} sitekey = {process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ''}/>
       {loader ? <div className="w-full h-auto flex flex-col justify-center items-center"><Loader/></div> : 
       <input
         type="submit"

@@ -1,11 +1,10 @@
-import { type IncomingHttpHeaders } from 'http'
 import { type HTTPRequest, type HTTPResponse } from '../protocols'
 import { badRequest, internalError, successfull } from '../helpers'
 import { getIDFromToken } from '../../tools/getUserFromToken'
 import { DeleteUserRepository } from '../../repositories/DELETE/users'
 
 export class DeleteUserController {
-  async remove (httpRequest: HTTPRequest<IncomingHttpHeaders>): Promise<HTTPResponse<string>> {
+  async remove (httpRequest: HTTPRequest<void>): Promise<HTTPResponse<string>> {
     try {
       if (httpRequest?.headers?.authorization === undefined) {
         return badRequest('User not authenticated')

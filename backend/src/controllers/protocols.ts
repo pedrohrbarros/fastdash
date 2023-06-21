@@ -1,3 +1,5 @@
+import { IncomingHttpHeaders } from "http"
+
 // Global protocols
 export interface HTTPResponse<T> {
   statusCode: HTTPStatusCode
@@ -5,8 +7,7 @@ export interface HTTPResponse<T> {
 }
 
 export interface HTTPRequest<B> {
-  params?: B
-  headers?: B
+  headers?: IncomingHttpHeaders
   body?: B
 }
 

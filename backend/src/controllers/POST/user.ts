@@ -5,12 +5,13 @@ import { badRequest, internalError, successfull, voidRequest } from '../helpers'
 import { type HTTPResponse, type HTTPRequest } from '../protocols'
 import { GetUsersRepository } from '../../repositories/GET/users'
 import bcrypt from 'bcrypt'
-import { type IncomingHttpHeaders } from 'http'
 
 export class PostUserController {
-  async register (httpRequest?: HTTPRequest<User & IncomingHttpHeaders>): Promise<HTTPResponse<string>> {
+  async register (httpRequest?: HTTPRequest<User>): Promise<HTTPResponse<string>> {
     try {
       if (httpRequest?.headers?.access !== process.env.ACCESS_TOKEN) {
+        console.log(httpRequest?.headers)
+        console.log(process.env.ACCESS_TOKEN)
         return badRequest('Not authorized')
       }
       if (httpRequest?.body === undefined) {
