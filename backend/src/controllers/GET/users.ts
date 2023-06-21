@@ -8,8 +8,11 @@ import jwt from 'jsonwebtoken'
 import { getIDFromToken } from '../../tools/getUserFromToken'
 
 export class GetUserController {
-  async get (): Promise<HTTPResponse<User[] | string>> {
+  async get (httpRequest?: HTTPRequest<IncomingHttpHeaders>): Promise<HTTPResponse<User[] | string>> {
     try {
+      if (httpRequest?.headers?.access === undefined) {
+        return badRequest('Not authorized')
+      }
       const users: User[] = await new GetUsersRepository().getList()
       if (users.length === 0) {
         return noContent('No users were found')
@@ -21,8 +24,11 @@ export class GetUserController {
     }
   }
 
-  async login (httpRequest?: HTTPRequest<Pick<User, 'email' | 'password'>>): Promise<HTTPResponse<string>> {
+  async login (httpRequest?: HTTPRequest<Pick<User, 'email' | 'password'> & IncomingHttpHeaders>): Promise<HTTPResponse<string>> {
     try {
+      if (httpRequest?.headers?.access === undefined) {
+        return badRequest('Not authorized')
+      }
       if (httpRequest?.body?.email === undefined && httpRequest?.body?.password === undefined) {
         return badRequest('Please provida a valid e-mail adress and password')
       } else {
