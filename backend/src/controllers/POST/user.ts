@@ -10,7 +10,7 @@ import { type IncomingHttpHeaders } from 'http'
 export class PostUserController {
   async register (httpRequest?: HTTPRequest<User & IncomingHttpHeaders>): Promise<HTTPResponse<string>> {
     try {
-      if (httpRequest?.headers?.access === undefined) {
+      if (httpRequest?.headers?.access !== process.env.ACCESS_TOKEN) {
         return badRequest('Not authorized')
       }
       if (httpRequest?.body === undefined) {

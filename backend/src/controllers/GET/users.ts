@@ -10,7 +10,7 @@ import { getIDFromToken } from '../../tools/getUserFromToken'
 export class GetUserController {
   async get (httpRequest?: HTTPRequest<IncomingHttpHeaders>): Promise<HTTPResponse<User[] | string>> {
     try {
-      if (httpRequest?.headers?.access === undefined) {
+      if (httpRequest?.headers?.access !== process.env.ACCESS_TOKEN) {
         return badRequest('Not authorized')
       }
       const users: User[] = await new GetUsersRepository().getList()
@@ -26,7 +26,7 @@ export class GetUserController {
 
   async login (httpRequest?: HTTPRequest<Pick<User, 'email' | 'password'> & IncomingHttpHeaders>): Promise<HTTPResponse<string>> {
     try {
-      if (httpRequest?.headers?.access === undefined) {
+      if (httpRequest?.headers?.access !== process.env.ACCESS_TOKEN) {
         return badRequest('Not authorized')
       }
       if (httpRequest?.body?.email === undefined && httpRequest?.body?.password === undefined) {
