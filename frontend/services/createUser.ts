@@ -9,24 +9,26 @@ export const createUser = async (params: Omit<User, "id">): Promise<boolean | st
       lastName: params.lastName,
       email: params.email,
       password: params.password,
-      phone: params.phone,
-      role: 'operational'
+      phone: params.phone
     })
     return true
   } catch(error){
     console.error(error)
     if(axios.isAxiosError(error)){
       if(error.response) {
-        return error.response.data
+        if(error.response.data === 'Not authorized') {
+          return 'Wrong access to API'
+        } else if (error.response.data === 'User with this e-mail already exists') {
+          return 'User already exists'
+        }
+        return 'Error in response from API'
       } else if (error.request) {
-        // No response received
-        return error.request
+        return 'No Response received'
       } else {
-        // Requisition configuration error
-        return error.message
+        return 'Requisition Error'
       }
     } else {
-      return 'AxiosError: ' + error
+      return 'Internal error'
     }
   }
 }

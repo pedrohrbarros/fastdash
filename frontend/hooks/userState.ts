@@ -15,7 +15,6 @@ export const userStore = create<UserState>()((set) => ({
   email: '',
   password: '',
   phone: '',
-  role: 'operational',
 
   setFirstName: (firstName: string) => set(() => ({ firstName: firstName })),
   setLastName: (lastName: string) => set(() => ({ lastName: lastName })),

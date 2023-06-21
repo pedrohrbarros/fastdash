@@ -17,7 +17,6 @@ import { useRouter } from 'next/navigation';
 
 function RegisterForm() {
 
-  const { push } = useRouter()
   const { t } = useTranslation("auth");
 
   const [acceptedTerms, setAcceptedTerms] = React.useState(false)
@@ -73,10 +72,10 @@ function RegisterForm() {
         setLoader(false)
         if (response === true) {
           alert(t('Successfully registered'))
-          push('/')
+          setFormState('login')
         }
         else {
-          alert(t('Failed to register'))
+          alert(t(response.toString()))
         }
       }
     }

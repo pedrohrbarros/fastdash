@@ -32,7 +32,7 @@ export default function Auth() {
           duration: 0.6,
         }}
       >
-        {formState === "login" ? t("Sign in") : t("Sign up")}
+        {formState === "login" ? t("Sign in") : formState === 'register' ? t("Sign up") : null}
       </motion.h1>
       <motion.h2
         className="font-h2 text-2xl text-white mb-6"
@@ -52,7 +52,7 @@ export default function Auth() {
       >
         {t("Insert your credentials below")}
       </motion.h2>
-      {formState === "login" ? <LoginForm /> : <RegisterForm />}
+      {formState === "login" ? <LoginForm /> : formState === 'register' ? <RegisterForm /> : null}
     </main>
   );
 }
