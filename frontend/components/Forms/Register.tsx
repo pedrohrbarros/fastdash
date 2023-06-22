@@ -13,7 +13,6 @@ import { BiError } from 'react-icons/bi'
 import ReCAPTCHA from "react-google-recaptcha"
 import { createUser } from '../../services/createUser'
 import Loader from '../Loader'
-import { useRouter } from 'next/navigation';
 
 function RegisterForm() {
 

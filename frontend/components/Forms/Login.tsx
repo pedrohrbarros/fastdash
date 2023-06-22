@@ -8,14 +8,27 @@ import { User } from "../../entities/user";
 import { formStore } from "../../hooks/formState";
 import { easeInOut, motion } from "framer-motion";
 import { userStore } from "../../hooks/userState";
+import { loginUser } from "@/services/loginUser";
+import { useRouter } from 'next/router';
+import Loader from "../Loader";
+import { getCookie } from 'cookies-next';
+import { useEffect } from 'react'
 
 function LoginForm() {
   const { t } = useTranslation("auth");
 
-  const email = userStore((state) => state.email);
-  const password = userStore((state) => state.password);
+  useEffect(() => {
+    if (getCookie('authorization') !== undefined){
+      router.push('/home')
+    }
+  })
 
-  const { register, handleSubmit } = useForm<Partial<User>>({
+  const email = userStore((state) => state.email)
+  const password = userStore((state) => state.password)
+  const [loader, setLoader] = React.useState(false)
+  const router = useRouter();
+
+  const { register, handleSubmit } = useForm<Pick<User, 'email' | 'password'>>({
     defaultValues: {
       email: email,
       password: password,
@@ -24,7 +37,17 @@ function LoginForm() {
 
   const setFormState = formStore((state) => state.setRole);
 
-  const onSubmit: SubmitHandler<Partial<User>> = (data: Partial<User>) => {
+  const onSubmit: SubmitHandler<Pick<User, 'email' | 'password'>> = async (data: Pick<User, 'email' | 'password'>) => {
+    setLoader(true)
+    const response: string | boolean = await loginUser(data)
+    setLoader(false)
+    if (response === true) {
+      alert(t('Successfully logged in'))
+      router.push('/home');
+    }
+    else {
+      alert(t(response.toString()))
+    }
   };
 
   return (
@@ -105,11 +128,14 @@ function LoginForm() {
       >
         {t("Forgot your password?")}
       </a>
-      <input
+      {loader === false ? <input
         type="submit"
         value="Login"
         className="w-full outline-none border-0 text-white bg-gradient-to-r from-cyan-500 to-blue-500 rounded text-xl px-5 py-2.5 text-center shadow-[5px_5px_1px_5px_rgba(0,0,0,0.6)] active:shadow-[4px_4px_1px_2px_rgba(0,0,0,0.6)] active:translate-y-[2px] active:translate-x-[2px] transition-all font-p cursor-pointer"
-      />
+      /> : 
+        <div className="w-full h-auto flex flex-col justify-center items-center">
+          <Loader/>
+        </div>}
       <Button
         text={t("Sign up")}
         color="bg-gradient-to-r from-purple-500 to-pink-500"
