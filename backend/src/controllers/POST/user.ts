@@ -1,17 +1,16 @@
 import validator from 'validator'
 import { type User } from '../../models/user'
 import { PostUserRepository } from '../../repositories/POST/users'
-import { badRequest, internalError, successfull, voidRequest } from '../helpers'
+import { badRequest, badResponse, internalError, successfull, voidRequest } from '../helpers'
 import { type HTTPResponse, type HTTPRequest } from '../protocols'
 import { GetUsersRepository } from '../../repositories/GET/users'
 import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
 
 export class PostUserController {
   async register (httpRequest?: HTTPRequest<User>): Promise<HTTPResponse<string>> {
     try {
       if (httpRequest?.headers?.access !== process.env.ACCESS_TOKEN) {
-        console.log(httpRequest?.headers)
-        console.log(process.env.ACCESS_TOKEN)
         return badRequest('Not authorized')
       }
       if (httpRequest?.body === undefined) {
@@ -59,6 +58,34 @@ export class PostUserController {
       }
     } catch (error) {
       return internalError('REGISTER USER FAILED INTERNAL ERROR')
+    }
+  }
+
+  async login (httpRequest?: HTTPRequest<Pick<User, 'email' | 'password'>>): Promise<HTTPResponse<string>> {
+    try {
+      if (httpRequest?.headers?.access !== process.env.ACCESS_TOKEN) {
+        return badRequest('Not authorized')
+      }
+      if (httpRequest?.body?.email === undefined && httpRequest?.body?.password === undefined) {
+        return badRequest('Please provida a valid e-mail adress and password')
+      } else {
+        const users: Array<Pick<User, 'id' | 'email' | 'password'>> = await new GetUsersRepository().getUsersByEmail(httpRequest?.body?.email)
+        if (users.length > 1) {
+          return badResponse('More than one user was found')
+        } else if (users.length === 0) {
+          return badRequest('No users found with this e-mail adress')
+        } else {
+          const verifyPass: boolean = await bcrypt.compare(httpRequest?.body?.password, users[0].password)
+          if (!verifyPass) {
+            return badRequest('Wrong password')
+          } else {
+            const token: string = jwt.sign({ id: users[0].id }, process.env.JWT_PASSWORD ?? '', { expiresIn: '8h' })
+            return successfull(token)
+          }
+        }
+      }
+    } catch (error) {
+      return internalError('LOGIN USER FAILED INTERNAL ERROR')
     }
   }
 }

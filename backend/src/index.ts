@@ -24,13 +24,6 @@ const main = async (): Promise<void> => {
     res.status(statusCode).send(body)
   })
 
-  app.get('/login', async (req: Request, res: Response) => {
-    const { statusCode, body } = await new GetUserController().login({
-      body: req.body
-    })
-    res.status(statusCode).send(body)
-  })
-
   app.get('/profile', async (req: Request, res: Response) => {
     const { statusCode, body } = await new GetUserController().getProfile({
       headers: req.headers
@@ -40,6 +33,14 @@ const main = async (): Promise<void> => {
 
   app.post('/user', async (req: Request, res: Response) => {
     const { statusCode, body } = await new PostUserController().register({
+      headers: req.headers,
+      body: req.body
+    })
+    res.status(statusCode).send(body)
+  })
+
+  app.post('/login', async (req: Request, res: Response) => {
+    const { statusCode, body } = await new PostUserController().login({
       headers: req.headers,
       body: req.body
     })
