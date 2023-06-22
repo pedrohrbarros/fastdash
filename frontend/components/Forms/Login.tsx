@@ -50,7 +50,7 @@ function LoginForm() {
         setLoader(false)
         if (response === true) {
           alert(t('Successfully logged in'))
-          router.push('/home');
+          router.push('/dashboard/home');
         }
         else {
           alert(t(response.toString()))

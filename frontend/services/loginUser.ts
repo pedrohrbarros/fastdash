@@ -1,11 +1,11 @@
-import { authAPI } from "@/api/axios";
+import { api } from "@/api/axios";
 import { User } from "@/entities/user";
 import axios, { AxiosResponse } from "axios";
 import { setCookie } from 'cookies-next';
 
 export const loginUser = async (params: Pick<User, 'email' | 'password'>):Promise<boolean | string> => {
   try {
-    const response: AxiosResponse<any, any> = await authAPI.post('login/', {
+    const response: AxiosResponse<any, any> = await api.post('login/', {
       email: params.email,
       password: params.password
     })

@@ -1,3 +1,3 @@
 export enum POSTUSERPROPERTIES {
-  REGISTER = 'firstName, lastName, email, password, phone'
+  REGISTER = "firstname, lastName, email, password, phone",
 }
