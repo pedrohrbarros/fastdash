@@ -1,7 +1,5 @@
 import React from "react";
 import Button from "../Button";
-import { AiOutlineGoogle, AiFillTwitterCircle } from "react-icons/ai";
-import { BsFacebook } from "react-icons/bs";
 import { useTranslation } from "next-i18next";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { User } from "../../entities/user";
@@ -11,22 +9,24 @@ import { userStore } from "../../hooks/userState";
 import { loginUser } from "@/services/loginUser";
 import { useRouter } from 'next/router';
 import Loader from "../Loader";
-import { getCookie } from 'cookies-next';
+import { hasCookie } from 'cookies-next';
 import { useEffect } from 'react'
+import ReCAPTCHA from "react-google-recaptcha"
 
 function LoginForm() {
   const { t } = useTranslation("auth");
+  const router = useRouter();
+  const recaptcha = React.useRef<any>()
 
   useEffect(() => {
-    if (getCookie('authorization') !== undefined){
-      router.push('/home')
+    if (hasCookie('authorization') === true){
+      router.push('/dashboard/home')
     }
   })
 
   const email = userStore((state) => state.email)
   const password = userStore((state) => state.password)
   const [loader, setLoader] = React.useState(false)
-  const router = useRouter();
 
   const { register, handleSubmit } = useForm<Pick<User, 'email' | 'password'>>({
     defaultValues: {
@@ -38,15 +38,24 @@ function LoginForm() {
   const setFormState = formStore((state) => state.setRole);
 
   const onSubmit: SubmitHandler<Pick<User, 'email' | 'password'>> = async (data: Pick<User, 'email' | 'password'>) => {
-    setLoader(true)
-    const response: string | boolean = await loginUser(data)
-    setLoader(false)
-    if (response === true) {
-      alert(t('Successfully logged in'))
-      router.push('/home');
-    }
-    else {
-      alert(t(response.toString()))
+    if(recaptcha?.current !== undefined && recaptcha?.current !== null) {
+      const captchaValue = recaptcha.current.getValue()
+      if(!captchaValue) {
+        alert(t('Please fill the captcha'))
+      }
+      else{
+        recaptcha.current.reset()
+        setLoader(true)
+        const response: string | boolean = await loginUser(data)
+        setLoader(false)
+        if (response === true) {
+          alert(t('Successfully logged in'))
+          router.push('/home');
+        }
+        else {
+          alert(t(response.toString()))
+        }
+      }
     }
   };
 
@@ -120,14 +129,7 @@ function LoginForm() {
           {t("Password")}
         </label>
       </motion.div>
-      <a
-        className="text-white font-a text-xl"
-        href="/forgot-password"
-        target="_blank"
-        rel="noopener"
-      >
-        {t("Forgot your password?")}
-      </a>
+      <ReCAPTCHA size='compact' ref={recaptcha} sitekey = {process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ''}/>
       {loader === false ? <input
         type="submit"
         value="Login"
@@ -141,17 +143,6 @@ function LoginForm() {
         color="bg-gradient-to-r from-purple-500 to-pink-500"
         onClick={() => setFormState("register")}
       />
-      <div className="w-full flex flex-row flex-wrap justify-center items-center gap-8">
-        <button className="rounded-[50%] w-auto h-auto flex justify-center items-center bg-[#405a91] p-2">
-          <BsFacebook size={30} color="#FFFFFF" />
-        </button>
-        <button className="rounded-[50%] w-auto h-auto flex justify-center items-center p-2 bg-[#e94235]">
-          <AiOutlineGoogle size={30} color="#FFFFFF" />
-        </button>
-        <button className="rounded-[50%] w-auto h-auto flex justify-center items-center p-2 bg-[#50a4f0]">
-          <AiFillTwitterCircle size={30} color="#FFFFFF" />
-        </button>
-      </div>
     </form>
   );
 }
