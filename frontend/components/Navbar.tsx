@@ -20,6 +20,8 @@ function Navbar() {
     const fetchData = async () => {
       const data = await getProfile();
       if (data === false) {
+        alert(t('Profile not found, please log-in again or register'))
+        router.push('/')
       } else if (typeof data !== "boolean") {
         setFirstName(data.firstname);
         setLoader(false);
@@ -29,10 +31,10 @@ function Navbar() {
   }, []);
 
   return (
-    <nav className="bg-white w-full h-14 flex flex-row justify-end items-center px-6 gap-4 flex-wrap">
-      <h1 className="font-h1 text-black">FastDash</h1>
+    <nav className="bg-white w-full h-auto flex flex-row justify-end items-center px-6 gap-4 flex-wrap py-5 max-[430px]:w-[350px]">
+      <h1 className="font-h1 text-black text-2xl max-[300px]:text-xl">FastDash</h1>
       {loader === false ? (
-        <h2>{t("Welcome") + " " + firstname}</h2>
+        <h2 className="font-h2 text-black max-[300px]:text-sm">{t("Welcome") + " " + firstname}</h2>
       ) : (
         <Loader />
       )}

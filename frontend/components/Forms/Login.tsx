@@ -22,7 +22,7 @@ function LoginForm() {
     if (hasCookie('authorization') === true){
       router.push('/dashboard/home')
     }
-  })
+  }, [])
 
   const email = userStore((state) => state.email)
   const password = userStore((state) => state.password)

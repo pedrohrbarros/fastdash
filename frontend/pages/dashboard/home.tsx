@@ -18,7 +18,7 @@ function Home() {
       <aside>
         <Sidebar/>
       </aside>
-      <header>
+      <header className="w-full h-auto flex flex-row justify-end items-center">
         <Navbar/>
       </header>
       <main>
