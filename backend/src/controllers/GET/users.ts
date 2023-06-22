@@ -29,7 +29,7 @@ export class GetUserController {
         return badRequest('Not authorized')
       }
       if (httpRequest?.body?.email === undefined && httpRequest?.body?.password === undefined) {
-        return badRequest('Please provida a valid e-mail adress and password')
+        return badRequest('Please provide a valid e-mail adress and password')
       } else {
         const users: Array<Pick<User, 'id' | 'email' | 'password'>> = await new GetUsersRepository().getUsersByEmail(httpRequest?.body?.email)
         if (users.length > 1) {
