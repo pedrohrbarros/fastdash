@@ -12,6 +12,9 @@ import Loader from "../Loader";
 import { hasCookie } from 'cookies-next';
 import { useEffect } from 'react'
 import ReCAPTCHA from "react-google-recaptcha"
+import { zodResolver } from "@hookform/resolvers/zod";
+import { loginUserSchema } from "@/validators/loginUserValidator";
+import { BiError } from "react-icons/bi";
 
 function LoginForm() {
   const { t } = useTranslation("auth");
@@ -25,19 +28,24 @@ function LoginForm() {
   }, [])
 
   const email = userStore((state) => state.email)
+  const setEmail = userStore((state) => state.setEmail)
   const password = userStore((state) => state.password)
+  const setPassword = userStore((state) => state.setPassword)
   const [loader, setLoader] = React.useState(false)
 
-  const { register, handleSubmit } = useForm<Pick<User, 'email' | 'password'>>({
+  const { register, handleSubmit, formState: {errors, isSubmitting} } = useForm<Pick<User, 'email' | 'password'>>({
     defaultValues: {
       email: email,
       password: password,
     },
+    resolver: zodResolver(loginUserSchema)
   });
 
   const setFormState = formStore((state) => state.setRole);
 
   const onSubmit: SubmitHandler<Pick<User, 'email' | 'password'>> = async (data: Pick<User, 'email' | 'password'>) => {
+    setEmail('')
+    setPassword('')
     if(recaptcha?.current !== undefined && recaptcha?.current !== null) {
       const captchaValue = recaptcha.current.getValue()
       if(!captchaValue) {
@@ -87,6 +95,7 @@ function LoginForm() {
           type="email"
           id="email"
           placeholder={t("Email") || "Email"}
+          disabled={isSubmitting}
           required
           className="peer w-full p-4 rounded bg-[#1a1d1f] text-xl outline-none text-white placeholder-transparent"
           {...register("email")}
@@ -97,6 +106,12 @@ function LoginForm() {
         >
           {t("Email")}
         </label>
+        {errors.email?.message && (
+          <p className="font-p text-xl text-red-500 font-bold flex flex-row justify-start items-center flex-wrap gap-2">
+            <BiError size="25px" />
+            {t(errors.email?.message)}
+          </p>
+        )}
       </motion.div>
       <motion.div
         className="w-full h-auto flex flex-col justify-center items-start gap-2 relative"
@@ -118,6 +133,7 @@ function LoginForm() {
           type="password"
           id="password"
           placeholder={t("Password") || "Password"}
+          disabled={isSubmitting}
           required
           className="peer w-full p-4 rounded bg-[#1a1d1f] text-xl outline-none text-white placeholder-transparent"
           {...register("password")}
@@ -128,6 +144,12 @@ function LoginForm() {
         >
           {t("Password")}
         </label>
+        {errors.password?.message && (
+          <p className="font-p text-xl text-red-500 font-bold flex flex-row justify-start items-center flex-wrap gap-2">
+            <BiError size="25px" />
+            {t(errors.password?.message)}
+          </p>
+        )}
       </motion.div>
       <ReCAPTCHA size='compact' ref={recaptcha} sitekey = {process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ''}/>
       {loader === false ? <input

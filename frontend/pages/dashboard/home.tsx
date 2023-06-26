@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import { hasCookie } from 'cookies-next'
 import Navbar from '@/components/Navbar';
 import Sidebar from '@/components/Sidebar';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 function Home() {
   const router = useRouter();
@@ -26,6 +27,15 @@ function Home() {
       </main>
     </body>
   )
+}
+
+export async function getStaticProps({ locale }: any) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ["common", "navbar", "home"])),
+      // Will be passed to the page component as props
+    },
+  };
 }
 
 export default Home

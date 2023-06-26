@@ -1,4 +1,4 @@
-import { IncomingHttpHeaders } from "http"
+import { type IncomingHttpHeaders } from 'http'
 
 // Global protocols
 export interface HTTPResponse<T> {
