@@ -1,10 +1,10 @@
 import { type User } from '../../models/user'
-import { UpdateUserRepository } from '../../repositories/PATCH/users'
+import { UpdateUserRepository } from '../../repositories/UPDATE/user'
 import { getIDFromToken } from '../../tools/getUserFromToken'
 import { badRequest, internalError, successfull, voidRequest } from '../helpers'
 import { type HTTPRequest, type HTTPResponse } from '../protocols'
 
-export class UpdateUserController {
+export class PatchUserController {
   async patch (httpRequest?: HTTPRequest<Partial<User>>): Promise<HTTPResponse<string>> {
     try {
       if (httpRequest?.body === undefined || httpRequest?.body === null) {
