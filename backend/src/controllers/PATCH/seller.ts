@@ -1,5 +1,6 @@
 import { type Seller } from '../../models/seller'
 import { CreateLogRepository } from '../../repositories/CREATE/log'
+import { SelectSellerRepository } from '../../repositories/SELECT/seller'
 import { UpdateSellerRepository } from '../../repositories/UPDATE/seller'
 import { getIDFromToken } from '../../tools/getUserFromToken'
 import { badRequest, headersAuthError, internalError, successfull, voidRequest } from '../helpers'
@@ -15,6 +16,10 @@ export class PatchSellerController {
       } else if (httpRequest.params === undefined) {
         return badRequest('No seller was given to update')
       } else {
+        const seller: Seller = await new SelectSellerRepository().selectOne(+httpRequest.params.id)
+        if (seller === undefined || seller === null) {
+          return badRequest('Product not found')
+        }
         await new UpdateSellerRepository().update(+httpRequest.params.id, httpRequest.body)
         const id = await getIDFromToken(httpRequest.headers.authorization)
         await new CreateLogRepository().create({

@@ -1,5 +1,6 @@
 import { type Sale } from '../../models/sale'
 import { CreateLogRepository } from '../../repositories/CREATE/log'
+import { SelectSaleRepository } from '../../repositories/SELECT/sale'
 import { UpdateSaleRepository } from '../../repositories/UPDATE/sale'
 import { getIDFromToken } from '../../tools/getUserFromToken'
 import { badRequest, headersAuthError, internalError, successfull, voidRequest } from '../helpers'
@@ -15,6 +16,10 @@ export class PatchSaleController {
       } else if (httpRequest.params === undefined) {
         return badRequest('No sale was given to update')
       } else {
+        const sale: Sale = await new SelectSaleRepository().selectOne(+httpRequest.params.id)
+        if (sale === undefined || sale === null) {
+          return badRequest('Sale not found')
+        }
         await new UpdateSaleRepository().update(+httpRequest.params.id, httpRequest.body)
         const id = await getIDFromToken(httpRequest.headers.authorization)
         await new CreateLogRepository().create({

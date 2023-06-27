@@ -1,5 +1,6 @@
 import { type Product } from '../../models/product'
 import { CreateLogRepository } from '../../repositories/CREATE/log'
+import { SelectProductRepository } from '../../repositories/SELECT/product'
 import { UpdateProductRepository } from '../../repositories/UPDATE/product'
 import { getIDFromToken } from '../../tools/getUserFromToken'
 import { badRequest, headersAuthError, internalError, successfull, voidRequest } from '../helpers'
@@ -15,6 +16,10 @@ export class PatchProductController {
       } else if (httpRequest.params === undefined) {
         return badRequest('No product was given to update')
       } else {
+        const product: Product = await new SelectProductRepository().selectOne(+httpRequest.params.id)
+        if (product === undefined || product === null) {
+          return badRequest('Product not found')
+        }
         await new UpdateProductRepository().update(+httpRequest.params.id, httpRequest.body)
         const id = await getIDFromToken(httpRequest.headers.authorization)
         await new CreateLogRepository().create({

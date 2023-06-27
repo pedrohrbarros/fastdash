@@ -143,23 +143,26 @@ const main = async (): Promise<void> => {
     res.status(statusCode).send(body)
   })
 
-  app.delete('/product', async (req: Request, res: Response) => {
+  app.delete('/product/:id', async (req: Request, res: Response) => {
     const { statusCode, body } = await new DeleteProductController().delete({
-      headers: req.headers
+      headers: req.headers,
+      params: { id: +req.params.id }
     })
     res.status(statusCode).send(body)
   })
 
-  app.delete('/seller', async (req: Request, res: Response) => {
+  app.delete('/seller/:id', async (req: Request, res: Response) => {
     const { statusCode, body } = await new DeleteSellerController().delete({
-      headers: req.headers
+      headers: req.headers,
+      params: { id: +req.params.id }
     })
     res.status(statusCode).send(body)
   })
 
-  app.delete('/sale', async (req: Request, res: Response) => {
+  app.delete('/sale/:id', async (req: Request, res: Response) => {
     const { statusCode, body } = await new DeleteSaleController().delete({
-      headers: req.headers
+      headers: req.headers,
+      params: { id: +req.params.id }
     })
     res.status(statusCode).send(body)
   })
