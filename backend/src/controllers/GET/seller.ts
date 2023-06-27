@@ -10,7 +10,7 @@ export class GetSellerController {
   async getAll (httpRequest: HTTPRequest<void>): Promise<HTTPResponse<Seller[] | string>> {
     try {
       if (httpRequest.headers?.authorization === undefined) {
-        return headersAuthError('Not authorized')
+        return headersAuthError('User not authenticated')
       } else {
         const id = await getIDFromToken(httpRequest.headers.authorization)
         const user: User = await new SelectUserRepository().selectOne(id)
