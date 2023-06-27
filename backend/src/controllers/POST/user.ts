@@ -38,11 +38,7 @@ export class PostUserController {
         if (!emailIsValid) {
           return badRequest('Invalid e-mail adress')
         }
-        const searchUserWithEmail: Array<
-        Pick<User, 'id' | 'email' | 'password'>
-        > = await new SelectUserRepository().selectAllByEmail(
-          httpRequest.body.email
-        )
+        const searchUserWithEmail: Array<Pick<User, 'id' | 'email' | 'password'>> = await new SelectUserRepository().selectAllByEmail(httpRequest.body.email)
         if (searchUserWithEmail.length > 0) {
           return badRequest('User with this e-mail already exists')
         }
