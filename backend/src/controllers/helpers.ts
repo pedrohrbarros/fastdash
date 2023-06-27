@@ -37,11 +37,6 @@ export const successfull = <D>(
     body: message
   })
 
-export const noContent = (message: string): HTTPResponse<string> => ({
-  statusCode: HTTPStatusCode.NOCONTENT,
-  body: message
-})
-
 export const unauthorizedError = (message: string): HTTPResponse<string> => ({
   statusCode: HTTPStatusCode.UNAUTHORIZED,
   body: message

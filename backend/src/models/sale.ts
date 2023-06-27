@@ -1,8 +1,6 @@
-import { type Product } from './product'
-import { type Seller } from './seller'
-
 export interface Sale {
-  id: string
-  product: Product
-  seller: Seller
+  id: number
+  product_id: number
+  seller_id: number
+  sold_at: number
 }

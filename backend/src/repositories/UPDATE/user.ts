@@ -2,7 +2,7 @@ import { PostgreClient } from '../../database/postgre'
 import { type User } from '../../models/user'
 
 export class UpdateUserRepository {
-  async update (id: string, params: Partial<User>): Promise<void> {
+  async update (id: number, params: Partial<User>): Promise<void> {
     const query: string[] = []
     Object.entries(params).forEach(([key, value]) => {
       if (value !== undefined && value !== null) {

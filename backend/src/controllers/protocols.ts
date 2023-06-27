@@ -7,6 +7,7 @@ export interface HTTPResponse<T> {
 }
 
 export interface HTTPRequest<B> {
+  params?: { id: number }
   headers?: IncomingHttpHeaders
   body?: B
 }
@@ -19,6 +20,5 @@ export enum HTTPStatusCode {
   BAD_PERMISSION = 403,
   HEADERS_AUTH_ERROR = 401,
   SUCCESSFULL = 200,
-  NOCONTENT = 204,
   UNAUTHORIZED = 401
 }
