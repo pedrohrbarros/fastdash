@@ -10,7 +10,7 @@ export class UpdateSaleRepository {
       }
     })
     await PostgreClient.db.query(`
-      UPDATE products SET ${query.join(', ')} WHERE id = ${id}
+      UPDATE sales SET ${query.join(', ')} WHERE id = ${id}
     `)
   }
 }

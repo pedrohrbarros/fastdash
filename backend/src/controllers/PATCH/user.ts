@@ -3,7 +3,7 @@ import { type User } from '../../models/user'
 import { CreateLogRepository } from '../../repositories/CREATE/log'
 import { UpdateUserRepository } from '../../repositories/UPDATE/user'
 import { getIDFromToken } from '../../tools/getUserFromToken'
-import { badRequest, internalError, successfull, voidRequest } from '../helpers'
+import { badRequest, headersAuthError, internalError, successfull, voidRequest } from '../helpers'
 import { type HTTPRequest, type HTTPResponse } from '../protocols'
 import { SelectUserRepository } from '../../repositories/SELECT/user'
 import bcrypt from 'bcrypt'
@@ -17,6 +17,10 @@ export class PatchUserController {
         return badRequest('User not authenticated')
       } else {
         const id = await getIDFromToken(httpRequest.headers.authorization)
+        const user: User = await new SelectUserRepository().selectOne(id)
+        if (user === undefined || user === null) {
+          return headersAuthError('User with this token not found')
+        }
         if (httpRequest.body.email !== undefined) {
           const emailIsValid: boolean = validator.isEmail(httpRequest.body.email)
           if (!emailIsValid) {

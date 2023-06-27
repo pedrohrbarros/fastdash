@@ -10,6 +10,11 @@ export class GetUserController {
       if (httpRequest.headers?.authorization === undefined) {
         return headersAuthError('User not authenticated')
       } else {
+        const id = await getIDFromToken(httpRequest.headers.authorization)
+        const user: User = await new SelectUserRepository().selectOne(id)
+        if (user === undefined || user === null) {
+          return headersAuthError('User with this token not found')
+        }
         const users: User[] = await new SelectUserRepository().selectAll()
         return successfull(users)
       }

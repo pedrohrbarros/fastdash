@@ -1,6 +1,8 @@
 import { type Seller } from '../../models/seller'
+import { type User } from '../../models/user'
 import { CreateLogRepository } from '../../repositories/CREATE/log'
 import { SelectSellerRepository } from '../../repositories/SELECT/seller'
+import { SelectUserRepository } from '../../repositories/SELECT/user'
 import { UpdateSellerRepository } from '../../repositories/UPDATE/seller'
 import { getIDFromToken } from '../../tools/getUserFromToken'
 import { badRequest, headersAuthError, internalError, successfull, voidRequest } from '../helpers'
@@ -16,12 +18,16 @@ export class PatchSellerController {
       } else if (httpRequest.params === undefined) {
         return badRequest('No seller was given to update')
       } else {
+        const id = await getIDFromToken(httpRequest.headers.authorization)
+        const user: User = await new SelectUserRepository().selectOne(id)
+        if (user === undefined || user === null) {
+          return headersAuthError('User with this token not found')
+        }
         const seller: Seller = await new SelectSellerRepository().selectOne(+httpRequest.params.id)
         if (seller === undefined || seller === null) {
           return badRequest('Product not found')
         }
         await new UpdateSellerRepository().update(+httpRequest.params.id, httpRequest.body)
-        const id = await getIDFromToken(httpRequest.headers.authorization)
         await new CreateLogRepository().create({
           action: 'update seller',
           user_id: id

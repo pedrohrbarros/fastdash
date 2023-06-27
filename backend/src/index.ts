@@ -89,7 +89,7 @@ const main = async (): Promise<void> => {
     res.status(statusCode).send(body)
   })
 
-  app.get('/log', async (req: Request, res: Response) => {
+  app.get('/logs', async (req: Request, res: Response) => {
     const { statusCode, body } = await new GetLogController().getAll({
       headers: req.headers
     })
