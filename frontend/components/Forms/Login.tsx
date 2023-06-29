@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useLayoutEffect } from "react";
 import Button from "../Button";
 import { useTranslation } from "next-i18next";
 import { useForm, SubmitHandler } from "react-hook-form";
@@ -6,7 +6,7 @@ import { User } from "../../entities/user";
 import { formStore } from "../../hooks/formState";
 import { easeInOut, motion } from "framer-motion";
 import { userStore } from "../../hooks/userState";
-import { loginUser } from "@/services/loginUser";
+import { loginUser } from "@/services/user/login";
 import { useRouter } from 'next/router';
 import Loader from "../Loader";
 import { hasCookie } from 'cookies-next';
@@ -20,13 +20,7 @@ function LoginForm() {
   const { t } = useTranslation("auth");
   const router = useRouter();
   const recaptcha = React.useRef<any>()
-
-  useEffect(() => {
-    if (hasCookie('authorization') === true){
-      router.push('/dashboard/home')
-    }
-  }, [])
-
+  
   const email = userStore((state) => state.email)
   const setEmail = userStore((state) => state.setEmail)
   const password = userStore((state) => state.password)
@@ -44,8 +38,8 @@ function LoginForm() {
   const setFormState = formStore((state) => state.setRole);
 
   const onSubmit: SubmitHandler<Pick<User, 'email' | 'password'>> = async (data: Pick<User, 'email' | 'password'>) => {
-    setEmail('')
-    setPassword('')
+    const apiWindow = window.open(process.env.NEXT_PUBLIC_API_URL)
+    apiWindow?.close()
     if(recaptcha?.current !== undefined && recaptcha?.current !== null) {
       const captchaValue = recaptcha.current.getValue()
       if(!captchaValue) {
@@ -55,12 +49,16 @@ function LoginForm() {
         recaptcha.current.reset()
         setLoader(true)
         const response: string | boolean = await loginUser(data)
-        setLoader(false)
         if (response === true) {
-          alert(t('Successfully logged in'))
-          router.push('/dashboard/home');
+          setEmail('')
+          setPassword('')
+          setLoader(false)
+          router.push('/dashboard/home')
         }
         else {
+          setEmail('')
+          setPassword('')
+          setLoader(false)
           alert(t(response.toString()))
         }
       }

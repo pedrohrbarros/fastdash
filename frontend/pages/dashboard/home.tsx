@@ -15,15 +15,14 @@ function Home() {
   })
 
   return (
-    <body className="w-full h-full min-h-screen bg-gray-100">
+    <body className="w-full h-full min-h-screen bg-gray-100 flex flex-row flex-nowrap">
       <aside>
         <Sidebar/>
       </aside>
-      <header className="w-full h-auto flex flex-row justify-end items-center">
-        <Navbar/>
-      </header>
-      <main>
-
+      <main className="w-full h-full">
+        <header className="w-full h-auto flex flex-row justify-end items-center">
+          <Navbar/>
+        </header>
       </main>
     </body>
   )

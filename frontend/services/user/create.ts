@@ -1,5 +1,5 @@
-import { User } from "../entities/user";
-import { api } from "../api/axios";
+import { User } from "../../entities/user";
+import { api } from "../../api/axios";
 import axios, { AxiosResponse } from "axios";
 
 export const createUser = async (
@@ -8,7 +8,7 @@ export const createUser = async (
   try {
     const response: AxiosResponse<any, any> = await api.post("user/", {
       firstname: params.firstname,
-      lastName: params.lastName,
+      lastname: params.lastname,
       email: params.email,
       password: params.password,
       phone: params.phone,

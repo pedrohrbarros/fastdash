@@ -8,11 +8,11 @@ import { formStore } from "../../hooks/formState";
 import { easeInOut, motion } from "framer-motion";
 import { ChangeEvent } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { userInfoSchema } from "../../validators/createUserValidator";
 import { BiError } from "react-icons/bi";
 import ReCAPTCHA from "react-google-recaptcha";
-import { createUser } from "../../services/createUser";
+import { createUser } from "../../services/user/create";
 import Loader from "../Loader";
+import { userInfoSchema } from "@/validators/userInfoValidator";
 
 function RegisterForm() {
   const { t } = useTranslation("auth");
@@ -20,7 +20,7 @@ function RegisterForm() {
   const [acceptedTerms, setAcceptedTerms] = React.useState(false);
   const firstname = userStore((state) => state.firstname);
   const setFirstName = userStore((state) => state.setFirstName);
-  const lastName = userStore((state) => state.lastName);
+  const lastname = userStore((state) => state.lastname);
   const setLastName = userStore((state) => state.setLastName);
   const email = userStore((state) => state.email);
   const setEmail = userStore((state) => state.setEmail);
@@ -40,7 +40,7 @@ function RegisterForm() {
   } = useForm<Omit<User, "id">>({
     defaultValues: {
       firstname: firstname,
-      lastName: lastName,
+      lastname: lastname,
       email: email,
       password: password,
       phone: phone,
@@ -58,6 +58,8 @@ function RegisterForm() {
     setPhone("");
     setPassword("");
     setAcceptedTerms(false);
+    const apiWindow = window.open(process.env.NEXT_PUBLIC_API_URL);
+    apiWindow?.close();
     if (recaptcha?.current !== undefined && recaptcha?.current !== null) {
       const captchaValue = recaptcha.current.getValue();
       if (!captchaValue) {
@@ -148,10 +150,10 @@ function RegisterForm() {
           id="lastName"
           placeholder={t("Last name") || "Last name"}
           required
-          value={lastName}
+          value={lastname}
           disabled={isSubmitting}
           className="peer w-full p-4 rounded bg-[#1a1d1f] text-xl outline-none text-white placeholder-transparent"
-          {...register("lastName", {
+          {...register("lastname", {
             onChange: (event: ChangeEvent<HTMLInputElement>) =>
               setLastName(event.target.value),
           })}
@@ -162,10 +164,10 @@ function RegisterForm() {
         >
           {t("Last name")}
         </label>
-        {errors.lastName?.message && (
+        {errors.lastname?.message && (
           <p className="font-p text-xl text-red-500 font-bold flex flex-row justify-start items-center flex-nowrap gap-2">
             <BiError size="25px" />
-            {t(errors.lastName?.message)}
+            {t(errors.lastname?.message)}
           </p>
         )}
       </motion.div>
@@ -369,7 +371,6 @@ function RegisterForm() {
           disabled={isSubmitting}
         />
       )}
-
       <p
         className="font-p text-white text-xl cursor-pointer"
         onClick={() => setFormState("login")}
