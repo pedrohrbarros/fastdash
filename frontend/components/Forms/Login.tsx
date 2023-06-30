@@ -46,13 +46,12 @@ function LoginForm() {
         alert(t('Please fill the captcha'))
       }
       else{
+        setEmail('')
+        setPassword('')
         recaptcha.current.reset()
         setLoader(true)
         const response: string | boolean = await loginUser(data)
         if (response === true) {
-          setEmail('')
-          setPassword('')
-          setLoader(false)
           router.push('/dashboard/home')
         }
         else {

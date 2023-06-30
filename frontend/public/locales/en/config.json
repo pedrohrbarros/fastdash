@@ -3,5 +3,11 @@
   "User updated successfully":"User updated successfully!",
   "Save":"Save",
   "First Name":"First Name",
-  "Last Name":"Last Name"
+  "Last Name":"Last Name",
+  "E-mail Adress":"E-mail Adress",
+  "Password":"Password",
+  "Phone Number":"Phone Number",
+  "Exit":"Exit",
+  "Too weak, please add more symbols, numbers or uppercase letters":"Too weak, please add more symbols, numbers or uppercase letters",
+  "Strong":"Strong"
 }

@@ -3,5 +3,11 @@
   "User updated successfully":"Usuário atualizado com sucesso!",
   "Save":"Salvar",
   "First Name":"Primeiro Nome",
-  "Last Name":"Último Nome"
+  "Last Name":"Último Nome",
+  "E-mail Adress":"Endereço de e-mail",
+  "Password":"Senha",
+  "Phone Number":"Número de telefone",
+  "Exit":"Sair",
+  "Too weak, please add more symbols, numbers or uppercase letters":"Muito fraco, por gentileza, adicione mais símbolos, números ou letras maiúsculas",
+  "Strong":"Forte"
 }
