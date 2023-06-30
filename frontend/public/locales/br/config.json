@@ -9,5 +9,10 @@
   "Phone Number":"Número de telefone",
   "Exit":"Sair",
   "Too weak, please add more symbols, numbers or uppercase letters":"Muito fraco, por gentileza, adicione mais símbolos, números ou letras maiúsculas",
-  "Strong":"Forte"
+  "Strong":"Forte",
+  "No property to update":"Sem propriedades para atualizar",
+  "User not authenticated":"Usuário não autenticado",
+  "Invalid e-mail adress":"Endereço de e-mail inválido",
+  "User with this e-mail already exists":"Usuário com este endereço de e-mail já existe",
+  "Invalid phone number":"Número de telefone inválido"
 }

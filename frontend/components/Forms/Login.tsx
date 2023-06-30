@@ -39,7 +39,7 @@ function LoginForm() {
 
   const onSubmit: SubmitHandler<Pick<User, 'email' | 'password'>> = async (data: Pick<User, 'email' | 'password'>) => {
     const apiWindow = window.open(process.env.NEXT_PUBLIC_API_URL)
-    apiWindow?.close()
+    setTimeout(() => apiWindow?.close(), 500)
     if(recaptcha?.current !== undefined && recaptcha?.current !== null) {
       const captchaValue = recaptcha.current.getValue()
       if(!captchaValue) {
@@ -104,7 +104,7 @@ function LoginForm() {
           {t("Email")}
         </label>
         {errors.email?.message && (
-          <p className="font-p text-xl text-red-500 font-bold flex flex-row justify-start items-center flex-wrap gap-2">
+          <p className="font-p text-xl text-red-500 font-bold flex flex-row justify-start items-center flex-nowrap gap-2">
             <BiError size="25px" />
             {t(errors.email?.message)}
           </p>
@@ -142,7 +142,7 @@ function LoginForm() {
           {t("Password")}
         </label>
         {errors.password?.message && (
-          <p className="font-p text-xl text-red-500 font-bold flex flex-row justify-start items-center flex-wrap gap-2">
+          <p className="font-p text-xl text-red-500 font-bold flex flex-row justify-start items-center flex-nowrap gap-2">
             <BiError size="25px" />
             {t(errors.password?.message)}
           </p>

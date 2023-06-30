@@ -9,5 +9,10 @@
   "Phone Number":"Phone Number",
   "Exit":"Exit",
   "Too weak, please add more symbols, numbers or uppercase letters":"Too weak, please add more symbols, numbers or uppercase letters",
-  "Strong":"Strong"
+  "Strong":"Strong",
+  "No property to update":"No property to update",
+  "User not authenticated":"User not authenticated",
+  "Invalid e-mail adress":"Invalid e-mail adress",
+  "User with this e-mail already exists":"User with this e-mail already exists",
+  "Invalid phone number":"Invalid phone number"
 }

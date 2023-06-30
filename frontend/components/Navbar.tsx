@@ -4,7 +4,6 @@ import { getProfile } from "@/services/user/getProfile";
 import { useEffect } from "react";
 import { userStore } from "@/hooks/userState";
 import Loader from "./Loader";
-import { useRouter } from "next/router";
 import Link from "next/link";
 import { AiOutlineUser, AiOutlineShoppingCart } from "react-icons/ai";
 import { BsGear } from "react-icons/bs";
@@ -16,7 +15,6 @@ function Navbar() {
   const firstname = userStore((state) => state.firstname);
   const setFirstName = userStore((state) => state.setFirstName);
   const [loader, setLoader] = useState(false);
-  const router = useRouter();
 
   useEffect(() => {
     setLoader(true);
@@ -27,7 +25,7 @@ function Navbar() {
         setLoader(false);
       } else {
         alert(t("Profile not found, please log-in again or register"));
-        router.push("/");
+        window.location.replace('/')
       }
     };
     fetchData();

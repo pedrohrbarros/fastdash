@@ -3,34 +3,19 @@ import Sidebar from "@/components/Sidebar";
 import { userStore } from "@/hooks/userState";
 import { useTranslation } from "next-i18next";
 import { getProfile } from "@/services/user/getProfile";
-import { ChangeEvent, useEffect, useState } from "react";
-import Loader from "@/components/Loader";
+import { useEffect, useState } from "react";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { AiOutlineEdit, AiOutlineCheck } from "react-icons/ai";
-import { CgNametag } from "react-icons/cg";
-import { motion } from "framer-motion";
-import { updateUser } from "@/services/user/update";
-import { User } from "@/entities/user";
-import { BiError } from "react-icons/bi";
 import Update from "@/components/Forms/Update";
 
 function Config() {
   const { t } = useTranslation("config");
 
-  const [loader, setLoader] = useState(false);
   const setFirstName = userStore((state) => state.setFirstName)
-  const firstname = userStore((state) => state.firstname);
   const setLastName = userStore((state) => state.setLastName);
-  const lastname = userStore((state) => state.lastname);
   const setEmail = userStore((state) => state.setEmail);
-  const email = userStore((state) => state.email);
-  const setPassword = userStore((state) => state.setPassword);
-  const password = userStore((state) => state.password);
   const setPhone = userStore((state) => state.setPhone);
-  const phone = userStore((state) => state.phone);
 
   useEffect(() => {
-    setLoader(true);
     const fetchData = async () => {
       const data = await getProfile();
       if (data === false) {
@@ -40,7 +25,6 @@ function Config() {
         setLastName(data.lastname);
         setEmail(data.email);
         setPhone(data.phone ?? t("No phone registered"));
-        setLoader(false);
       }
     };
     fetchData();
