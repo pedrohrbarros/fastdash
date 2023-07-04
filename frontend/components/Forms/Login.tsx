@@ -56,7 +56,7 @@ function LoginForm() {
       id="login"
       name="login"
       autoComplete="on"
-      className=" w-[45%] min-w-[300px] h-full flex flex-col justify-center items-start gap-10"
+      className="w-[45%] min-w-[300px] h-full flex flex-col justify-center items-start gap-10"
       onSubmit={handleSubmit(onSubmit)}
     >
       <motion.div

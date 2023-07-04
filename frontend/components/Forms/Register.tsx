@@ -49,7 +49,6 @@ function RegisterForm() {
   const onSubmit: SubmitHandler<Omit<User, "id">> = async (
     data: Omit<User, "id">
   ) => {
-    console.log('teste')
     const apiWindow = window.open(process.env.NEXT_PUBLIC_API_URL)
     setTimeout(() => apiWindow?.close(), 500)
     setLoader(true);
@@ -184,6 +183,7 @@ function RegisterForm() {
           disabled={isSubmitting}
           placeholder={t("Phone number") || "Phone number"}
           value={phone}
+          required
           className="peer w-full p-4 rounded bg-[#1a1d1f] text-xl outline-none text-white placeholder-transparent"
           {...register("phone", {
             onChange: (event: ChangeEvent<HTMLInputElement>) =>
