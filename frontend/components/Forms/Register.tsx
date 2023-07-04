@@ -1,18 +1,16 @@
-import React from "react";
+import React, { ChangeEvent } from "react";
 import { useTranslation } from "next-i18next";
 import { userStore } from "../../hooks/userState";
 import { passwordValidator } from "../../helpers/passwordValidator";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { User } from "../../entities/user";
 import { formStore } from "../../hooks/formState";
-import { easeInOut, motion } from "framer-motion";
-import { ChangeEvent } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { BiError } from "react-icons/bi";
-import ReCAPTCHA from "react-google-recaptcha";
 import { createUser } from "../../services/user/create";
 import Loader from "../Loader";
 import { userInfoSchema } from "@/validators/userInfoValidator";
+import { easeInOut, motion } from "framer-motion";
+import { BiError } from "react-icons/bi";
 
 function RegisterForm() {
   const { t } = useTranslation("auth");
@@ -31,8 +29,7 @@ function RegisterForm() {
 
   const [loader, setLoader] = React.useState(false);
   const passwordScore = passwordValidator(password);
-  const recaptcha = React.useRef<any>();
-
+  
   const {
     register,
     handleSubmit,
@@ -52,30 +49,23 @@ function RegisterForm() {
   const onSubmit: SubmitHandler<Omit<User, "id">> = async (
     data: Omit<User, "id">
   ) => {
-    setFirstName("");
-    setLastName("");
-    setEmail("");
-    setPhone("");
-    setPassword("");
-    setAcceptedTerms(false);
-    const apiWindow = window.open(process.env.NEXT_PUBLIC_API_URL);
-    apiWindow?.close();
-    if (recaptcha?.current !== undefined && recaptcha?.current !== null) {
-      const captchaValue = recaptcha.current.getValue();
-      if (!captchaValue) {
-        alert(t("Please fill the captcha"));
-      } else {
-        recaptcha.current.reset();
-        setLoader(true);
-        const response: boolean | string = await createUser(data);
-        setLoader(false);
-        if (response === true) {
-          alert(t("Successfully registered"));
-          setFormState("login");
-        } else {
-          alert(t(response.toString()));
-        }
-      }
+    console.log('teste')
+    const apiWindow = window.open(process.env.NEXT_PUBLIC_API_URL)
+    setTimeout(() => apiWindow?.close(), 500)
+    setLoader(true);
+    const response: boolean | string = await createUser(data);
+    setLoader(false);
+    if (response === true) {
+      alert(t("Successfully registered"));
+      setFirstName("");
+      setLastName("");
+      setEmail("");
+      setPhone("");
+      setPassword("");
+      setAcceptedTerms(false);
+      setFormState("login");
+    } else {
+      alert(t(response.toString()));
     }
   };
 
@@ -84,7 +74,7 @@ function RegisterForm() {
       id="register"
       name="register"
       autoComplete="on"
-      className=" w-[45%] min-w-[250px] h-full flex flex-col justify-center items-start gap-10 max-[405px]:py-5"
+      className="w-[45%] min-w-[250px] h-full flex flex-col justify-center items-start gap-10 max-[405px]:py-5"
       onSubmit={handleSubmit(onSubmit)}
     >
       <motion.div
@@ -193,7 +183,6 @@ function RegisterForm() {
           inputMode="tel"
           disabled={isSubmitting}
           placeholder={t("Phone number") || "Phone number"}
-          required
           value={phone}
           className="peer w-full p-4 rounded bg-[#1a1d1f] text-xl outline-none text-white placeholder-transparent"
           {...register("phone", {
@@ -354,11 +343,6 @@ function RegisterForm() {
           </a>
         </label>
       </div>
-      <ReCAPTCHA
-        size="compact"
-        ref={recaptcha}
-        sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ""}
-      />
       {loader ? (
         <div className="w-full h-auto flex flex-col justify-center items-center">
           <Loader />

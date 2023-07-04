@@ -4,6 +4,7 @@ import { easeInOut, motion } from "framer-motion"
 import { formStore } from "../hooks/formState"
 import LoginForm from "../components/Forms/Login"
 import RegisterForm from "../components/Forms/Register"
+import { useEffect } from "react"
 
 export default function Auth() {
   const { t } = useTranslation("auth");

@@ -6,7 +6,6 @@ export const userInfoSchema = z.object({
   email: z.string().email({ message: "An e-mail adress is required" }),
   phone: z
     .string()
-    .min(5, { message: "Minimun length: 5" })
     .max(16, { message: "Max length of phone number is 16 digits" })
     .optional(),
   password: z

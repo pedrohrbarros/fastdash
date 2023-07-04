@@ -89,8 +89,11 @@ function Update() {
   }
 
   const handleExit = () => {
+    setFirstName('')
+    setLastName('')
     setEmail('')
     setPassword('')
+    setPhone('')
     window.location.replace('/')
     deleteCookie('authorization')
   }
@@ -132,14 +135,14 @@ function Update() {
           type="text"
           id="firstname"
           value={newFirstName}
-          className="outline-none border-b-[1px] border-b-black bg-transparent text-black text-2xl font-extralight text-center"
+          className="outline-none border-b-[1px] border-b-black bg-transparent text-black text-2xl font-extralight text-center max-[500px]:text-xl"
           onChange={(event: ChangeEvent<HTMLInputElement>) => setNewFirstName(event.target.value)}
           />
         </div>
         : 
         <div className="w-[350px] max-w-[350px] min-w-[100px] flex flex-col justify-center items-center">
-          <h2 className="font-h2 text-gray-600 text-xl font-medium">{t('First Name')}</h2>
-          <p className="font-p text-black text-2xl font-extralight">{newFirstName}</p>
+          <h2 className="font-h2 text-gray-600 text-xl font-medium max-[500px]:text-md">{t('First Name')}</h2>
+          <p className="font-p text-black text-2xl font-extralight max-[500px]:text-xl">{newFirstName}</p>
           <p className={`font-p text-xl ${firstnameMessage !== 'User updated successfully' ? 'text-red-600' : 'text-green-600'}`}>{t(firstnameMessage)}</p>
         </div>}
         <div className="w-12 bg-transparent cursor-pointer" onClick={() => setIsEditable(!isEditable)}>
@@ -158,14 +161,14 @@ function Update() {
           type="text"
           id="lastname"
           value={newLastName}
-          className="outline-none border-b-[1px] border-b-black bg-transparent text-black text-2xl font-extralight text-center"
+          className="outline-none border-b-[1px] border-b-black bg-transparent text-black text-2xl font-extralight text-center max-[500px]:text-xl"
           onChange={(event: ChangeEvent<HTMLInputElement>) => setNewLastName(event.target.value)}
           />
         </div>
         : 
         <div className="w-[350px] max-w-[350px] min-w-[100px] flex flex-col justify-center items-center">
-          <h2 className="font-h2 text-gray-600 text-xl font-medium">{t('Last Name')}</h2>
-          <p className="font-p text-black text-2xl font-extralight">{newLastName}</p>
+          <h2 className="font-h2 text-gray-600 text-xl font-medium max-[500px]:text-md">{t('Last Name')}</h2>
+          <p className="font-p text-black text-2xl font-extralight max-[500px]:text-xl">{newLastName}</p>
           <p className={`font-p text-xl ${lastnameMessage !== 'User updated successfully' ? 'text-red-600' : 'text-green-600'}`}>{t(lastnameMessage)}</p>
         </div>}
         <div className="w-12 bg-transparent cursor-pointer" onClick={() => setIsEditable(!isEditable)}>
@@ -184,14 +187,14 @@ function Update() {
           type="text"
           id="email"
           value={newEmail}
-          className="outline-none border-b-[1px] border-b-black bg-transparent text-black text-2xl font-extralight text-center"
+          className="outline-none border-b-[1px] border-b-black bg-transparent text-black text-2xl font-extralight text-center max-[500px]:text-xl"
           onChange={(event: ChangeEvent<HTMLInputElement>) => setNewEmail(event.target.value)}
           />
         </div>
         : 
         <div className="w-[350px] max-w-[350px] min-w-[100px] flex flex-col justify-center items-center">
-          <h2 className="font-h2 text-gray-600 text-xl font-medium">{t('E-mail Adress')}</h2>
-          <p className="font-p text-black text-2xl font-extralight">{newEmail}</p>
+          <h2 className="font-h2 text-gray-600 text-xl font-medium max-[500px]:text-md">{t('E-mail Adress')}</h2>
+          <p className="font-p text-black text-2xl font-extralight max-[500px]:text-xl">{newEmail}</p>
           <p className={`font-p text-xl ${emailMessage !== 'User updated successfully' ? 'text-red-600' : 'text-green-600'}`}>{t(emailMessage)}</p>
         </div>}
         <div className="w-12 bg-transparent cursor-pointer" onClick={() => setIsEditable(!isEditable)}>
@@ -210,7 +213,7 @@ function Update() {
           type="password"
           id="password"
           value={newPassword}
-          className="outline-none border-b-[1px] border-b-black bg-transparent text-black text-2xl font-extralight text-center"
+          className="outline-none border-b-[1px] border-b-black bg-transparent text-black text-2xl font-extralight text-center max-[500px]:text-xl"
           onChange={(event: ChangeEvent<HTMLInputElement>) => setNewPassword(event.target.value)}
           />
           <div className="w-full h-2 flex flex-row justify-center gap-2 items-center flex-nowrap">
@@ -238,18 +241,13 @@ function Update() {
         </div>
         : 
         <div className="w-[350px] max-w-[350px] min-w-[100px] flex flex-col justify-center items-center">
-          <h2 className="font-h2 text-gray-600 text-xl font-medium">{t('Password')}</h2>
+          <h2 className="font-h2 text-gray-600 text-xl font-medium max-[500px]:text-md">{t('Password')}</h2>
           <AiOutlineLock size={40}/>
           <p className={`font-p text-xl ${passwordMessage !== 'User updated successfully' ? 'text-red-600' : 'text-green-600'}`}>{t(passwordMessage)}</p>
         </div>}
-        {isEditable ? 
-        <div className="w-12 bg-transparent cursor-pointer" onClick={() => passwordScore > 13 ? setIsEditable(false) : setIsEditable(true)}>
-          <AiOutlineCheck size={30}/>
-        </div>
-        :
         <div className="w-12 bg-transparent cursor-pointer" onClick={() => setIsEditable(!isEditable)}>
-          <AiOutlineEdit size={30}/>
-        </div>}
+          {isEditable ? <AiOutlineCheck size={30}/> : <AiOutlineEdit size={30}/>}
+        </div>
       </fieldset>
       <fieldset
         className="w-full flex flex-row justify-center items-center text-center gap-4 max-[500px]:gap-2 flex-wrap"
@@ -264,14 +262,14 @@ function Update() {
           pattern="([0-9]{2})[0-9]{5}-[0-9]{4}"
           id="phone"
           value={newPhone}
-          className="outline-none border-b-[1px] border-b-black bg-transparent text-black text-2xl font-extralight text-center"
+          className="outline-none border-b-[1px] border-b-black bg-transparent text-black text-2xl font-extralight text-center max-[500px]:text-xl"
           onChange={(event: ChangeEvent<HTMLInputElement>) => setNewPhone(event.target.value)}
           />
         </div>
         : 
         <div className="w-[350px] max-w-[350px] min-w-[100px] flex flex-col justify-center items-center">
-          <h2 className="font-h2 text-gray-600 text-xl font-medium">{t('Phone Number')}</h2>
-          <p className="font-p text-black text-2xl font-extralight">{newPhone ?? t('No phone registered')}</p>
+          <h2 className="font-h2 text-gray-600 text-xl font-medium max-[500px]:text-md">{t('Phone Number')}</h2>
+          <p className="font-p text-black text-2xl font-extralight max-[500px]:text-xl">{newPhone ?? t('No phone registered')}</p>
           <p className={`font-p text-xl ${phoneMessage !== 'User updated successfully' ? 'text-red-600' : 'text-green-600'}`}>{t(phoneMessage)}</p>
         </div>}
         <div className="w-12 bg-transparent cursor-pointer" onClick={() => setIsEditable(!isEditable)}>

@@ -3,7 +3,7 @@ import Sidebar from "@/components/Sidebar";
 import { userStore } from "@/hooks/userState";
 import { useTranslation } from "next-i18next";
 import { getProfile } from "@/services/user/getProfile";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Update from "@/components/Forms/Update";
 
@@ -20,6 +20,7 @@ function Config() {
       const data = await getProfile();
       if (data === false) {
         alert(t("Profile not found, please log-in again or register"));
+        window.location.replace('/')
       } else if (typeof data !== "boolean") {
         setFirstName(data.firstname)
         setLastName(data.lastname);

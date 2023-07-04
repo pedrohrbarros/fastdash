@@ -1,5 +1,4 @@
-import React, { useLayoutEffect } from "react";
-import Button from "../Button";
+import React from "react";
 import { useTranslation } from "next-i18next";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { User } from "../../entities/user";
@@ -9,17 +8,14 @@ import { userStore } from "../../hooks/userState";
 import { loginUser } from "@/services/user/login";
 import { useRouter } from 'next/router';
 import Loader from "../Loader";
-import { hasCookie } from 'cookies-next';
-import { useEffect } from 'react'
-import ReCAPTCHA from "react-google-recaptcha"
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginUserSchema } from "@/validators/loginUserValidator";
 import { BiError } from "react-icons/bi";
+import Button from "../Button";
 
 function LoginForm() {
   const { t } = useTranslation("auth");
   const router = useRouter();
-  const recaptcha = React.useRef<any>()
   
   const email = userStore((state) => state.email)
   const setEmail = userStore((state) => state.setEmail)
@@ -40,27 +36,18 @@ function LoginForm() {
   const onSubmit: SubmitHandler<Pick<User, 'email' | 'password'>> = async (data: Pick<User, 'email' | 'password'>) => {
     const apiWindow = window.open(process.env.NEXT_PUBLIC_API_URL)
     setTimeout(() => apiWindow?.close(), 500)
-    if(recaptcha?.current !== undefined && recaptcha?.current !== null) {
-      const captchaValue = recaptcha.current.getValue()
-      if(!captchaValue) {
-        alert(t('Please fill the captcha'))
-      }
-      else{
-        setEmail('')
-        setPassword('')
-        recaptcha.current.reset()
-        setLoader(true)
-        const response: string | boolean = await loginUser(data)
-        if (response === true) {
-          router.push('/dashboard/home')
-        }
-        else {
-          setEmail('')
-          setPassword('')
-          setLoader(false)
-          alert(t(response.toString()))
-        }
-      }
+    setEmail('')
+    setPassword('')
+    setLoader(true)
+    const response: string | boolean = await loginUser(data)
+    if (response === true) {
+      router.push('/dashboard/home')
+    }
+    else {
+      setEmail('')
+      setPassword('')
+      setLoader(false)
+      alert(t(typeof response === 'string' ? response : 'Unkown error'))
     }
   };
 
@@ -148,7 +135,6 @@ function LoginForm() {
           </p>
         )}
       </motion.div>
-      <ReCAPTCHA size='compact' ref={recaptcha} sitekey = {process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ''}/>
       {loader === false ? <input
         type="submit"
         value="Login"

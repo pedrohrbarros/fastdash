@@ -45,6 +45,7 @@ export const createUser = async (
         }
         return "Error in response from API";
       } else if (error.request) {
+        console.log(error.request)
         return "Requisition Error";
       } else {
         return "No Response received";
