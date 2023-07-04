@@ -204,6 +204,7 @@ const main = async (): Promise<void> => {
 
   const port = process.env.PORT !== undefined ? process.env.PORT : 8000
   app.listen(port)
+  console.log(`Listening on port: ${port}`)
 }
 
 void main()
