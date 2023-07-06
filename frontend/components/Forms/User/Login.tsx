@@ -1,17 +1,17 @@
 import React from "react";
 import { useTranslation } from "next-i18next";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { User } from "../../entities/user";
-import { formStore } from "../../hooks/formState";
+import { User } from "../../../entities/user";
+import { formStore } from "../../../hooks/formState";
 import { easeInOut, motion } from "framer-motion";
-import { userStore } from "../../hooks/userState";
+import { userStore } from "../../../hooks/userState";
 import { loginUser } from "@/services/user/login";
 import { useRouter } from 'next/router';
-import Loader from "../Loader";
+import Loader from "../../Loader";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { loginUserSchema } from "@/validators/loginUserValidator";
+import { loginUserSchema } from "@/validators/user/loginUserValidator";
 import { BiError } from "react-icons/bi";
-import Button from "../Button";
+import Button from "../../Button";
 
 function LoginForm() {
   const { t } = useTranslation("auth");
@@ -34,10 +34,6 @@ function LoginForm() {
   const setFormState = formStore((state) => state.setRole);
 
   const onSubmit: SubmitHandler<Pick<User, 'email' | 'password'>> = async (data: Pick<User, 'email' | 'password'>) => {
-    const apiWindow = window.open(process.env.NEXT_PUBLIC_API_URL)
-    setTimeout(() => apiWindow?.close(), 500)
-    setEmail('')
-    setPassword('')
     setLoader(true)
     const response: string | boolean = await loginUser(data)
     if (response === true) {

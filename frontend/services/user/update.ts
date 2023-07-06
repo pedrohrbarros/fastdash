@@ -17,7 +17,7 @@ export const updateUser = async (params: Partial<User>): Promise<string> => {
       }
     })
     if (response.data === 'User updated successfully') {
-      return response.data
+      return 'Field updated successfully'
     } else {
       return 'Successfull, but unknown response from server'
     }

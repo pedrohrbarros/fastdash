@@ -1,15 +1,15 @@
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
-import { useTranslation } from "next-i18next"
-import { easeInOut, motion } from "framer-motion"
-import { formStore } from "../hooks/formState"
-import LoginForm from "../components/Forms/Login"
-import RegisterForm from "../components/Forms/Register"
-import { useEffect } from "react"
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useTranslation } from "next-i18next";
+import { easeInOut, motion } from "framer-motion";
+import { formStore } from "../hooks/formState";
+import LoginForm from "../components/Forms/User/Login";
+import RegisterForm from "../components/Forms/User/Register";
+import { useEffect } from "react";
 
 export default function Auth() {
   const { t } = useTranslation("auth");
 
-  const formState = formStore((state) => state.role)
+  const formState = formStore((state) => state.role);
 
   return (
     <main className="w-full h-full min-h-screen flex flex-nowrap flex-col justify-center items-center bg-jet py-9 px-6 gap-4 text-center max-[400px]:px-4">
@@ -33,7 +33,11 @@ export default function Auth() {
           duration: 0.6,
         }}
       >
-        {formState === "login" ? t("Sign in") : formState === 'register' ? t("Sign up") : null}
+        {formState === "login"
+          ? t("Sign in")
+          : formState === "register"
+          ? t("Sign up")
+          : null}
       </motion.h1>
       <motion.h2
         className="font-h2 text-2xl text-white mb-6"
@@ -53,7 +57,11 @@ export default function Auth() {
       >
         {t("Insert your credentials below")}
       </motion.h2>
-      {formState === "login" ? <LoginForm /> : formState === 'register' ? <RegisterForm /> : null}
+      {formState === "login" ? (
+        <LoginForm />
+      ) : formState === "register" ? (
+        <RegisterForm />
+      ) : null}
     </main>
   );
 }

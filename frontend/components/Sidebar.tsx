@@ -17,10 +17,10 @@ function Sidebar() {
         <Link className="w-full h-auto py-3 rounded-lg bg-gray-200 flex flex-col justify-center items-center" href="/dashboard/home">
           <RxDashboard size={30} color="#000000"/>
         </Link>
-        <a className="w-full h-auto py-3 rounded-lg bg-gray-200 flex flex-col justify-center items-center" href="/dashboard/models">
+        <Link className="w-full h-auto py-3 rounded-lg bg-gray-200 flex flex-col justify-center items-center" href="/dashboard/models">
           <AiOutlineUser size={30} color="#000000"/>
-        </a>
-        <Link className="w-full h-auto py-3 rounded-lg bg-gray-200 flex flex-col justify-center items-center" href="/dashboard/sales">
+        </Link>
+        <Link className="w-full h-auto py-3 rounded-lg bg-gray-200 flex flex-col justify-center items-center" href="/dashboard/comercial">
           <AiOutlineShoppingCart size={30} color="#000000"/>
         </Link>
         <Link className="w-full h-auto py-3 rounded-lg bg-gray-200 flex flex-col justify-center items-center" href="/dashboard/config">

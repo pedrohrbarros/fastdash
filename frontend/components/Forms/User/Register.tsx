@@ -1,14 +1,14 @@
 import React, { ChangeEvent } from "react";
 import { useTranslation } from "next-i18next";
-import { userStore } from "../../hooks/userState";
-import { passwordValidator } from "../../helpers/passwordValidator";
+import { userStore } from "../../../hooks/userState";
+import { passwordValidator } from "../../../helpers/passwordValidator";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { User } from "../../entities/user";
-import { formStore } from "../../hooks/formState";
+import { User } from "../../../entities/user";
+import { formStore } from "../../../hooks/formState";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createUser } from "../../services/user/create";
-import Loader from "../Loader";
-import { userInfoSchema } from "@/validators/userInfoValidator";
+import { createUser } from "../../../services/user/create";
+import Loader from "../../Loader";
+import { userInfoSchema } from "@/validators/user/userInfoValidator";
 import { easeInOut, motion } from "framer-motion";
 import { BiError } from "react-icons/bi";
 
@@ -29,7 +29,7 @@ function RegisterForm() {
 
   const [loader, setLoader] = React.useState(false);
   const passwordScore = passwordValidator(password);
-  
+
   const {
     register,
     handleSubmit,
@@ -49,8 +49,6 @@ function RegisterForm() {
   const onSubmit: SubmitHandler<Omit<User, "id">> = async (
     data: Omit<User, "id">
   ) => {
-    const apiWindow = window.open(process.env.NEXT_PUBLIC_API_URL)
-    setTimeout(() => apiWindow?.close(), 500)
     setLoader(true);
     const response: boolean | string = await createUser(data);
     setLoader(false);
@@ -59,7 +57,7 @@ function RegisterForm() {
       setFirstName("");
       setLastName("");
       setEmail("");
-      setPhone("");
+      setPhone(undefined);
       setPassword("");
       setAcceptedTerms(false);
       setFormState("login");
@@ -182,8 +180,7 @@ function RegisterForm() {
           inputMode="tel"
           disabled={isSubmitting}
           placeholder={t("Phone number") || "Phone number"}
-          value={phone}
-          required
+          value={phone || undefined}
           className="peer w-full p-4 rounded bg-[#1a1d1f] text-xl outline-none text-white placeholder-transparent"
           {...register("phone", {
             onChange: (event: ChangeEvent<HTMLInputElement>) =>

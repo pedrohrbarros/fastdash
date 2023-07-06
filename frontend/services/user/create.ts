@@ -6,12 +6,25 @@ export const createUser = async (
   params: Omit<User, "id">
 ): Promise<boolean | string> => {
   try {
+    if(params.phone === '' || params.phone === undefined || params.phone === null){
+      const response: AxiosResponse<any, any> = await api.post("user/", {
+        firstname: params.firstname,
+        lastname: params.lastname,
+        email: params.email,
+        password: params.password,
+      });
+      if (response.data === "User created successfully") {
+        return true;
+      } else {
+        return "Successfull, but unknown response from server";
+      }
+    }
     const response: AxiosResponse<any, any> = await api.post("user/", {
       firstname: params.firstname,
       lastname: params.lastname,
       email: params.email,
       password: params.password,
-      phone: params.phone,
+      phone: params.phone
     });
     if (response.data === "User created successfully") {
       return true;

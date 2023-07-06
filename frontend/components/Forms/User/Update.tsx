@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from "next-i18next";
-import { userStore } from "../../hooks/userState";
+import { userStore } from "../../../hooks/userState";
 import { ChangeEvent, useState, useEffect } from "react";
 import { motion } from 'framer-motion'
 import { CgNametag, CgRename } from 'react-icons/cg'
@@ -9,7 +9,7 @@ import { MdPassword } from 'react-icons/md'
 import Image from 'next/image'
 import userIcon from '@/assets/user-icon.png'
 import { updateUser } from '@/services/user/update';
-import Button from '../Button';
+import Button from '../../Button';
 import { BsPhone } from 'react-icons/bs';
 import { passwordValidator } from '@/helpers/passwordValidator';
 import { deleteCookie } from 'cookies-next';
@@ -26,7 +26,7 @@ function Update() {
   const password = userStore((state) => state.password)
   const [newPassword, setNewPassword] = useState('')
   const phone = userStore((state) => state.phone)
-  const [newPhone, setNewPhone] = useState<string | undefined>()
+  const [newPhone, setNewPhone] = useState<string | undefined | null>()
   const setFirstName = userStore((state) => state.setFirstName)
   const setLastName = userStore((state) => state.setLastName)
   const setEmail = userStore((state) => state.setEmail)
@@ -46,7 +46,7 @@ function Update() {
     setNewLastName(lastname)
     setNewEmail(email)
     setNewPassword(password)
-    setNewPhone(phone)
+    setNewPhone(phone === undefined ? '' : phone)
   }, [firstname, lastname, email, password, phone])
 
   const handleSubmit = async (): Promise<void> => {
@@ -94,7 +94,6 @@ function Update() {
     setEmail('')
     setPassword('')
     setPhone('')
-    window.location.replace('/')
     deleteCookie('authorization')
   }
 
@@ -143,7 +142,7 @@ function Update() {
         <div className="w-[350px] max-w-[350px] min-w-[100px] flex flex-col justify-center items-center">
           <h2 className="font-h2 text-gray-600 text-xl font-medium max-[500px]:text-md">{t('First Name')}</h2>
           <p className="font-p text-black text-2xl font-extralight max-[500px]:text-xl">{newFirstName}</p>
-          <p className={`font-p text-xl ${firstnameMessage !== 'User updated successfully' ? 'text-red-600' : 'text-green-600'}`}>{t(firstnameMessage)}</p>
+          <p className={`font-p text-xl ${firstnameMessage !== 'Field updated successfully' ? 'text-red-600' : 'text-green-600'}`}>{t(firstnameMessage)}</p>
         </div>}
         <div className="w-12 bg-transparent cursor-pointer" onClick={() => setIsEditable(!isEditable)}>
           {isEditable ? <AiOutlineCheck size={30}/> : <AiOutlineEdit size={30}/>}
@@ -169,7 +168,7 @@ function Update() {
         <div className="w-[350px] max-w-[350px] min-w-[100px] flex flex-col justify-center items-center">
           <h2 className="font-h2 text-gray-600 text-xl font-medium max-[500px]:text-md">{t('Last Name')}</h2>
           <p className="font-p text-black text-2xl font-extralight max-[500px]:text-xl">{newLastName}</p>
-          <p className={`font-p text-xl ${lastnameMessage !== 'User updated successfully' ? 'text-red-600' : 'text-green-600'}`}>{t(lastnameMessage)}</p>
+          <p className={`font-p text-xl ${lastnameMessage !== 'Field updated successfully' ? 'text-red-600' : 'text-green-600'}`}>{t(lastnameMessage)}</p>
         </div>}
         <div className="w-12 bg-transparent cursor-pointer" onClick={() => setIsEditable(!isEditable)}>
           {isEditable ? <AiOutlineCheck size={30}/> : <AiOutlineEdit size={30}/>}
@@ -195,7 +194,7 @@ function Update() {
         <div className="w-[350px] max-w-[350px] min-w-[100px] flex flex-col justify-center items-center">
           <h2 className="font-h2 text-gray-600 text-xl font-medium max-[500px]:text-md">{t('E-mail Adress')}</h2>
           <p className="font-p text-black text-2xl font-extralight max-[500px]:text-xl">{newEmail}</p>
-          <p className={`font-p text-xl ${emailMessage !== 'User updated successfully' ? 'text-red-600' : 'text-green-600'}`}>{t(emailMessage)}</p>
+          <p className={`font-p text-xl ${emailMessage !== 'Field updated successfully' ? 'text-red-600' : 'text-green-600'}`}>{t(emailMessage)}</p>
         </div>}
         <div className="w-12 bg-transparent cursor-pointer" onClick={() => setIsEditable(!isEditable)}>
           {isEditable ? <AiOutlineCheck size={30}/> : <AiOutlineEdit size={30}/>}
@@ -243,7 +242,7 @@ function Update() {
         <div className="w-[350px] max-w-[350px] min-w-[100px] flex flex-col justify-center items-center">
           <h2 className="font-h2 text-gray-600 text-xl font-medium max-[500px]:text-md">{t('Password')}</h2>
           <AiOutlineLock size={40}/>
-          <p className={`font-p text-xl ${passwordMessage !== 'User updated successfully' ? 'text-red-600' : 'text-green-600'}`}>{t(passwordMessage)}</p>
+          <p className={`font-p text-xl ${passwordMessage !== 'Field updated successfully' ? 'text-red-600' : 'text-green-600'}`}>{t(passwordMessage)}</p>
         </div>}
         <div className="w-12 bg-transparent cursor-pointer" onClick={() => setIsEditable(!isEditable)}>
           {isEditable ? <AiOutlineCheck size={30}/> : <AiOutlineEdit size={30}/>}
@@ -261,7 +260,7 @@ function Update() {
           type="tel"
           pattern="([0-9]{2})[0-9]{5}-[0-9]{4}"
           id="phone"
-          value={newPhone}
+          value={newPhone || undefined}
           className="outline-none border-b-[1px] border-b-black bg-transparent text-black text-2xl font-extralight text-center max-[500px]:text-xl"
           onChange={(event: ChangeEvent<HTMLInputElement>) => setNewPhone(event.target.value)}
           />
@@ -269,8 +268,8 @@ function Update() {
         : 
         <div className="w-[350px] max-w-[350px] min-w-[100px] flex flex-col justify-center items-center">
           <h2 className="font-h2 text-gray-600 text-xl font-medium max-[500px]:text-md">{t('Phone Number')}</h2>
-          <p className="font-p text-black text-2xl font-extralight max-[500px]:text-xl">{newPhone ?? t('No phone registered')}</p>
-          <p className={`font-p text-xl ${phoneMessage !== 'User updated successfully' ? 'text-red-600' : 'text-green-600'}`}>{t(phoneMessage)}</p>
+          <p className="font-p text-black text-2xl font-extralight max-[500px]:text-xl">{newPhone === '' ? t('No phone registered') : newPhone}</p>
+          <p className={`font-p text-xl ${phoneMessage !== 'Field updated successfully' ? 'text-red-600' : 'text-green-600'}`}>{t(phoneMessage)}</p>
         </div>}
         <div className="w-12 bg-transparent cursor-pointer" onClick={() => setIsEditable(!isEditable)}>
           {isEditable ? <AiOutlineCheck size={30}/> : <AiOutlineEdit size={30}/>}

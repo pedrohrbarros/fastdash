@@ -24,7 +24,6 @@ function Navbar() {
         setFirstName(data.firstname);
         setLoader(false);
       } else {
-        alert(t("Profile not found, please log-in again or register"));
         window.location.replace('/')
       }
     };

@@ -5,7 +5,7 @@ interface UserState extends User {
   setFirstName: (firstname: string) => void;
   setLastName: (lastname: string) => void;
   setEmail: (email: string) => void;
-  setPhone: (phone: string) => void;
+  setPhone: (phone: string | undefined | null) => void;
   setPassword: (password: string) => void;
 }
 export const userStore = create<UserState>()((set) => ({
@@ -14,11 +14,11 @@ export const userStore = create<UserState>()((set) => ({
   lastname: "",
   email: "",
   password: "",
-  phone: "",
+  phone: undefined,
 
   setFirstName: (firstname: string) => set(() => ({ firstname: firstname })),
   setLastName: (lastname: string) => set(() => ({ lastname: lastname })),
   setEmail: (email: string) => set(() => ({ email: email })),
   setPassword: (password: string) => set(() => ({ password: password })),
-  setPhone: (phone: string) => set(() => ({ phone: phone })),
+  setPhone: (phone: string | undefined | null) => set(() => ({ phone: phone })),
 }));

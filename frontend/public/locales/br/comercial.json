@@ -1,0 +1,21 @@
+{
+  "Sales":"Vendas",
+  "Products":"Produtos",
+  "Name":"Nome",
+  "Price":"Preço(R$)",
+  "Product":"Produto",
+  "Seller":"Vendedor",
+  "Sold at":"Vendido à",
+  "Add":"Adicionar",
+  "Minimun length to the name: 1": "Mínimo de dígitos para o nome: 1",
+  "Price must be greater than 0":"Preço deverá ser maior que 0",
+  "No data in response":"Sem dados na resposta do servidor",
+  "No response received":"Sem resposta do servidor",
+  "Internal error":"Erro interno",
+  "Please specify a body":"Por gentileza, especifique um corpo",
+  "User not authenticated":"Usuário não autenticado",
+  "User with this token not found":"Usuário com este token não encontrado",
+  "CREATE PRODUCT FAILED INTERNAL ERROR":"ERRO INTERNO NO SERVIDOR",
+  "Successfull, but unknown response from server":"Sucesso, mas resposta desconhecida do servidor",
+  "Product created successfully":"Produto criado com sucesso"
+}
