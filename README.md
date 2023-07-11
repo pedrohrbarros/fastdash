@@ -18,7 +18,7 @@ Clone the repository with
 git clone https://github.com/pedrohrbarros/fastdash.git
 ```
 
-Go to the backend file and install all the dependencies
+Go to the backend directory and install all the dependencies
 
 ```
 npm i
@@ -30,52 +30,57 @@ or
 yarn install
 ```
 
-Now we set up the docker container and start the database
-
-Install Docker and docker-compose plugin (Windows install it automatically with Docker Desktop)
-
 Create a .env file with all the parameters on the .env.example file 
 
-After this run the following commands:
+Go to the frontend directory and install all the dependecies
 
-Create a external volume:
 ```
-docker volume create fastdash_volume
-```
-
-Launch Postgres Database with docker compose:
-```
-docker-compose up -d
+npm i
 ```
 
-The command above will launch the Postgres Database and create the necessary tables defined in the init.sql
+or 
+
+```
+yarn install
+```
+
+After this just run for the backend
+
+```
+npm run start:dev
+```
+
+And for the frontend
+
+```
+npm run dev
+```
+
+### Build
+
+With AWS:
+
+- Connect to the AWS instance
+- Check if the database is running
+- Build the app with:
+```
+npm run build
+```
+- Check if the app is running
+```
+npm run start
+``` 
+- Start with the pm2
+```
+cd src
+```
+```
+pm2 start index.js
+```
 
 ### Prerequisites
 
-What things you need to install the software and how to install them.
-
-```
-Give examples
-```
-
-### Installing
-
-A step by step series of examples that tell you how to get a development env running.
-
-Say what the step will be
-
-```
-Give the example
-```
-
-And repeat
-
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo.
-
-## Usage <a name = "usage"></a>
-
-Add notes about how to use the system.
+- Node.js
+- Next.js
+- TailwindCSS
+- PostgreSQL
