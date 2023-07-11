@@ -45,7 +45,11 @@ function ProductProfile(){
     const fetchData = async () => {
       const response: string | Product = await getProfile(id !== undefined ?+id : 0)
       if(typeof response === 'string'){
-        alert(t(response))
+        if(response === 'Product does not exist'){
+          window.location.replace('/dashboard/comercial')
+        } else {
+          alert(t(response))
+        }
       } else {
         const product: Product = response
         setName(product.name)

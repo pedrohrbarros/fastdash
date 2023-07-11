@@ -20,7 +20,6 @@ export const updateProduct = async (params: Partial<Product>, id: number): Promi
     }
   } catch (error) {
     if(axios.isAxiosError(error)){
-      console.log(error)
       if(error.response) {
         if (error.response.data){
           return error.response.data

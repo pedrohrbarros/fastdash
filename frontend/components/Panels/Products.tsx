@@ -24,7 +24,7 @@ function ProductsPanel() {
   const handleSubmit = async () => {
     if (name === '' || name === null) {
       alert(t('Minimun length to the name: 1'))
-    } else if (price <= 0) {
+    } else if (+price <= 0) {
       alert(t('Price must be greater than 0'))
     } else {
       setLoader(true)
@@ -35,7 +35,7 @@ function ProductsPanel() {
       if (response === true) {
         alert(t('Product created successfully'))
         setName("")
-        setPrice(0)
+        setPrice('0.00')
         setLoader(false)
         setAddInputActive(false)
       } else {
@@ -87,7 +87,7 @@ function ProductsPanel() {
             id="price"
             value={price}
             className="w-full outline-none font-p text-black text-xl max-[500px]:text-sm border-b-[1px] border-b-black text-center"
-            onChange= {(event: ChangeEvent<HTMLInputElement>) => setPrice(+event.target.value)}
+            onChange= {(event: ChangeEvent<HTMLInputElement>) => setPrice(event.target.value)}
             />
           </td>
           <td className="pb-6 pr-3 max-[500px]:pr-1">

@@ -24,7 +24,7 @@ function Update() {
   const setPrice = productStore((state) => state.setPrice)
   const [newName, setNewName] = useState('')
   const price = productStore((state) => state.price)
-  const [newPrice, setNewPrice] = useState(0)
+  const [newPrice, setNewPrice] = useState('0')
   const [isEditable, setIsEditable] = useState(false)
   const [nameMessage, displayNameMessage] = useState('')
   const [priceMessage, displayPriceMessage] = useState('')
@@ -43,21 +43,21 @@ function Update() {
       setName(name)
       displayNameMessage(response)
     } 
-    if (newPrice !== price && newPrice > 0) {
+    if (newPrice !== price && +newPrice > 0) {
       const response: string = await updateProduct({
-        price: +newPrice
+        price: newPrice
       }, id !== undefined ? +id : 0)
-      setPrice(+price)
+      setPrice(price)
       displayPriceMessage(response)
     } 
-    if (newPrice!== price && newPrice <= 0) {
+    if (newPrice!== price && +newPrice <= 0) {
       displayPriceMessage('Price must be greater than 0')
     }
   }
 
   const handleDelete = async () => {
     setName('')
-    setPrice(0)
+    setPrice('0')
     const response: string = await deleteProduct(id !== undefined ? +id : 0)
     if (response === 'Product deleted successfully'){
       alert(t('Product deleted successfully'))
@@ -131,7 +131,7 @@ function Update() {
           id="price"
           value={newPrice}
           className="outline-none border-b-[1px] border-b-black bg-transparent text-black text-2xl font-extralight text-center max-[500px]:text-xl"
-          onChange={(event: ChangeEvent<HTMLInputElement>) => setNewPrice(+event.target.value)}
+          onChange={(event: ChangeEvent<HTMLInputElement>) => setNewPrice(event.target.value)}
           />
         </div>
         : 

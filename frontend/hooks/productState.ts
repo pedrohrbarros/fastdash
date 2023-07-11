@@ -3,14 +3,14 @@ import { create } from "zustand";
 
 interface ProductState extends Product {
   setName: (name: string) => void
-  setPrice: (price: number) => void
+  setPrice: (price: string) => void
 }
 
 export const productStore = create<ProductState>()((set) => ({
   id: 0,
   name: '',
-  price: 0,
+  price: '0.00',
 
   setName: (name: string) => set(() => ({ name: name })),
-  setPrice: (price: number) => set(() => ({ price: price }))
+  setPrice: (price: string) => set(() => ({ price: price }))
 }))
