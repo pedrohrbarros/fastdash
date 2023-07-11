@@ -35,7 +35,7 @@ export class PatchProductController {
         return successfull('Product updated successfully')
       }
     } catch (error) {
-      return internalError('UPDATE USER FAILED INTERNAL ERROR')
+      return internalError('UPDATE PRODUCT FAILED INTERNAL ERROR')
     }
   }
 }

@@ -5,7 +5,7 @@ import { getCookie } from 'cookies-next';
 
 export const updateUser = async (params: Partial<User>): Promise<string> => {
   try {
-    const response: AxiosResponse<any, any> = await api.patch('/user', {
+    const response: AxiosResponse<any, any> = await api.patch('user/', {
       firstname: params.firstname !== undefined ? params.firstname : undefined,
       lastname: params.lastname !== undefined ? params.lastname : undefined,
       email: params.email !== undefined ? params.email : undefined,

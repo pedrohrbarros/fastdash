@@ -13,6 +13,7 @@ import Button from '../../Button';
 import { BsPhone } from 'react-icons/bs';
 import { passwordValidator } from '@/helpers/passwordValidator';
 import { deleteCookie } from 'cookies-next';
+import { deleteUser } from '@/services/user/delete';
 
 function Update() {
   const { t } = useTranslation('config')
@@ -95,6 +96,22 @@ function Update() {
     setPassword('')
     setPhone('')
     deleteCookie('authorization')
+  }
+
+  const handleDelete = async () => {
+    setFirstName('')
+    setLastName('')
+    setEmail('')
+    setPassword('')
+    setPhone('')
+    const response: boolean | string = await deleteUser()
+    if (response === true) {
+      alert(t('User deleted successfully!'))
+      window.location.replace('/')
+      deleteCookie('authorization')
+    } else {
+      alert(t(response.toString()))
+    }
   }
 
   return (
@@ -285,6 +302,11 @@ function Update() {
         text={t('Exit')}
         color="bg-red-600"
         onClick={() => handleExit()}
+        />
+        <Button
+        text={t('Delete Account')}
+        color="bg-black"
+        onClick={() => handleDelete()}
         />
       </div>
     </form>

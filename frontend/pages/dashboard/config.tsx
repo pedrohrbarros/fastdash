@@ -6,7 +6,6 @@ import { getProfile } from "@/services/user/getProfile";
 import { useEffect } from "react";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Update from "@/components/Forms/User/Update";
-
 function Config() {
   const { t } = useTranslation("config");
 

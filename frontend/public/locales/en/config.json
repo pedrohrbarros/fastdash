@@ -14,5 +14,8 @@
   "User not authenticated":"User not authenticated",
   "Invalid e-mail adress":"Invalid e-mail adress",
   "User with this e-mail already exists":"User with this e-mail already exists",
-  "Invalid phone number":"Invalid phone number"
+  "Invalid phone number":"Invalid phone number",
+  "User with this token not found":"User with this token not found",
+  "User deleted successfully!":"User deleted successfully!",
+  "Delete Account":"Delete Account"
 }

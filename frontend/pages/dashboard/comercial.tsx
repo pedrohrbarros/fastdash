@@ -58,7 +58,7 @@ function Comercial() {
 export async function getStaticProps({ locale }: any) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common", "navbar", "comercial", "sales", "products", "sellers"])),
+      ...(await serverSideTranslations(locale, ["common", "navbar", "comercial"])),
       // Will be passed to the page component as props
     },
   };

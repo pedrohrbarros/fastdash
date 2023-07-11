@@ -17,5 +17,17 @@
   "User with this token not found":"User with this token not found",
   "CREATE PRODUCT FAILED INTERNAL ERROR":"CREATE PRODUCT FAILED INTERNAL ERROR",
   "Successfull, but unknown response from server":"Successfull, but unknown response from server",
-  "Product created successfully":"Product created successfully"
+  "Product created successfully":"Product created successfully",
+  "GET PRODUCTS FAILED INTERNAL ERROR":"GET PRODUCTS FAILED INTERNAL ERROR",
+  "GET PRODUCT FAILED INTERNAL ERROR":"GET PRODUCT FAILED INTERNAL ERROR",
+  "Product does not exist":"Product does not exist",
+  "No parameters were given":"No parameters were given",
+  "Please provide a property to update":"Please provide a property to update",
+  "No product was given to update":"No product was given to update",
+  "Product not found":"Product not found",
+  "Field updated successfully":"Field updated successfully",
+  "Product deleted successfully":"Product deleted successfully",
+  "DELETE PRODUCT FAILED INTERNAL ERROR":"DELETE PRODUCT FAILED INTERNAL ERROR",
+  "Delete Product":"Delete Product",
+  "Save":"Save"
 }

@@ -15,7 +15,19 @@
   "Please specify a body":"Por gentileza, especifique um corpo",
   "User not authenticated":"Usuário não autenticado",
   "User with this token not found":"Usuário com este token não encontrado",
-  "CREATE PRODUCT FAILED INTERNAL ERROR":"ERRO INTERNO NO SERVIDOR",
+  "CREATE PRODUCT FAILED INTERNAL ERROR":"ERRO INTERNO NO SERVIDOR AO CRIAR PRODUTO",
   "Successfull, but unknown response from server":"Sucesso, mas resposta desconhecida do servidor",
-  "Product created successfully":"Produto criado com sucesso"
+  "Product created successfully":"Produto criado com sucesso",
+  "GET PRODUCTS FAILED INTERNAL ERROR":"ERRO INTERNO NO SERVIDOR AO COLETAR PRODUTOS",
+  "GET PRODUCT FAILED INTERNAL ERROR":"ERRO INTERNO NO SERVIDOR AO COLETAR PRODUTO",
+  "Product does not exist":"Produto não existe",
+  "No parameters were given":"Nenhum parâmetro foi informado",
+  "Please provide a property to update":"Por gentileza, providencie uma propriedade para atualizar",
+  "No product was given to update":"Nenhum produto foi providenciado para atualizar",
+  "Product not found":"Produto não encontrado",
+  "Field updated successfully":"Campo atualizado com sucesso",
+  "Product deleted successfully":"Produto deletado com sucesso",
+  "DELETE PRODUCT FAILED INTERNAL ERROR":"ERRO INTERNO AO DELETAR PRODUTO",
+  "Delete Product":"Deletar produto",
+  "Save":"Salvar"
 }

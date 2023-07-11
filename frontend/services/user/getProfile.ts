@@ -12,7 +12,6 @@ export const getProfile = async (): Promise<User | boolean> => {
      });
     return response.data;
   } catch (error) {
-    console.log(error)
     return false;
   }
 };

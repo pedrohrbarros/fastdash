@@ -14,5 +14,8 @@
   "User not authenticated":"Usuário não autenticado",
   "Invalid e-mail adress":"Endereço de e-mail inválido",
   "User with this e-mail already exists":"Usuário com este endereço de e-mail já existe",
-  "Invalid phone number":"Número de telefone inválido"
+  "Invalid phone number":"Número de telefone inválido",
+  "User with this token not found":"Usuário com este token não encontrado",
+  "User deleted successfully!":"Usuário deletado com sucesso!",
+  "Delete Account":"Deletar Conta"
 }

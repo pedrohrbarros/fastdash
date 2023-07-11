@@ -49,7 +49,7 @@ function Navbar() {
         <Link className="h-auto p-3 rounded-lg bg-gray-200 flex flex-col justify-center items-center" href="/dashboard/models">
           <AiOutlineUser size={30} color="#000000"/>
         </Link>
-        <Link className="h-auto p-3 rounded-lg bg-gray-200 flex flex-col justify-center items-center" href="/dashboard/sales">
+        <Link className="h-auto p-3 rounded-lg bg-gray-200 flex flex-col justify-center items-center" href="/dashboard/comercial">
           <AiOutlineShoppingCart size={30} color="#000000"/>
         </Link>
         <Link className="h-auto p-3 rounded-lg bg-gray-200 flex flex-col justify-center items-center" href="/dashboard/config">
