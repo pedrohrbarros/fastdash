@@ -105,7 +105,7 @@ function ProductsPanel() {
   const [products, setProducts] = useState<Product[]>([{
     id: 0,
     name: name,
-    price: price
+    price: '0.00'
   }])
 
   useEffect(() => {
@@ -117,7 +117,6 @@ function ProductsPanel() {
         setProducts(data)
       }
     }
-
     fetchData()
   }, [products])
 
@@ -143,16 +142,16 @@ function ProductsPanel() {
       </thead>
       {
         products.map((product, index) => (
-          <tr key={index} className="cursor-pointer transition-all align-middle duration-500 hover:bg-gray-200" onClick={() => router.push(`${product.id}/`)}>
+          <tr key={index} className="cursor-pointer transition-all align-middle duration-500 hover:bg-gray-200" onClick={() => router.push(`product/${product.id !== 0 ? product.id : null}/`)}>
             {addInputActive === false ? 
             <td className="text-center pb-4">
-              <p className="font-p text-black font-light text-xl max-[500px]:text-base">{product.id}</p>
+              <p className="font-p text-black font-light text-xl max-[500px]:text-base">{product.id !== 0 ? product.id : <Loader/>}</p>
             </td> : null}
             <td className="text-center pb-4">
-              <p className="font-p text-black font-light text-xl max-[500px]:text-base">{product.name}</p>
+              <p className="font-p text-black font-light text-xl max-[500px]:text-base">{product.name !== '' ? product.name : <Loader/>}</p>
             </td>
             <td className="text-center pb-4">
-              <p className="font-p text-black font-light text-xl max-[500px]:text-base">{product.price} R$</p>
+              <p className="font-p text-black font-light text-xl max-[500px]:text-base">{product.price.toString() !== '0.00' ? product.price : <Loader/>} R$</p>
             </td>
           </tr>
         ))

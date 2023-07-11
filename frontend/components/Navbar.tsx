@@ -31,7 +31,7 @@ function Navbar() {
   }, [firstname]);
 
   return (
-    <nav className="bg-white w-full h-auto flex flex-row justify-end items-center pr-6 gap-4 flex-wrap py-5 pl-20 text-end max-[500px]:justify-center max-[500px]:px-0 max-[500px]:flex-col">
+    <nav className="bg-white w-full h-auto flex flex-row justify-end items-center pr-6 gap-4 flex-wrap py-5 pl-20 text-end max-[700px]:justify-center max-[700px]:px-0 max-[700px]:flex-col">
       <h1 className="font-h1 text-black text-2xl max-[300px]:text-xl">
         FastDash
       </h1>
@@ -42,7 +42,7 @@ function Navbar() {
       ) : (
         <Loader />
       )}
-      <li className="w-full h-auto hidden flex-row justify-around items-center gap-10 flex-wrap max-[500px]:flex">
+      <li className="w-full h-auto hidden flex-row justify-around items-center gap-10 flex-wrap max-[700px]:flex">
         <Link className="h-auto p-3 rounded-lg bg-gray-200 flex flex-col justify-center items-center" href="/dashboard/home">
           <RxDashboard size={30} color="#000000"/>
         </Link>

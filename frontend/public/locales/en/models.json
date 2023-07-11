@@ -1,0 +1,11 @@
+{
+  "Users":"Users",
+  "Sellers":"Sellers",
+  "User not authenticated":"User not authenticated",
+  "User with this token not found":"User with this token not found",
+  "GET USERS FAILED INTERNAL ERROR":"GET USERS FAILED INTERNAL ERROR",
+  "First Name":"First Name",
+  "Last Name":"Last Name",
+  "E-mail Adress":"E-mail Adress",
+  "Phone":"Phone"
+}

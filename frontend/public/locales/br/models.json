@@ -1,0 +1,11 @@
+{
+  "Users":"Usuários",
+  "Sellers":"Vendedores",
+  "User not authenticated":"Usuário não autenticado",
+  "User with this token not found":"Usuário com este token não encontrado",
+  "GET USERS FAILED INTERNAL ERROR":"ERRO INTERNO AO COLETAR USUÁROS",
+  "First Name":"Primeiro Nome",
+  "Last Name":"Último Nome",
+  "E-mail Adress":"Endereço de E-mail",
+  "Phone":"Telefone"
+}

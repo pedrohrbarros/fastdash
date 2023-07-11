@@ -5,7 +5,7 @@ import Navbar from '@/components/Navbar';
 import Sidebar from '@/components/Sidebar';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useTranslation } from "next-i18next";
-import { type Product } from '../../entities/product';
+import { type Product } from '../../../entities/product';
 import { getProfile } from '@/services/products/getProfile';
 import { getAll } from '@/services/products/getAll';
 import { productStore } from '@/hooks/productState';
