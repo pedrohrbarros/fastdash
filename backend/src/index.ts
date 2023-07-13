@@ -27,6 +27,7 @@ const main = async (): Promise<void> => {
   const app = express()
   app.use(express.json())
   app.use(cors())
+  const port = process.env.PORT !== undefined ? process.env.PORT : 8000
 
   await PostgreClient.connect()
 
@@ -202,8 +203,8 @@ const main = async (): Promise<void> => {
     res.status(statusCode).send(body)
   })
 
-  const port = process.env.PORT !== undefined ? process.env.PORT : 8000
   app.listen(port)
+
   console.log(`Listening on port: ${port}`)
 }
 

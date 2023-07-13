@@ -7,5 +7,22 @@
   "First Name":"First Name",
   "Last Name":"Last Name",
   "E-mail Adress":"E-mail Adress",
-  "Phone":"Phone"
+  "Phone":"Phone",
+  "GET SELLERS FAILED INTERNAL ERROR":"GET SELLERS FAILED INTERNAL ERROR",
+  "Name":"Name",
+  "Age":"Age",
+  "Location":"Location",
+  "Add":"Add",
+  "Please fill in all fields":"Please fill in all fields",
+  "Seller created successfully":"Seller created successfully",
+  "CREATE SELLER FAILED INTERNAL ERROR":"CREATE SELLER FAILED INTERNAL ERROR",
+  "Product not found":"Seller not found",
+  "Seller updated successfully":"Seller updated successfully",
+  "UPDATE SELLER FAILED INTERNAL ERROR":"UPDATE SELLER FAILED INTERNAL ERROR",
+  "Successfull, but unknown response from server":"Successfull, but unknown response from server",
+  "Field updated successfully":"Field updated successfully",
+  "Seller does not exist":"Seller does not exist",
+  "Delete Seller":"Delete Seller",
+  "Save":"Save",
+  "Seller deleted successfully":"Seller deleted successfully"
 }

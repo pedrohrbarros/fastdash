@@ -7,5 +7,22 @@
   "First Name":"Primeiro Nome",
   "Last Name":"Último Nome",
   "E-mail Adress":"Endereço de E-mail",
-  "Phone":"Telefone"
+  "Phone":"Telefone",
+  "GET SELLERS FAILED INTERNAL ERROR":"ERRO INTERNO AO COLETAR VENDEDORES",
+  "Name":"Nome",
+  "Age":"Idade",
+  "Location":"Localização",
+  "Add":"Adicionar",
+  "Please fill in all fields":"Por gentileza, preencha todos os campos",
+  "Seller created successfully":"Vendedor criado com sucesso",
+  "CREATE SELLER FAILED INTERNAL ERROR":"ERRO INTERNO AO CRIAR VENDEDOR",
+  "Product not found":"Vendedor não encontrado",
+  "Seller updated successfully":"Seller updated successfully",
+  "UPDATE SELLER FAILED INTERNAL ERROR":"UPDATE SELLER FAILED INTERNAL ERROR",
+  "Successfull, but unknown response from server":"Sucesso, mas resposta desconhecida do servidor",
+  "Field updated successfully":"Campo atualizado com sucesso",
+  "Seller does not exist":"Vendedor não existe",
+  "Delete Seller":"Deletar Vendedor",
+  "Save":"Salvar",
+  "Seller deleted successfully":"Vendedor deletado com sucesso"
 }

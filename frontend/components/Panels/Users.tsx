@@ -2,13 +2,11 @@ import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { useTranslation } from 'next-i18next'
 import Loader from '../Loader'
-import { useRouter } from 'next/router'
 import { User } from '@/entities/user'
 import { getAllUsers } from '@/services/user/getAll'
 
 function UsersPanel() {
   const { t } = useTranslation('models')
-  const router = useRouter()
   const [users, setUsers] = useState<User[]>([])
 
   useEffect(() => {

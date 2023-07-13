@@ -5,38 +5,45 @@ import { ChangeEvent, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { CgNametag } from "react-icons/cg";
 import { AiOutlineEdit, AiOutlineCheck } from "react-icons/ai";
-import { ImPriceTag } from "react-icons/im";
+import { FaGem } from 'react-icons/fa'
+import { BiLocationPlus } from 'react-icons/bi'
 import Image from "next/image";
-import productIcon from "@/assets/product-icon.png";
+import sellerIcon from "@/assets/seller-icon.png";
 import Button from "../../Button";
-import { productStore } from "@/hooks/productState";
-import { updateProduct } from "@/services/product/update";
-import { deleteProduct } from "@/services/product/delete";
+import { sellerStore } from "@/hooks/sellerState";
+import { updateSeller } from "@/services/seller/update";
+import { deleteSeller } from "@/services/seller/delete";
+import Loader from "@/components/Loader";
 
 function Update() {
-  const { t } = useTranslation("comercial");
+  const { t } = useTranslation("models");
   const router = useRouter();
-  const id = router.query.product;
+  const id = router.query.seller;
 
-  const name = productStore((state) => state.name);
-  const setName = productStore((state) => state.setName);
-  const setPrice = productStore((state) => state.setPrice);
-  const [newName, setNewName] = useState("");
-  const price = productStore((state) => state.price);
-  const [newPrice, setNewPrice] = useState("0");
-  const [isEditable, setIsEditable] = useState(false);
-  const [nameMessage, displayNameMessage] = useState("");
-  const [priceMessage, displayPriceMessage] = useState("");
+  const name = sellerStore((state) => state.name);
+  const age = sellerStore((state) => state.age)
+  const location = sellerStore((state) => state.location)
+  const setName = sellerStore((state) => state.setName);
+  const setAge = sellerStore((state) => state.setAge);
+  const setLocation = sellerStore((state) => state.setLocation)
+  const [newName, setNewName] = useState<string>();
+  const [newAge, setNewAge] = useState<number>(0);
+  const [newLocation, setNewLocation] = useState<string>()
+  const [isEditable, setIsEditable] = useState<boolean>(false)
+  const [nameMessage, displayNameMessage] = useState<string>()
+  const [ageMessage, displayAgeMessage] = useState<string>()
+  const [locationMessage, displayLocationMessage] = useState<string>()
 
   useEffect(() => {
     setNewName(name);
-    setNewPrice(price);
-  }, [name, price]);
+    setNewAge(age);
+    setNewLocation(location)
+  }, [name, age, location]);
 
   const handleSubmit = async (): Promise<void> => {
     setIsEditable(false);
     if (newName !== name) {
-      const response: string = await updateProduct(
+      const response: string = await updateSeller(
         {
           name: newName,
         },
@@ -45,28 +52,33 @@ function Update() {
       setName(name);
       displayNameMessage(response);
     }
-    if (newPrice !== price && +newPrice > 0) {
-      const response: string = await updateProduct(
+    if (newAge !== age && +newAge > 0) {
+      const response: string = await updateSeller(
         {
-          price: newPrice,
+          age: newAge,
         },
         id !== undefined ? +id : 0
       );
-      setPrice(price);
-      displayPriceMessage(response);
+      setAge(age);
+      displayAgeMessage(response);
     }
-    if (newPrice !== price && +newPrice <= 0) {
-      displayPriceMessage("Price must be greater than 0");
+    if (newLocation !== location){
+      const response: string = await updateSeller({
+        location: newLocation
+      }, id !== undefined ? +id : 0)
+      setLocation(location)
+      displayLocationMessage(response)
     }
   };
 
   const handleDelete = async () => {
-    setName("");
-    setPrice("0");
-    const response: string = await deleteProduct(id !== undefined ? +id : 0);
-    if (response === "Product deleted successfully") {
-      alert(t("Product deleted successfully"));
-      router.push("/dashboard/comercial");
+    setName('')
+    setAge(0)
+    setLocation('')
+    const response: string = await deleteSeller(id !== undefined ? +id : 0);
+    if (response === "Seller deleted successfully") {
+      alert(t(response));
+      router.push("/dashboard/models");
     } else {
       alert(t(response));
     }
@@ -89,9 +101,9 @@ function Update() {
           duration: 0.8,
           delay: 0.5,
         }}
-        key={name || price}
+        key={name || age || location}
       >
-        <Image src={productIcon} alt="Product Icon" width={170} height={170} />
+        <Image src={sellerIcon} alt="Seller Icon" width={170} height={170} />
       </motion.div>
       <fieldset className="w-full flex flex-row justify-center items-center text-center gap-4 max-[500px]:gap-2 flex-wrap">
         <div className="w-12 p-2 rounded-[50%] flex flex-col justify-center items-center shadow-xl">
@@ -115,7 +127,7 @@ function Update() {
               {t("Name")}
             </h2>
             <p className="font-p text-black text-2xl font-extralight max-[500px]:text-xl">
-              {newName}
+              {newName ?? <Loader/>}
             </p>
             <p
               className={`font-p text-xl ${
@@ -124,7 +136,7 @@ function Update() {
                   : "text-green-600"
               }`}
             >
-              {t(nameMessage)}
+              {t(nameMessage ?? '')}
             </p>
           </div>
         )}
@@ -141,36 +153,82 @@ function Update() {
       </fieldset>
       <fieldset className="w-full flex flex-row justify-center items-center text-center gap-4 max-[500px]:gap-2 flex-wrap">
         <div className="w-12 p-2 rounded-[50%] flex flex-col justify-center items-center shadow-xl">
-          <ImPriceTag size={30} />
+          <FaGem size={30} />
         </div>
         {isEditable ? (
           <div className="flex flex-col justify-center items-center gap-2">
             <input
               type="number"
               id="price"
-              value={newPrice}
+              value={newAge}
               className="outline-none border-b-[1px] border-b-black bg-transparent text-black text-2xl font-extralight text-center max-[500px]:text-xl"
               onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                setNewPrice(event.target.value)
+                setNewAge(+event.target.value)
               }
             />
           </div>
         ) : (
           <div className="w-[350px] max-w-[350px] min-w-[100px] flex flex-col justify-center items-center">
             <h2 className="font-h2 text-gray-600 text-xl font-medium max-[500px]:text-md">
-              {t("Price")}
+              {t("Age")}
             </h2>
             <p className="font-p text-black text-2xl font-extralight max-[500px]:text-xl">
-              {newPrice}
+              {newAge ?? <Loader/>}
             </p>
             <p
               className={`font-p text-xl ${
-                priceMessage !== "Field updated successfully"
+                ageMessage !== "Field updated successfully"
                   ? "text-red-600"
                   : "text-green-600"
               }`}
             >
-              {t(priceMessage)}
+              {t(ageMessage ?? '')}
+            </p>
+          </div>
+        )}
+        <div
+          className="w-12 bg-transparent cursor-pointer"
+          onClick={() => setIsEditable(!isEditable)}
+        >
+          {isEditable ? (
+            <AiOutlineCheck size={30} />
+          ) : (
+            <AiOutlineEdit size={30} />
+          )}
+        </div>
+      </fieldset>
+      <fieldset className="w-full flex flex-row justify-center items-center text-center gap-4 max-[500px]:gap-2 flex-wrap">
+        <div className="w-12 p-2 rounded-[50%] flex flex-col justify-center items-center shadow-xl">
+          <BiLocationPlus size={30} />
+        </div>
+        {isEditable ? (
+          <div className="flex flex-col justify-center items-center gap-2">
+            <input
+              type="text"
+              id="location"
+              value={newLocation}
+              className="outline-none border-b-[1px] border-b-black bg-transparent text-black text-2xl font-extralight text-center max-[500px]:text-xl"
+              onChange={(event: ChangeEvent<HTMLInputElement>) =>
+                setNewLocation(event.target.value)
+              }
+            />
+          </div>
+        ) : (
+          <div className="w-[350px] max-w-[350px] min-w-[100px] flex flex-col justify-center items-center">
+            <h2 className="font-h2 text-gray-600 text-xl font-medium max-[500px]:text-md">
+              {t("Location")}
+            </h2>
+            <p className="font-p text-black text-2xl font-extralight max-[500px]:text-xl">
+              {newLocation ?? <Loader/>}
+            </p>
+            <p
+              className={`font-p text-xl ${
+                locationMessage !== "Field updated successfully"
+                  ? "text-red-600"
+                  : "text-green-600"
+              }`}
+            >
+              {t(locationMessage ?? '')}
             </p>
           </div>
         )}
@@ -192,7 +250,7 @@ function Update() {
           onClick={() => handleSubmit()}
         />
         <Button
-          text={t("Delete Product")}
+          text={t("Delete Seller")}
           color="bg-red-600"
           onClick={() => handleDelete()}
         />

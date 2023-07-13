@@ -5,21 +5,21 @@ import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
-import { type Product } from "../../../entities/product";
-import { getProfile } from "@/services/product/getProfile";
-import { getAll } from "@/services/product/getAll";
-import { productStore } from "@/hooks/productState";
-import Update from "@/components/Forms/Product/Update";
+import { type Seller } from "../../../entities/seller";
+import { getSellerProfile } from "@/services/seller/getProfile";
+import { getAllSellers } from "@/services/seller/getAll";
+import { sellerStore } from "@/hooks/sellerState";
+import Update from "@/components/Forms/Seller/Update";
 
 export async function getStaticPaths() {
-  const data = await getAll();
+  const data = await getAllSellers();
   if (typeof data === "string") {
     return { paths: [], fallback: false };
   } else {
-    const paths = data.map((product) => {
+    const paths = data.map((seller) => {
       return {
         params: {
-          id: `${product.id.toString()}`,
+          id: `${seller.id.toString()}`,
         },
       };
     });
@@ -27,10 +27,10 @@ export async function getStaticPaths() {
   }
 }
 
-function ProductProfile() {
+function SellerProfile() {
   const router = useRouter();
-  const { t } = useTranslation("comercial");
-  const id = router.query.product;
+  const { t } = useTranslation("models");
+  const id = router.query.seller;
 
   useEffect(() => {
     if (hasCookie("authorization") === false) {
@@ -38,24 +38,27 @@ function ProductProfile() {
     }
   });
 
-  const setName = productStore((state) => state.setName);
-  const setPrice = productStore((state) => state.setPrice);
+  const setName = sellerStore((state) => state.setName);
+  const setAge = sellerStore((state) => state.setAge);
+  const setLocation = sellerStore((state) => state.setLocation)
 
   useEffect(() => {
     const fetchData = async () => {
-      const response: string | Product = await getProfile(
+      const response: string | Seller = await getSellerProfile(
         id !== undefined ? +id : 0
       );
       if (typeof response === "string") {
-        if (response === "Product does not exist") {
-          window.location.replace("/dashboard/comercial");
+        if (response === "Seller does not exist") {
+          alert(t(response))
+          window.location.replace("/dashboard/models");
         } else {
           alert(t(response));
         }
       } else {
-        const product: Product = response;
-        setName(product.name);
-        setPrice(product.price);
+        const seller: Seller = response;
+        setName(seller.name);
+        setAge(seller.age);
+        setLocation(seller.location)
       }
     };
     fetchData();
@@ -95,11 +98,11 @@ export async function getStaticProps({ locale }: any) {
       ...(await serverSideTranslations(locale, [
         "common",
         "navbar",
-        "comercial",
+        "models",
       ])),
       // Will be passed to the page component as props
     },
   };
 }
 
-export default ProductProfile;
+export default SellerProfile;

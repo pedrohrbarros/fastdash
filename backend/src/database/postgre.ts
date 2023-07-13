@@ -1,7 +1,5 @@
 import { Pool, type PoolClient } from 'pg'
 
-// Defining the client to connect in the database
-
 export const PostgreClient = {
 
   client: undefined as unknown as Pool,
