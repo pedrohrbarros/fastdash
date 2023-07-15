@@ -29,5 +29,18 @@
   "Product deleted successfully":"Product deleted successfully",
   "DELETE PRODUCT FAILED INTERNAL ERROR":"DELETE PRODUCT FAILED INTERNAL ERROR",
   "Delete Product":"Delete Product",
-  "Save":"Save"
+  "Save":"Save",
+  "GET SALES FAILED INTERNAL ERROR":"GET SALES FAILED INTERNAL ERROR",
+  "Sale does not exist":"Sale does not exist",
+  "GET SALE FAILED INTERNAL ERROR":"GET SALE FAILED INTERNAL ERROR",
+  "Please specify a valid seller and product":"Please specify a valid seller and product",
+  "Sale successfuly created":"Sale successfuly created",
+  "CREATE SALE FAILED INTERNAL ERROR":"CREATE SALE FAILED INTERNAL ERROR",
+  "Sale not found":"Sale not found",
+  "Sale updated successfully":"Sale updated successfully",
+  "UPDATE SALE FAILED INTERNAL ERROR":"UPDATE SALE FAILED INTERNAL ERROR",
+  "No parameters was provided":"No parameters was provided",
+  "Sale deleted successfully":"Sale deleted successfully",
+  "DELETE SALE FAILED INTERNAL ERROR":"DELETE SALE FAILED INTERNAL ERROR",
+  "Please fill in all fields":"Please fill in all fields"
 }

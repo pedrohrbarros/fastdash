@@ -135,7 +135,7 @@ function SellersPanel() {
               width: 0,
             }}
             transition={{
-              duration: 0.3,
+              duration: 0.4,
             }}
             type="number"
             id="age"
@@ -158,7 +158,7 @@ function SellersPanel() {
               width: 0,
             }}
             transition={{
-              duration: 0.3,
+              duration: 0.5,
             }}
             type="text"
             id="location"

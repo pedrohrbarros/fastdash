@@ -12,7 +12,7 @@
   "No data in response":"Sem dados na resposta do servidor",
   "No response received":"Sem resposta do servidor",
   "Internal error":"Erro interno",
-  "Please specify a body":"Por gentileza, especifique um corpo",
+  "Please specify a body":"Por gentileza, especifique um corpo para a requisição",
   "User not authenticated":"Usuário não autenticado",
   "User with this token not found":"Usuário com este token não encontrado",
   "CREATE PRODUCT FAILED INTERNAL ERROR":"ERRO INTERNO NO SERVIDOR AO CRIAR PRODUTO",
@@ -29,5 +29,18 @@
   "Product deleted successfully":"Produto deletado com sucesso",
   "DELETE PRODUCT FAILED INTERNAL ERROR":"ERRO INTERNO AO DELETAR PRODUTO",
   "Delete Product":"Deletar produto",
-  "Save":"Salvar"
+  "Save":"Salvar",
+  "GET SALES FAILED INTERNAL ERROR":"ERRO INTERNO AO COLETAR VENDAS",
+  "Sale does not exist":"Venda não existe",
+  "GET SALE FAILED INTERNAL ERROR":"ERRO INTERNO AO COLETAR VENDA",
+  "Please specify a valid seller and product":"Por gentileza, especifique um vendedor e um produto",
+  "Sale successfuly created":"Venda criada com sucesso",
+  "CREATE SALE FAILED INTERNAL ERROR":"ERRO INTERNO AO CRIAR VENDA",
+  "Sale not found":"Venda não encontrado",
+  "Sale updated successfully":"Venda atualizada com sucesso",
+  "UPDATE SALE FAILED INTERNAL ERROR":"ERRO INTERNO AO ATUALIZAR VENDA",
+  "No parameters was provided":"Nenhum parâmetro foi providenciado",
+  "Sale deleted successfully":"Venda deletada com sucesso",
+  "DELETE SALE FAILED INTERNAL ERROR":"ERRO INTERNO AO DELETAR VENDA",
+  "Please fill in all fields":"Por gentileza, preencha todos os campos"
 }
