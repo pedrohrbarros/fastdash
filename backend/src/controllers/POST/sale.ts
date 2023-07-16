@@ -34,6 +34,7 @@ export class PostSaleController {
         }
       }
     } catch (error) {
+      console.log(error)
       return internalError('CREATE SALE FAILED INTERNAL ERROR')
     }
   }
