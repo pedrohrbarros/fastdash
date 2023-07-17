@@ -1,6 +1,6 @@
 export interface Sale {
   id: number
-  product: string
-  seller: string
-  sold_at: string
+  product: string | null
+  seller: string | null
+  sold_at: string | null
 }

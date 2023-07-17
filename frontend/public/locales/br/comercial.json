@@ -42,5 +42,8 @@
   "No parameters was provided":"Nenhum parâmetro foi providenciado",
   "Sale deleted successfully":"Venda deletada com sucesso",
   "DELETE SALE FAILED INTERNAL ERROR":"ERRO INTERNO AO DELETAR VENDA",
-  "Please fill in all fields":"Por gentileza, preencha todos os campos"
+  "Please fill in all fields":"Por gentileza, preencha todos os campos",
+  "Delete Sale":"Deletar Venda",
+  "Select a product":"Selecione um produto",
+  "Select a seller":"Selecione um vendedor"
 }

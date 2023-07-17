@@ -20,6 +20,11 @@ function ProductsPanel() {
   const setPrice = productStore((state) => state.setPrice);
   const [loader, setLoader] = useState(false);
 
+  useEffect(() => {
+    setName('')
+    setPrice('0.00')
+  }, [])
+
   const handleSubmit = async () => {
     if (name === "" || name === null) {
       alert(t("Minimun length to the name: 1"));

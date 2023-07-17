@@ -42,5 +42,8 @@
   "No parameters was provided":"No parameters was provided",
   "Sale deleted successfully":"Sale deleted successfully",
   "DELETE SALE FAILED INTERNAL ERROR":"DELETE SALE FAILED INTERNAL ERROR",
-  "Please fill in all fields":"Please fill in all fields"
+  "Please fill in all fields":"Please fill in all fields",
+  "Delete Sale":"Delete Sale",
+  "Select a product":"Select a product",
+  "Select a seller":"Select a seller"
 }

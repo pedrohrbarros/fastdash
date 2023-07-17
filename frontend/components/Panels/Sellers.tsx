@@ -31,7 +31,7 @@ function SellersPanel() {
   }, [sellers])
 
   const handleSubmit = async () => {
-    if (name === undefined || age === undefined || location === undefined) {
+    if (name === null || name === '' || age === undefined || age === 0 || location === null || location === '' || name === undefined || location === undefined) {
       alert(t('Please fill in all fields'))
     } else {
       alert(t(await createSeller({

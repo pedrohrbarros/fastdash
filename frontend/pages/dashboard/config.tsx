@@ -15,6 +15,7 @@ function Config() {
   const setPhone = userStore((state) => state.setPhone);
 
   useEffect(() => {
+    
     const fetchData = async () => {
       const data = await getProfile();
       if (data === false) {
