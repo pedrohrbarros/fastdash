@@ -21,6 +21,7 @@ import { PatchProductController } from './controllers/PATCH/product'
 import { PatchSellerController } from './controllers/PATCH/seller'
 import { PatchSaleController } from './controllers/PATCH/sale'
 import { GetLogController } from './controllers/GET/log'
+import { GetConcatController } from './controllers/GET/concat'
 
 const main = async (): Promise<void> => {
   config()
@@ -92,6 +93,13 @@ const main = async (): Promise<void> => {
 
   app.get('/logs', async (req: Request, res: Response) => {
     const { statusCode, body } = await new GetLogController().getAll({
+      headers: req.headers
+    })
+    res.status(statusCode).send(body)
+  })
+
+  app.get('/concats', async (req: Request, res: Response) => {
+    const { statusCode, body } = await new GetConcatController().getAll({
       headers: req.headers
     })
     res.status(statusCode).send(body)
