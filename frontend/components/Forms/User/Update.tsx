@@ -277,7 +277,7 @@ function Update() {
           type="tel"
           pattern="([0-9]{2})[0-9]{5}-[0-9]{4}"
           id="phone"
-          value={newPhone || undefined}
+          value={newPhone === undefined || newPhone === null || newPhone === 'undefined' ? '' : newPhone}
           className="outline-none border-b-[1px] border-b-black bg-transparent text-black text-2xl font-extralight text-center max-[500px]:text-xl"
           onChange={(event: ChangeEvent<HTMLInputElement>) => setNewPhone(event.target.value)}
           />
@@ -285,7 +285,7 @@ function Update() {
         : 
         <div className="w-[350px] max-w-[350px] min-w-[100px] flex flex-col justify-center items-center">
           <h2 className="font-h2 text-gray-600 text-xl font-medium max-[500px]:text-md">{t('Phone Number')}</h2>
-          <p className="font-p text-black text-2xl font-extralight max-[500px]:text-xl">{newPhone === '' ? t('No phone registered') : newPhone}</p>
+          <p className="font-p text-black text-2xl font-extralight max-[500px]:text-xl">{newPhone === 'undefined' ? t('No phone registered') : newPhone}</p>
           <p className={`font-p text-xl ${phoneMessage !== 'Field updated successfully' ? 'text-red-600' : 'text-green-600'}`}>{t(phoneMessage)}</p>
         </div>}
         <div className="w-12 bg-transparent cursor-pointer" onClick={() => setIsEditable(!isEditable)}>

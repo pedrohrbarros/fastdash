@@ -23,7 +23,7 @@ function App({ Component, pageProps }: AppProps) {
       <>
         <Head>
           <title>FastDash</title>
-          <link rel = "icon" href="/static/favicon.ico"/>
+          <link rel = "icon" href="/public/favicon.ico"/>
         </Head>
         <Component {...pageProps} />
       </>
