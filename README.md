@@ -76,6 +76,11 @@ npm i
 ```
 npm run build
 ```
+- Redirect the port used in the project to the port 80(HTTP) and port 443 (HTTPS)
+```
+sudo iptables -t nat -I PREROUTING -p tcp --dport 80 -j REDIRECT --to-ports ${your_port}
+sudo iptables -t nat -I PREROUTING -p tcp --dport 443 -j REDIRECT --to-ports ${your_port}
+```
 - Check if the app is running
 ```
 npm run start
