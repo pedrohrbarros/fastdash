@@ -56,13 +56,23 @@ And for the frontend
 npm run dev
 ```
 
-### Build
+### Build Backend
 
 With AWS:
 
 - Connect to the AWS instance
 - Check if the database is running
 - Build the app with:
+
+- Clone the app
+```
+git clone https://github.com/pedrohrbarros/fastdash.git
+```
+- Install all the dependencies
+```
+npm i
+```
+- Build the js files
 ```
 npm run build
 ```
@@ -75,7 +85,7 @@ npm run start
 cd src
 ```
 ```
-pm2 start index.js
+pm2 "npm run start" fastdash
 ```
 
 ### Prerequisites
