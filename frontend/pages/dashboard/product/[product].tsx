@@ -27,6 +27,17 @@ export async function getStaticPaths() {
   }
 }
 
+export async function generateStaticParams() {
+  const data: string | Product[] = await getAll()
+  if (typeof data === 'string') {
+    return data
+  } else {
+    return data.map((product: Product) => ({
+      product: product
+    }))
+  }
+}
+
 function ProductProfile() {
   const router = useRouter();
   const { t } = useTranslation("comercial");
