@@ -69,7 +69,7 @@ function UsersPanel() {
             </td>
             <td className="text-center pb-4 pl-4">
              <p className="font-p text-black font-light text-xl max-[850px]:text-base">
-                {user.phone ?? <Loader/>}
+                {user.phone !== 'undefined' ? user.phone : t('No phone registered')}
               </p>
             </td>
           </tr>

@@ -39,16 +39,27 @@ function RevenuePerLocationGraph() {
       },
     },
   };
-  
-  const labels = concats?.map((concat: Concat) => concat.location).filter((location, index) => concats?.map((concat: Concat) => concat.location).indexOf(location) === index)
+
+  const revenue_array_per_location = new Map()
+
+  concats?.forEach((concat: Concat) => {
+    const { location, sold_at } = concat
+    if (revenue_array_per_location.has(location)) {
+      revenue_array_per_location.set(location, revenue_array_per_location.get(location))
+    } else {
+      revenue_array_per_location.set(location, sold_at)
+    }
+  })
+
+  const total_revenue_array = Array.from(revenue_array_per_location, ([location, sold_at]) => ({ location, sold_at }));
   
   const data = {
-    labels,
+    labels: total_revenue_array.map((revenue) => revenue.location),
     datasets: [
       {
-        label: t('Sales'),
-        data: concats?.map((concat: Concat) => +concat.sold_at),
-        backgroundColor: concats?.map((concat: Concat) => `#${Math.floor(Math.random()*16777215).toString(16)}`)
+        label: ` ${t('Sales')}`,
+        data: total_revenue_array.map((revenue) => revenue.sold_at),
+        backgroundColor: concats?.map(() => `#${Math.floor(Math.random()*16777215).toString(16)}`)
       },
     ],
   };

@@ -24,5 +24,6 @@
   "Seller does not exist":"Vendedor não existe",
   "Delete Seller":"Deletar Vendedor",
   "Save":"Salvar",
-  "Seller deleted successfully":"Vendedor deletado com sucesso"
+  "Seller deleted successfully":"Vendedor deletado com sucesso",
+  "No phone registered":"Sem telefone registrado"
 }

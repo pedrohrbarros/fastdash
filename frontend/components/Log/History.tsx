@@ -103,7 +103,7 @@ function History() {
       <h1 className="font-h1 text-black text-2xl">{t('Log History')}</h1>
       {
         logs !== undefined ?
-        logs?.slice(0, 20).map((log: Log, index: number) => (
+        logs?.slice(logs.length -20, logs.length).reverse().map((log: Log, index: number) => (
           <motion.li
           key={index} 
           className="w-full h-full flex flex-row flex-nowrap justify-start items-start gap-2"
