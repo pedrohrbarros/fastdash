@@ -27,6 +27,22 @@ export async function getStaticPaths() {
   }
 }
 
+export async function getServerSidePaths() {
+  const data = await getAll();
+  if (typeof data === "string") {
+    return { paths: [], fallback: false };
+  } else {
+    const paths = data.map((product: Product) => {
+      return {
+        params: {
+          seller: `${product.id.toString()}`,
+        },
+      };
+    });
+    return { paths, fallback: false };
+  }
+}
+
 export async function generateStaticParams() {
   const data: string | Product[] = await getAll()
   if (typeof data === 'string') {
@@ -36,6 +52,19 @@ export async function generateStaticParams() {
       product: product
     }))
   }
+}
+
+export async function getStaticProps({ locale }: any) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, [
+        "common",
+        "navbar",
+        "comercial",
+      ])),
+      // Will be passed to the page component as props
+    },
+  };
 }
 
 function ProductProfile() {
@@ -98,19 +127,6 @@ function ProductProfile() {
       </main>
     </body>
   );
-}
-
-export async function getStaticProps({ locale }: any) {
-  return {
-    props: {
-      ...(await serverSideTranslations(locale, [
-        "common",
-        "navbar",
-        "comercial",
-      ])),
-      // Will be passed to the page component as props
-    },
-  };
 }
 
 export default ProductProfile;
