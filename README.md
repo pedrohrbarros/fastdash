@@ -68,8 +68,15 @@ With AWS:
 ```
 git clone https://github.com/pedrohrbarros/fastdash.git
 ```
+- Install NVM and node
+```
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+source ~/.bashrc
+nvm install node
+```
 - Install all the dependencies
 ```
+cd fastdash/{frontend or backend}
 npm i
 ```
 - Build the js files
