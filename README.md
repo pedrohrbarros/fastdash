@@ -56,7 +56,7 @@ And for the frontend
 npm run dev
 ```
 
-### Build Backend
+### Build Production
 
 With AWS:
 
@@ -73,6 +73,7 @@ git clone https://github.com/pedrohrbarros/fastdash.git
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
 source ~/.bashrc
 nvm install node
+```
 - Install pm2
 ```
 npm install -g pm2
